@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Lessons Learned Repository - LLR - Home
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<a class="govuk-back-link" href="/start">Log out</a>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Home</h1>
+    <p>Recently added lessons learned:</p>
+
+    <table class="govuk-table govuk-!-width-full">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-half">Lesson summary </th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Uploaded by</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">14/02/2020</th>
+        <td class="govuk-table__cell">Use the templates provided when creating gov.uk prototypes</td>
+        <td class="govuk-table__cell">Douglas Pollock</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">12/02/2020</th>
+        <td class="govuk-table__cell">User research is paramout to a successful project</td>
+        <td class="govuk-table__cell">Sophia Kyriacou</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">01/10/2019</th>
+        <td class="govuk-table__cell">Are we sure we're doing the right thing?</td>
+        <td class="govuk-table__cell">Bob Litster</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">11/12/2019</th>
+        <td class="govuk-table__cell">I have no idea what I am doing</td>
+        <td class="govuk-table__cell">Alex Connor</td>
+      </tr>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">31/08/2019</th>
+        <td class="govuk-table__cell">Clootie dumpling, anyone?</td>
+        <td class="govuk-table__cell">Scott McConnell</td>
+      </tr>
+    </tbody>
+    </table>
+
+    <a href="/create" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+      Create a lesson
+    </a>
+    <a href="/search" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+      Search for a lesson
+    </a>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+
+    <aside class="app-related-items" role="complementary">
+      <h2 class="govuk-heading-m" id="subsection-title">
+        Trending categories
+      </h2>
+      <nav role="navigation" aria-labelledby="subsection-title">
+        <ul class="govuk-list govuk-!-font-size-16">
+          <li>
+            <a href="#">
+              Communications
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              Assurance
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              Deployment
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              Estates
+            </a>
+          </li>
+          <li>
+            <a href="#" class="govuk-!-font-weight-bold">
+              More <span class="govuk-visually-hidden">in Subsection</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+  </div>
+
+{% endblock %}

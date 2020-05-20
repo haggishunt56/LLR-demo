@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Database Test
+{% endblock %}
+
+{% block content %}
+
+<script>
+  const Pool = require('pg-pool')
+  const pool = new Pool({ ... })
+  const connection = await pool.connect();
+    try {
+      return await knex.connection(connection); // knex here is a query builder with query already built
+    } catch (error) {
+      // Process error
+    } finally {
+      connection.release();
+    }
+
+  knex.select('*').from('lessons')
+
+</script>
+
+{% endblock %}

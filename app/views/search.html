@@ -1,0 +1,182 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Lessons Learned Repository - LLR - Search
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Search for a lesson</h1>
+
+      <form class="form" action="/home" method="post">
+
+        <div class="govuk-form-group"> <!-- name field -->
+          <label class="govuk-label--s" for="Lesson name">
+            Lesson name
+          </label><br>
+          <input class="govuk-input govuk-!-width-two-thirds" id="lesson-name" name="lesson-name" type="text">
+        </div>
+
+        <div class="govuk-form-group"> <!-- name field -->
+          <label class="govuk-label--s" for="Lesson name">
+            Project name
+          </label><br>
+          <span id="date-from" class="govuk-hint">
+            You can enter either the name of the project or the TP number.
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="lesson-name" name="lesson-name" type="text">
+        </div>
+
+        <div class="govuk-form-group"> <!-- date from field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-from">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date from
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-from">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-from-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-from-day" name="date-from-day" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-from-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-from-month" name="date-from-month" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-from-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-from-year" name="date-from-year" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="govuk-form-group"> <!-- date to field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-to">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h4 class="govuk-fieldset__heading">
+                Date to
+              </h4>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 12 2007
+            </span>
+            <div class="govuk-date-input" id="date-from">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-to-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-to-day" name="date-to-day" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-to-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-to-month" name="date-to-month" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-to-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-to-year" name="date-to-year" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Advanced search
+            </span>
+          </summary>
+
+          <div class="govuk-details__text">
+
+            <div class="govuk-form-group"> <!-- portfolio field -->
+              <label class="govuk-label" for="event-name">
+                Portfolio
+              </label>
+              <input class="govuk-input govuk-!-width-two-thirds" id="portfolio-name" name="portfolio-name" type="text">
+            </div>
+
+            <div class="govuk-form-group"> <!-- uploaded by field -->
+              <label class="govuk-label" for="event-name">
+                Uploaded by
+              </label>
+              <input class="govuk-input govuk-!-width-two-thirds" id="uploaded-by-name" name="uploaded-by-name" type="text">
+            </div>
+
+            <div class="govuk-form-group"> <!-- SRO field -->
+              <label class="govuk-label" for="event-name">
+                Senior Responsible Officer (SRO)
+              </label>
+              <input class="govuk-input govuk-!-width-two-thirds" id="sro-name" name="sro-name" type="text">
+            </div>
+
+            <div class="govuk-form-group"> <!-- category field -->
+              <label class="govuk-label" for="Lesson category">
+                Lesson category
+              </label>
+              <input class="govuk-input govuk-!-width-two-thirds" id="lesson-category" name="lesson-category" type="text">
+            </div>
+
+          </div>
+        </details>
+
+        <a href="/search-results" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+          Search
+        </a>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

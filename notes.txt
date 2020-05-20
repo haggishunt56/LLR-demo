@@ -1,0 +1,9 @@
+user stats on homepage (i.e. viewed by x number of users)
+
+What does area mean? (Area of staff member who identified lesson)
+
+
+SELECT * FROM llrep.lesson_details;
+INSERT INTO llrep.lesson_details
+VALUES ('000007','llrep','2020-02-12','insert','EBI','insert','Jim','SPDS','told about it by Bob','BLitster','2020-02-18','2020-02-18','TEST - didnt go so well lorem ipsum. Sit elit fromdsum.','All users making this errer','no further actions','n/a');
+SELECT * FROM llrep.lesson_details;
