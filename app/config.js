@@ -7,7 +7,7 @@ module.exports = {
   serviceName: 'Lessons Learned Repository',
 
   // Default port that prototype runs on
-  port: '3000',
+  port: '80',
 
   // Enable or disable password protection on production
   useAuth: 'true',
