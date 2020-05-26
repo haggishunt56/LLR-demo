@@ -1,3 +1,5 @@
+//Many tutorials call this file app.js. They do the same thing.
+
 // Core dependencies
 const path = require('path')
 const fs = require('fs')
