@@ -22,7 +22,7 @@ const middleware = [
 const config = require('./app/config.js')
 const documentationRoutes = require('./docs/documentation_routes.js')
 const packageJson = require('./package.json')
-const routes = require('./app/routes.js')
+const routes = require('./routes/lesson_details.js')
 const utils = require('./lib/utils.js')
 const extensions = require('./lib/extensions/extensions.js')
 
@@ -88,7 +88,8 @@ var appViews = extensions.getAppViews([
 var nunjucksConfig = {
   autoescape: true,
   noCache: true,
-  watch: false // We are now setting this to `false` (it's by default false anyway) as having it set to `true` for production was making the tests hang
+  watch: false // We are now setting this to `false` (it's by default false
+  // anyway) as having it set to `true` for production was making the tests hang
 }
 
 if (env === 'development') {

@@ -1,7 +1,8 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
 
-// Add your routes here - above the module.exports line
+const router = express.Router();
+
+const queries = require('../app/db/queries');
 
 router.get('/lessondetails', (req, res) => {
   queries
@@ -11,6 +12,15 @@ router.get('/lessondetails', (req, res) => {
       res.json(lesson_details);
     });
 });
+
+// router.get('/lessondetails/:id', (req, res) => {
+//   queries
+//     .lessons
+//     .getByID(req.params.id)
+//     .then(lesson_details => {
+//       res.json(lesson_details);
+//     });
+// });
 
 router.get('/lessondetails/:proj_id', (req, res) => {
   queries
@@ -30,4 +40,4 @@ router.get('/:proj_id/:les_id', (req, res) => {
     });
 });
 
-module.exports = router
+module.exports = router;
