@@ -1,0 +1,480 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Lessons Learned Repository - LLR - Search
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search</li>
+  </ol>
+</div>
+<a class="govuk-back-link" href="home.html">Back</a>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Search</h1>
+
+      <form class="form" action="/home" method="post">
+
+        <div class="govuk-form-group"> <!-- Project name field -->
+          <label class="govuk-label--s" for="project-name">
+            Project name
+          </label><br>
+          <span id="project-name" class="govuk-hint">
+            Please enter the name or TP number of the project.
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="project-name" name="project-name" type="text">
+        </div>
+
+
+
+        <div class="govuk-form-group"> <!-- category field -->
+          <label class="govuk-label--s" for="Lesson category">
+            Lesson category
+          </label><br>
+          <select class="govuk-select" id="sort" name="sort">
+            <option value="none"></option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+
+
+
+        <div class="govuk-form-group"> <!-- portfolio field -->
+          <label class="govuk-label--s" for="sort">
+            Portfolio
+          </label><br>
+          <select class="govuk-select" id="sort" name="sort">
+            <option value="none"></option>
+            <option value="azure">Azure</option>
+            <option value="chrome">Chrome</option>
+            <option value="coral">Coral</option>
+            <option value="enablers">Enablers</option>
+            <option value="indigo">Indigo</option>
+            <option value="platinum">Platinum</option>
+            <option value="sapphore">Sapphire</option>
+            <option value="tom">TOM</option>
+          </select>
+        </div>
+
+        <div class="govuk-form-group"> <!-- portfolio field -->
+          <label class="govuk-label--s" for="sort">
+            Lesson Type
+          </label><br>
+          <select class="govuk-select" id="sort" name="sort">
+            <option value="none"></option>
+            <option value="www">WWW</option>
+            <option value="ebi">EBI</option>
+          </select>
+        </div>
+
+        <div class="govuk-form-group"> <!-- date from field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-from">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date from
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-from">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-from-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-from-day" name="date-from-day" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-from-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-from-month" name="date-from-month" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-from-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-from-year" name="date-from-year" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="govuk-form-group"> <!-- date to field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-to">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h4 class="govuk-fieldset__heading">
+                Date to
+              </h4>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 12 2007
+            </span>
+            <div class="govuk-date-input" id="date-from">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-to-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-to-day" name="date-to-day" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-to-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-to-month" name="date-to-month" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-to-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-to-year" name="date-to-year" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+      </div>
+
+    <a href="#Results" onclick="showResults()" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+      Search
+    </a>
+
+
+
+    <div id="resultsTable" style.display="none">
+      <main class="govuk-main-wrapper">
+      <a class="govuk-back-link" href="home.html">Back</a>
+
+      <h2><a id="Results">Results</a></h2>
+
+      <table class="govuk-table">
+          <caption class="govuk-table__caption">Results</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Date</th>
+              <th scope="col" class="govuk-table__header">Amount</th>
+              <th scope="col" class="govuk-table__header">Amount</th>
+              <th scope="col" class="govuk-table__header">Amount</th>
+    </tr>
+
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP061-23</a></th>
+            <td class="govuk-table__cell">13/12/2019</td>
+            <td class="govuk-table__cell">Lesson 1</td>
+            <td class="govuk-table__cell">Scott McConnell</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP069-262</a></th>
+            <td class="govuk-table__cell">16/10/2019</td>
+            <td class="govuk-table__cell">Lesson 2</td>
+            <td class="govuk-table__cell">Alex Connor</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP061-568</a></th>
+            <td class="govuk-table__cell">25/09/2019</td>
+            <td class="govuk-table__cell">Lesson 3</td>
+            <td class="govuk-table__cell">Sophia Kyriacou</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+            <td class="govuk-table__cell">14/07/2019</td>
+            <td class="govuk-table__cell">Lesson 4</td>
+            <td class="govuk-table__cell">Bob Litster</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP12-124</a></th>
+            <td class="govuk-table__cell">07/02/2019</td>
+            <td class="govuk-table__cell">Lesson 5</td>
+            <td class="govuk-table__cell">Dougie Pollock</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 6</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 7</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 8</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 9</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 10</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 11</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 12</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 13</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 14</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+             <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 15</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 16</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 17</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 18</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 19</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 20</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 21</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+              <td class="govuk-table__cell">14/07/2019</td>
+              <td class="govuk-table__cell">Lesson 22</td>
+              <td class="govuk-table__cell">Bob Litster</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                <td class="govuk-table__cell">14/07/2019</td>
+                <td class="govuk-table__cell">Lesson 23</td>
+                <td class="govuk-table__cell">Bob Litster</td>
+                </tr>
+                <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                <td class="govuk-table__cell">14/07/2019</td>
+                <td class="govuk-table__cell">Lesson 24</td>
+                <td class="govuk-table__cell">Bob Litster</td>
+                </tr>
+                <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                    <td class="govuk-table__cell">14/07/2019</td>
+                    <td class="govuk-table__cell">Lesson 25</td>
+                    <td class="govuk-table__cell">Bob Litster</td>
+                    </tr>
+                  <tr class="govuk-table__row">
+                    <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                    <td class="govuk-table__cell">14/07/2019</td>
+                    <td class="govuk-table__cell">Lesson 26</td>
+                    <td class="govuk-table__cell">Bob Litster</td>
+                    </tr>
+                  <tr class="govuk-table__row">
+                      <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                      <td class="govuk-table__cell">14/07/2019</td>
+                      <td class="govuk-table__cell">Lesson 27</td>
+                      <td class="govuk-table__cell">Bob Litster</td>
+                      </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                        <td class="govuk-table__cell">14/07/2019</td>
+                        <td class="govuk-table__cell">Lesson 28</td>
+                        <td class="govuk-table__cell">Bob Litster</td>
+                        </tr>
+                      <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                        <td class="govuk-table__cell">14/07/2019</td>
+                        <td class="govuk-table__cell">Lesson 29</td>
+                        <td class="govuk-table__cell">Bob Litster</td>
+                      </tr>
+                      <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                        <td class="govuk-table__cell">14/07/2019</td>
+                        <td class="govuk-table__cell">Lesson 30</td>
+                        <td class="govuk-table__cell">Bob Litster</td>
+                        </tr>
+                      <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                        <td class="govuk-table__cell">14/07/2019</td>
+                        <td class="govuk-table__cell">Lesson 31</td>
+                        <td class="govuk-table__cell">Bob Litster</td>
+                        </tr>
+                      <tr class="govuk-table__row">
+                          <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                          <td class="govuk-table__cell">14/07/2019</td>
+                          <td class="govuk-table__cell">Lesson 32</td>
+                          <td class="govuk-table__cell">Bob Litster</td>
+                          </tr>
+                        <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                            <td class="govuk-table__cell">14/07/2019</td>
+                            <td class="govuk-table__cell">Lesson 33</td>
+                            <td class="govuk-table__cell">Bob Litster</td>
+                            </tr>
+                          <tr class="govuk-table__row">
+                            <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                            <td class="govuk-table__cell">14/07/2019</td>
+                            <td class="govuk-table__cell">Lesson 34</td>
+                            <td class="govuk-table__cell">Bob Litster</td>
+                          </tr>
+                        <tr class="govuk-table__row">
+                          <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                          <td class="govuk-table__cell">14/07/2019</td>
+                          <td class="govuk-table__cell">Lesson 35</td>
+                          <td class="govuk-table__cell">Bob Litster</td>
+                          </tr>
+                        <tr class="govuk-table__row">
+                          <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                          <td class="govuk-table__cell">14/07/2019</td>
+                          <td class="govuk-table__cell">Lesson 36</td>
+                          <td class="govuk-table__cell">Bob Litster</td>
+                          </tr>
+                          <tr class="govuk-table__row">
+                              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                              <td class="govuk-table__cell">14/07/2019</td>
+                              <td class="govuk-table__cell">Lesson 37</td>
+                              <td class="govuk-table__cell">Bob Litster</td>
+                              </tr>
+                          <tr class="govuk-table__row">
+                              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                              <td class="govuk-table__cell">14/07/2019</td>
+                              <td class="govuk-table__cell">Lesson 38</td>
+                              <td class="govuk-table__cell">Bob Litster</td>
+                              </tr>
+                              <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                                <td class="govuk-table__cell">14/07/2019</td>
+                                <td class="govuk-table__cell">Lesson 39</td>
+                                <td class="govuk-table__cell">Bob Litster</td>
+                              </tr>
+                            <tr class="govuk-table__row">
+                              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                              <td class="govuk-table__cell">14/07/2019</td>
+                              <td class="govuk-table__cell">Lesson 40</td>
+                              <td class="govuk-table__cell">Bob Litster</td>
+                              </tr>
+                            <tr class="govuk-table__row">
+                              <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                              <td class="govuk-table__cell">14/07/2019</td>
+                              <td class="govuk-table__cell">Lesson 41</td>
+                              <td class="govuk-table__cell">Bob Litster</td>
+                              </tr>
+                            <tr class="govuk-table__row">
+                                <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                                <td class="govuk-table__cell">14/07/2019</td>
+                                <td class="govuk-table__cell">Lesson 42</td>
+                                <td class="govuk-table__cell">Bob Litster</td>
+                                </tr>
+                              <tr class="govuk-table__row">
+                                  <th scope="row" class="govuk-table__header"><a href=/lesson_details_page>TP089-129</a></th>
+                                  <td class="govuk-table__cell">14/07/2019</td>
+                                  <td class="govuk-table__cell">Lesson 43</td>
+                                  <td class="govuk-table__cell">Bob Litster</td>
+                                  </tr>
+        </tbody>
+      </table>
+    </div>
+    </form>
+    </div>
+    </div>
+
+    <script>
+    window.onload = hideResults();
+
+    function hideResults() {
+    var x = document.getElementById("resultsTable");
+    x.style.display = "none";
+    }
+
+    function showResults() {
+    var x = document.getElementById("resultsTable");
+    if (x.style.display === "none") {
+    x.style.display = "block";
+    } else {
+    x.style.display = "none";
+    }
+    }
+    </script>
+
+    {% endblock %}
