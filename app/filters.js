@@ -5,7 +5,9 @@ module.exports = function (env) {
    * gov.uk core filters by creating filter methods of the same name.
    * @type {Object}
    */
-  var filters = {}
+  var filters = {
+
+  }
 
   /* ------------------------------------------------------------------
     add your methods to the filters obj below this comment block:
@@ -37,6 +39,11 @@ module.exports = function (env) {
     documentation.
 
   ------------------------------------------------------------------ */
+  filters.date = function(dateStr) {
+    var retStr = dateStr.toString().slice(4,15);
+    return retStr;
+    //return dateStr;
+  }
 
   /* ------------------------------------------------------------------
     keep the following line to return your filters to the app

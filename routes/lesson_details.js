@@ -1,7 +1,7 @@
 const express = require('express');
-
+const app = express();
+const bodyParser = require('body-parser');
 const router = express.Router();
-
 const queries = require('../app/db/queries');
 
 router.get('/lessondetails', (req, res) => {
@@ -13,15 +13,6 @@ router.get('/lessondetails', (req, res) => {
     });
 });
 
-// router.get('/lessondetails/:id', (req, res) => {
-//   queries
-//     .lessons
-//     .getByID(req.params.id)
-//     .then(lesson_details => {
-//       res.json(lesson_details);
-//     });
-// });
-
 router.get('/lessondetails/:proj_id', (req, res) => {
   queries
     .lessons
@@ -31,12 +22,27 @@ router.get('/lessondetails/:proj_id', (req, res) => {
     });
 });
 
-router.get('/:proj_id/:les_id', (req, res) => {
+router.get('/:proj_id-:les_id', (req, res) => {
   queries
     .lessons
-    .getByLP(req.params.proj_id, req.params.les_id)
+    .getByProjectLesson(req.params.proj_id, req.params.les_id)
     .then(lesson_details => {
-      res.send(lesson_details);
+      res.render('lesson_details.html', {lesson_details});
+    });
+});
+
+router.get('/search', (req, res) => {
+  res.render('srch.html');
+});
+
+router.post('/search', (req, res) => {
+  const reqjson = req.body;
+  queries
+    .lessons
+    .getByProject(reqjson.project_name)
+    .then(lesson_details => {
+      res.render('srch.html', {lesson_details});
+      //res.send(lesson_details[1].date_added);
     });
 });
 
