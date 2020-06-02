@@ -54,8 +54,7 @@ router.post('/search', (req, res) => {
 
 //send bulk upload form as download
 router.get('/file/bulkupload', function (req, res) {
-  res.download('./app/views/llupload.xls');
-  console.log(res.headersSent);
+  res.download('./app/views/LLR_upload_form_v0.0.xls');
 });
 
 module.exports = router;
