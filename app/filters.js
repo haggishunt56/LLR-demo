@@ -40,9 +40,9 @@ module.exports = function (env) {
 
   ------------------------------------------------------------------ */
   filters.date = function(dateStr) {
-    var retStr = dateStr.toString().slice(4,15);
-    return retStr;
-    //return dateStr;
+    if (!(dateStr === undefined)) {
+      return (dateStr.toString().slice(4,15));
+    }
   }
 
   /* ------------------------------------------------------------------
