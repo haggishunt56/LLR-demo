@@ -18,7 +18,7 @@ module.exports = {
       return knex.select()
         .table('lesson_details')
         .fullOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
-        .where('lesson_details.project_tp_num', 'ilike', `%${id}%`)
+        .where('lesson_details.project_tp_num', 'ilike', id)
         .orWhere('project_details.project_name', 'ilike', `%${id}%`)
         ;
       //create and return json files with result of db query
