@@ -14,11 +14,11 @@ module.exports = {
         ; //create and return json files with result of db query
     },
     getByProject: function(id) {
-      //SELECT * FROM lesson_details WHERE project_tp_num = [passed to function];
+      //SELECT * FROM lesson_details WHERE project_tp_num = [passed to function] OR project_name = [passed to function];
       return knex.select()
         .table('lesson_details')
         .fullOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
-        .where('lesson_details.project_tp_num', 'ilike', id)
+        .where('lesson_details.project_tp_num', 'ilike', `%${id}%`)
         .orWhere('project_details.project_name', 'ilike', `%${id}%`)
         ;
       //create and return json files with result of db query
