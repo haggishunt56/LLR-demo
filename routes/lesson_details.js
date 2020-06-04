@@ -45,7 +45,7 @@ router.post('/search', (req, res) => {
    //res.send(reqjson);
    queries
     .lessons
-    .getByProject(reqjson.project_name)
+    .getBySearchFields(reqjson.lesson_name, reqjson.project_name, reqjson.portfolio, reqjson.category, reqjson.lesson_type, reqjson.date_from_day, reqjson.date_from_month, reqjson.date_from_year, reqjson.date_to_day, reqjson.date_to_month, reqjson.date_to_year)
     .then(lesson_details => {
       res.render('srch.html', {lesson_details});
       //res.send(lesson_details);

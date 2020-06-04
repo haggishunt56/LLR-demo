@@ -53,10 +53,10 @@
         </div>
 
         <div class="govuk-form-group"> <!-- portfolio field -->
-          <label class="govuk-label--s" for="sort">
+          <label class="govuk-label--s" for="portfolio">
             Portfolio
           </label><br>
-          <select class="govuk-select" id="sort" name="sort">
+          <select class="govuk-select" id="portfolio" name="portfolio">
             <option value="none"></option>
             <option value="azure">Azure</option>
             <option value="chrome">Chrome</option>
@@ -69,32 +69,33 @@
           </select>
         </div>
 
-        <div class="govuk-form-group"> <!-- portfolio field -->
-          <label class="govuk-label--s" for="sort">
+        <div class="govuk-form-group"> <!-- Lesson category field -->
+          <label class="govuk-label--s" for="category">
             Lesson Category
           </label><br>
-          <select class="govuk-select" id="sort" name="sort">
-            <option value="none"></option>
-            <option value="deployment">Deployment</option>
-            <option value="technology">Technology</option>
-            <option value="design">Design</option>
-            <option value="training">Training</option>
-            <option value="management">Management</option>
-            <option value="security">Security</option>
+          <select class="govuk-select" id="category" name="category">
+            <option value="" selected></option>
+            <option value="assurance">Assurance</option>
+            <option value="bau">BAU</option>
+            <option value="commercial">Commercial</option>
             <option value="communications">Communications</option>
+            <option value="deployment">Deployment</option>
+            <option value="design">Design</option>
+            <option value="estates">Development</option>
+            <option value="estates">Estates</option>
             <option value="financial">Financial</option>
+            <option value="governance">Governance</option>
+            <option value="management">Management</option>
             <option value="regulatory">Regulatory</option>
             <option value="resources">Resources</option>
-            <option value="estates">Estates</option>
-            <option value="commercial">Commercial</option>
-            <option value="scoperequirements">ScopeRequirements</option>
-            <option value="testing">Testing</option>
-            <option value="strategy">Strategy</option>
-            <option value="bau">BAU</option>
+            <option value="scoperequirements">Scope/Requirements</option>
             <option value="schedule">Schedule</option>
-            <option value="governance">Governance</option>
-            <option value="assurance">Assurance</option>
+            <option value="security">Security</option>
             <option value="stakeholdes">Stakeholders</option>
+            <option value="strategy">Strategy</option>
+            <option value="technology">Technology</option>
+            <option value="testing">Testing</option>
+            <option value="training">Training</option>
           </select>
         </div>
 
@@ -103,7 +104,7 @@
             Lesson type
           </label><br>
           <select class="govuk-select" id="lesson_type" name="lesson_type">
-            <option value="default" selected>
+            <option value="" selected></option>
             <option value="www">What went well</option>
             <option value="ebi">Even better if</option>
           </select>
@@ -122,26 +123,26 @@
             <div class="govuk-date-input" id="date-from">
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-from-day">
+                  <label class="govuk-label govuk-date-input__label" for="date_from_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-from-day" name="date-from-day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_day" name="date_from_day" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-from-month">
+                  <label class="govuk-label govuk-date-input__label" for="date_from_month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-from-month" name="date-from-month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_month" name="date_from_month" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-from-year">
+                  <label class="govuk-label govuk-date-input__label" for="date_from_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-from-year" name="date-from-year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_from_year" name="date_from_year" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
             </div>
@@ -161,10 +162,10 @@
             <div class="govuk-date-input" id="date-from">
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-to-day">
+                  <label class="govuk-label govuk-date-input__label" for="date_to_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-to-day" name="date-to-day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_day" name="date_to_day" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -172,15 +173,15 @@
                   <label class="govuk-label govuk-date-input__label" for="date-to-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-to-month" name="date-to-month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_month" name="date_to_month" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-to-year">
+                  <label class="govuk-label govuk-date-input__label" for="date_to_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-to-year" name="date-to-year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_to_year" name="date_to_year" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
             </div>
@@ -199,7 +200,6 @@
 <!-- TODO nunjucks for loop to display only the number of rows returned by search query -->
 <!-- TODO amend db query to return user name, not id -->
 <!-- TODO make lesson number a hyperlink to details page -->
-<!-- TODO search by project name -->
 
       <table class="govuk-table">
       <thead class="govuk-table__head">
