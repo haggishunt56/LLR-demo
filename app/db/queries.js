@@ -26,7 +26,8 @@ module.exports = {
       //SELECT * FROM lesson_details WHERE lesson_name = lessonName, project_name = projectName etc...;
 
       let query = knex.select().table('lesson_details') //SELECT * FROM lesson_details;
-        .fullOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num');
+        .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id');
 
       if(lessonName !== "") { //include search param only if field is not blank
         query.where('lesson_details.lesson_id', 'ilike', `%${lessonName}%`);
@@ -39,7 +40,9 @@ module.exports = {
         });
       }
 
-      // TODO if(portfolio !== "") {} //include search param only if field is not blank
+      if(portfolio !== "") {
+        query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
+      } //include search param only if field is not blank
 
       if(category !== "") { //include search param only if field is not blank
         query.where('lesson_details.category', 'ilike', `%${category}%`);

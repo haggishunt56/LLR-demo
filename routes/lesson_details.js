@@ -42,7 +42,7 @@ router.get('/search', (req, res) => {
 //render data onto results table when a user searches for a lesson
 router.post('/search', (req, res) => {
   const reqjson = req.body;
-   //res.send(reqjson);
+   // res.send(reqjson);
    queries
     .lessons
     .getBySearchFields(reqjson.lesson_name, reqjson.project_name, reqjson.portfolio, reqjson.category, reqjson.lesson_type, reqjson.date_from_day, reqjson.date_from_month, reqjson.date_from_year, reqjson.date_to_day, reqjson.date_to_month, reqjson.date_to_year)
