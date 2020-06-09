@@ -82,7 +82,7 @@
             Lesson Category
           </label><br>
           <select class="govuk-select" id="category" name="category">
-            <option value="" selected></option>
+            <option value="none" selected></option>
             <option value="assurance">Assurance</option>
             <option value="bau">BAU</option>
             <option value="commercial">Commercial</option>
@@ -112,7 +112,7 @@
             Lesson type
           </label><br>
           <select class="govuk-select" id="lesson_type" name="lesson_type">
-            <option value="" selected></option>
+            <option value="none" selected></option>
             <option value="www">What went well</option>
             <option value="ebi">Even better if</option>
           </select>
@@ -193,7 +193,7 @@
                 </div>
               </div>
             </div>
-          </fieldset>
+            </fieldset>
         </div>
 
         <input type="submit" draggable="false" value="Search" class="govuk-button">
@@ -204,6 +204,7 @@
       <hr>
       <br>
 
+<!-- test -->
 <!-- TODO nunjucks hide table if no results -->
 <!-- TODO nunjucks for loop to display only the number of rows returned by search query -->
 <!-- TODO amend db query to return user name, not id -->
