@@ -57,7 +57,7 @@
             Portfolio
           </label><br>
           <select class="govuk-select" id="portfolio" name="portfolio">
-            <option value="none"></option>
+            <option value=""></option>
             <option value="azure">Azure</option>
             <option value="blue">Blue</option>
             <option value="chrome">Chrome</option>
@@ -207,8 +207,6 @@
       <br>
 
 <!-- TODO amend DB query to return user name, not id -->
-
-      {% include "pagination.html" %}
 
       <table class="govuk-table">
         <thead class="govuk-table__head">
