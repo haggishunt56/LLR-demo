@@ -201,176 +201,41 @@
 
       </form>
 
+      {% if lesson_details %}
+
       <hr>
       <br>
 
-<!-- TODO nunjucks hide table if no results -->
-<!-- TODO nunjucks for loop to display only the number of rows returned by search query -->
-<!-- TODO amend db query to return user name, not id -->
-<!-- TODO make lesson number a hyperlink to details page -->
+<!-- TODO amend DB query to return user name, not id -->
+
+      {% include "pagination.html" %}
 
       <table class="govuk-table">
-      <thead class="govuk-table__head">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Lesson number</th>
+            <th scope="col" class="govuk-table__header">Date</th>
+            <th scope="col" class="govuk-table__header">Lesson summary</th>
+            <th scope="col" class="govuk-table__header">Uploaded by</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+
+        {% asyncEach lesson_detail in lesson_details %}
+
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Lesson number</th>
-          <th scope="col" class="govuk-table__header">Date</th>
-          <th scope="col" class="govuk-table__header">Lesson summary</th>
-          <th scope="col" class="govuk-table__header">Uploaded by</th>
+          <th scope="row" class="govuk-table__header"><a href="/{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}">{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}</a></th>
+          <td class="govuk-table__cell">{{lesson_detail.date_added | date }}</td>
+          <td class="govuk-table__cell">{{lesson_detail.summary}}</td>
+          <td class="govuk-table__cell">{{lesson_detail.uploaded_by}}</td>
         </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[0].project_tp_num}}-{{lesson_details[0].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[0].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[0].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[0].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[1].project_tp_num}}-{{lesson_details[1].lesson_id}}</th>
-          <td class="govuk-table__cell" id="row1">{{lesson_details[1].date_added | date}}</td>
-          <td class="govuk-table__cell">{{lesson_details[1].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[1].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[2].project_tp_num}}-{{lesson_details[2].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[2].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[2].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[2].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[3].project_tp_num}}-{{lesson_details[3].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[3].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[3].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[3].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[4].project_tp_num}}-{{lesson_details[4].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[4].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[4].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[4].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[5].project_tp_num}}-{{lesson_details[5].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[5].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[5].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[5].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[6].project_tp_num}}-{{lesson_details[6].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[6].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[6].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[6].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[7].project_tp_num}}-{{lesson_details[7].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[7].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[7].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[7].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[8].project_tp_num}}-{{lesson_details[8].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[8].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[8].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[8].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[9].project_tp_num}}-{{lesson_details[9].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[9].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[9].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[9].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[10].project_tp_num}}-{{lesson_details[10].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[10].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[10].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[10].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[11].project_tp_num}}-{{lesson_details[11].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[11].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[11].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[11].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[12].project_tp_num}}-{{lesson_details[12].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[12].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[12].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[12].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[13].project_tp_num}}-{{lesson_details[13].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[13].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[13].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[13].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[14].project_tp_num}}-{{lesson_details[14].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[14].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[14].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[14].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[15].project_tp_num}}-{{lesson_details[15].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[15].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[15].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[15].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[16].project_tp_num}}-{{lesson_details[16].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[16].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[16].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[16].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[17].project_tp_num}}-{{lesson_details[17].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[17].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[17].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[17].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[18].project_tp_num}}-{{lesson_details[18].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[18].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[18].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[18].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[19].project_tp_num}}-{{lesson_details[19].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[19].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[19].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[19].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[20].project_tp_num}}-{{lesson_details[20].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[20].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[20].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[20].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[21].project_tp_num}}-{{lesson_details[21].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[21].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[21].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[21].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[22].project_tp_num}}-{{lesson_details[22].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[22].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[22].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[22].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[23].project_tp_num}}-{{lesson_details[23].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[23].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[23].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[23].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[24].project_tp_num}}-{{lesson_details[24].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[24].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[24].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[24].uploaded_by}}</td>
-        </tr>
+
+        {% endeach %}
+
       </tbody>
     </table>
+
+    {% endif %}
 
     </div>
   </div>
