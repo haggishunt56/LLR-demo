@@ -39,7 +39,7 @@
           <label class="govuk-label--s" for="Lesson name">
             Lesson name
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="lesson_name" name="lesson_name" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="lesson_name" name="lesson_name" type="text" pattern="[0-9]*" value={{ reqjson.lesson_name }}>
         </div>
 
         <div class="govuk-form-group"> <!-- Project name field -->
@@ -49,7 +49,7 @@
           <span id="date-from" class="govuk-hint">
             You can enter either the name of the project or the TP number.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text" value={{ reqjson.project_name }}>
         </div>
 
         <div class="govuk-form-group"> <!-- portfolio field -->
@@ -58,22 +58,22 @@
           </label><br>
           <select class="govuk-select" id="portfolio" name="portfolio">
             <option value=""></option>
-            <option value="azure">Azure</option>
-            <option value="blue">Blue</option>
-            <option value="chrome">Chrome</option>
-            <option value="coral">Coral</option>
-            <option value="enablers">Enablers</option>
-            <option value="indigo">Indigo</option>
-            <option value="platinum">Platinum</option>
-            <option value="sapphire">Sapphire</option>
-            <option value="teal">Teal</option>
-            <option value="tom">TOM</option>
-            <option value="pre-portfolio">Pre-portfolio</option>
-            <option value="tbtc">TBCT</option>
-            <option value="bau">BAU</option>
-            <option value="bcm">BCM</option>
-            <option value="pm">PM</option>
-            <option value="cat">CAT</option>
+            <option value="azure" {% if reqjson.portfolio=="azure" %} selected {% endif %}>Azure</option>
+            <option value="blue" {% if reqjson.portfolio=="blue" %} selected {% endif %}>Blue</option>
+            <option value="chrome" {% if reqjson.portfolio=="chrome" %} selected {% endif %}>Chrome</option>
+            <option value="coral" {% if reqjson.portfolio=="coral" %} selected {% endif %}>Coral</option>
+            <option value="enablers" {% if reqjson.portfolio=="enablers" %} selected {% endif %}>Enablers</option>
+            <option value="indigo" {% if reqjson.portfolio=="indigo" %} selected {% endif %}>Indigo</option>
+            <option value="platinum" {% if reqjson.portfolio=="platinum" %} selected {% endif %}>Platinum</option>
+            <option value="sapphire" {% if reqjson.portfolio=="sapphire" %} selected {% endif %}>Sapphire</option>
+            <option value="teal" {% if reqjson.portfolio=="teal" %} selected {% endif %}>Teal</option>
+            <option value="tom" {% if reqjson.portfolio=="tom" %} selected {% endif %}>TOM</option>
+            <option value="pre-portfolio" {% if reqjson.portfolio=="pre-portfolio" %} selected {% endif %}>Pre-portfolio</option>
+            <option value="tbtc" {% if reqjson.portfolio=="tbtc" %} selected {% endif %}>TBCT</option>
+            <option value="bau" {% if reqjson.portfolio=="bau" %} selected {% endif %}>BAU</option>
+            <option value="bcm" {% if reqjson.portfolio=="bcm" %} selected {% endif %}>BCM</option>
+            <option value="pm" {% if reqjson.portfolio=="pm" %} selected {% endif %}>PM</option>
+            <option value="cat" {% if reqjson.portfolio=="cat" %} selected {% endif %}>CAT</option>
           </select>
         </div>
 
@@ -82,28 +82,28 @@
             Lesson Category
           </label><br>
           <select class="govuk-select" id="category" name="category">
-            <option value="" selected></option>
-            <option value="assurance">Assurance</option>
-            <option value="bau">BAU</option>
-            <option value="commercial">Commercial</option>
-            <option value="communications">Communications</option>
-            <option value="deployment">Deployment</option>
-            <option value="design">Design</option>
-            <option value="estates">Development</option>
-            <option value="estates">Estates</option>
-            <option value="financial">Financial</option>
-            <option value="governance">Governance</option>
-            <option value="management">Management</option>
-            <option value="regulatory">Regulatory</option>
-            <option value="resources">Resources</option>
-            <option value="scoperequirements">Scope/Requirements</option>
-            <option value="schedule">Schedule</option>
-            <option value="security">Security</option>
-            <option value="stakeholdes">Stakeholders</option>
-            <option value="strategy">Strategy</option>
-            <option value="technology">Technology</option>
-            <option value="testing">Testing</option>
-            <option value="training">Training</option>
+            <option value=""></option>
+            <option value="assurance" {% if reqjson.category=="assurance" %} selected {% endif %}>Assurance</option>
+            <option value="bau" {% if reqjson.category=="bau" %} selected {% endif %}>BAU</option>
+            <option value="commercial" {% if reqjson.category=="commercial" %} selected {% endif %}>Commercial</option>
+            <option value="communications" {% if reqjson.category=="communications" %} selected {% endif %}>Communications</option>
+            <option value="deployment" {% if reqjson.category=="deployment" %} selected {% endif %}>Deployment</option>
+            <option value="design" {% if reqjson.category=="design" %} selected {% endif %}>Design</option>
+            <option value="development" {% if reqjson.category=="development" %} selected {% endif %}>Development</option>
+            <option value="estates" {% if reqjson.category=="estates" %} selected {% endif %}>Estates</option>
+            <option value="financial" {% if reqjson.category=="financial" %} selected {% endif %}>Financial</option>
+            <option value="governance" {% if reqjson.category=="governance" %} selected {% endif %}>Governance</option>
+            <option value="management" {% if reqjson.category=="management" %} selected {% endif %}>Management</option>
+            <option value="regulatory" {% if reqjson.category=="regulatory" %} selected {% endif %}>Regulatory</option>
+            <option value="resources" {% if reqjson.category=="resources" %} selected {% endif %}>Resources</option>
+            <option value="scoperequirements" {% if reqjson.category=="scoperequirements" %} selected {% endif %}>Scope/Requirements</option>
+            <option value="schedule" {% if reqjson.category=="schedule" %} selected {% endif %}>Schedule</option>
+            <option value="security" {% if reqjson.category=="security" %} selected {% endif %}>Security</option>
+            <option value="stakeholdes" {% if reqjson.category=="stakeholdes" %} selected {% endif %}>Stakeholders</option>
+            <option value="strategy" {% if reqjson.category=="strategy" %} selected {% endif %}>Strategy</option>
+            <option value="technology" {% if reqjson.category=="technology" %} selected {% endif %}>Technology</option>
+            <option value="testing" {% if reqjson.category=="testing" %} selected {% endif %}>Testing</option>
+            <option value="training" {% if reqjson.category=="training" %} selected {% endif %}>Training</option>
           </select>
         </div>
 
@@ -113,8 +113,8 @@
           </label><br>
           <select class="govuk-select" id="lesson_type" name="lesson_type">
             <option value="" selected></option>
-            <option value="www">What went well</option>
-            <option value="ebi">Even better if</option>
+            <option value="www" {% if reqjson.lesson_type=="www" %} selected {% endif %}>What went well</option>
+            <option value="ebi" {% if reqjson.lesson_type=="ebi" %} selected {% endif %}>Even better if</option>
           </select>
         </div>
 
@@ -134,7 +134,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_day" name="date_from_day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_day" name="date_from_day" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_day }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -142,7 +142,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_month" name="date_from_month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_month" name="date_from_month" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_month }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -150,7 +150,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_from_year" name="date_from_year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_from_year" name="date_from_year" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="4" inputmode="numeric" value={{ reqjson.date_from_year }}>
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_day" name="date_to_day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_day" name="date_to_day" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_day }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -181,7 +181,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-to-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_month" name="date_to_month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_month" name="date_to_month" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_month }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -189,7 +189,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_to_year" name="date_to_year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_to_year" name="date_to_year" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_year }}>
                 </div>
               </div>
             </div>
@@ -197,11 +197,11 @@
         </div>
 
         <input type="submit" draggable="false" value="Search" class="govuk-button">
-        <input type="reset" draggable="false" value="Reset" class="govuk-button govuk-button--secondary">
+        <a href="/search" value="Reset" class="govuk-button govuk-button--secondary">Reset</a>
 
       </form>
 
-      {% if lesson_details %}
+      {% if lesson_details %} <!-- display table only if results exist -->
 
       <hr>
       <br>

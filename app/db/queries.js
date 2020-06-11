@@ -29,14 +29,22 @@ module.exports = {
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id');
 
-      if(lessonName !== "") { //include search param only if field is not blank
-        query.where('lesson_details.lesson_id', 'ilike', `%${lessonName}%`);
+      if(lessonName !== "") { //include only if field is not blank
+        var initStr = `${lessonName}`;
+        var lowBound = initStr.replace(/\*/g, '/\d/');
+        var upBound = initStr.replace(/\*/g, '9');
+
+        query.where('lesson_details.lesson_id', '=', lowBound); //`%${lessonName}%`
+        //query.where('lesson_details.lesson_id', '<=', upBound)
       }
 
-      if(projectName !== "") { //include search param only if field is not blank
+      if(projectName !== "") { //include only if field is not blank
+        var initStr = `${projectName}`;
+        var newStr = initStr.replace(/\*/g, '%'); //use * as wildcard (% also works)
+
         query.where(function() {
-          this.where('lesson_details.project_tp_num', 'ilike', `%${projectName}%`)
-          .orWhere('project_details.project_name', 'ilike', `%${projectName}%`)
+          this.where('lesson_details.project_tp_num', 'ilike', newStr)
+          .orWhere('project_details.project_name', 'ilike', newStr)
         });
       }
 
@@ -44,11 +52,11 @@ module.exports = {
         query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
       } //include search param only if field is not blank
 
-      if(category !== "") { //include search param only if field is not blank
+      if(category !== "") { //include only if field is not blank
         query.where('lesson_details.category', 'ilike', `%${category}%`);
       }
 
-      if(type !== "") { //include search param only if field is not blank
+      if(type !== "") { //include only if field is not blank
         if(type === "What went well") {
           type = "WWW";
         }
@@ -58,14 +66,14 @@ module.exports = {
         query.where('lesson_details.www_ebi', 'ilike', `%${type}%`);
       }
 
-      if(dateFromDay !== "") { //include search param only if field is not blank
+      if(dateFromDay !== "") { //include only if field is not blank
         //console.log(`${dateFromYear}`, `${dateFromMonth}`, `${dateFromDay}`);
         dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0);
         query.where('lesson_details.date_added', '>', dateFrom);
         console.log(dateFrom);
       }
 
-      if(dateToDay !== "") { //include search param only if field is not blank
+      if(dateToDay !== "") { //include only if field is not blank
         dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00);
         query.where('lesson_details.date_added', '<', dateTo);
         console.log(dateTo);
