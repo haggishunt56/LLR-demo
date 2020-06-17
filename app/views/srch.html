@@ -82,6 +82,7 @@
             Lesson Category
           </label><br>
           <select class="govuk-select" id="category" name="category">
+
             <option value=""></option>
             <option value="assurance" {% if reqjson.category=="assurance" %} selected {% endif %}>Assurance</option>
             <option value="bau" {% if reqjson.category=="bau" %} selected {% endif %}>BAU</option>
@@ -104,6 +105,7 @@
             <option value="technology" {% if reqjson.category=="technology" %} selected {% endif %}>Technology</option>
             <option value="testing" {% if reqjson.category=="testing" %} selected {% endif %}>Testing</option>
             <option value="training" {% if reqjson.category=="training" %} selected {% endif %}>Training</option>
+
           </select>
         </div>
 
@@ -112,9 +114,11 @@
             Lesson type
           </label><br>
           <select class="govuk-select" id="lesson_type" name="lesson_type">
+
             <option value="" selected></option>
             <option value="www" {% if reqjson.lesson_type=="www" %} selected {% endif %}>What went well</option>
             <option value="ebi" {% if reqjson.lesson_type=="ebi" %} selected {% endif %}>Even better if</option>
+
           </select>
         </div>
 
@@ -193,7 +197,7 @@
                 </div>
               </div>
             </div>
-          </fieldset>
+            </fieldset>
         </div>
 
         <input type="submit" draggable="false" value="Search" class="govuk-button">
