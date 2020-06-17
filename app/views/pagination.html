@@ -1,0 +1,89 @@
+{% block header %}
+
+<style>
+
+  .pagination,
+    .pagination_list-items {
+
+  li {
+    display: inline-block;
+    a {
+      @extend .bold-small;
+      color: #005EA5;
+      display: inline-block;
+      padding: 15px 5px 10px 5px;
+      margin-right: 15px;
+      text-decoration: none;
+
+      &:focus {
+        outline: 0;
+      }
+    }
+    &.active a,
+    &.active a:hover {
+      color: #005EA5;
+      -webkit-box-shadow: inset 0px -5px 0px 0px #005EA5;
+      -moz-box-shadow: inset 0px -5px 0px 0px #005EA5;
+      box-shadow: inset 0px -5px 0px 0px #005EA5;
+    }
+  }
+}
+    .padding {
+    padding-left: 15px;
+  }
+    .pagination {
+    padding: 0;
+  }
+    .pagination__item {
+    display: inline-block;
+    list-style: none;
+  }
+    .pagination__link {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+
+    &:hover, &:focus {
+      background: #F8F8F8;
+      outline: 3px solid #FFBF47;
+    }
+
+    &.current {
+      color: #0B0C0C;
+      font-weight: 700;
+      border: none;
+      pointer-events: none;
+      cursor: default;
+
+      &:hover, &:focus {
+        color: #0B0C0C;
+        background: none;
+      }
+    }
+  }
+    .pagination__summary {
+    font-family: 'Inter UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 8px 0  ;
+
+    @media (min-width: 642px) {
+      float: right;
+    }
+  }
+
+</style>
+
+<nav role="navigation" aria-label="Pagination">
+  <div class="pagination__summary">Showing 101 - 150 of 246 results</div>
+  <ul class="pagination">
+    <li class="pagination__item"><a class="pagination__link" href="/search" aria-label="Previous page"><span aria-hidden="true" role="presentation">&laquo;</span> Previous</a></li>
+    <li class="pagination__item current"><a class="pagination__link" href="#1" aria-current="true" aria-label="Page 1, current page">1</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="#2" aria-label="Page 2">2</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="#3" aria-label="Page 3">3</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="#4" aria-label="Page 4">4</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="#5" aria-label="Page 5">5</a></li>
+    <li class="pagination__item"><a class="pagination__link" href="#0" aria-label="Next page">Next <span aria-hidden="true" role="presentation">&raquo;</span></a></li>
+  </ul>
+</nav>
+
+{% endblock %}

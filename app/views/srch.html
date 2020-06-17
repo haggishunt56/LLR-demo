@@ -39,7 +39,7 @@
           <label class="govuk-label--s" for="Lesson name">
             Lesson name
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="lesson_name" name="lesson_name" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="lesson_name" name="lesson_name" type="text" pattern="[0-9]*" value={{ reqjson.lesson_name }}>
         </div>
 
         <div class="govuk-form-group"> <!-- Project name field -->
@@ -49,7 +49,7 @@
           <span id="date-from" class="govuk-hint">
             You can enter either the name of the project or the TP number.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text" value="{{ reqjson.project_name }}">
         </div>
 
         <div class="govuk-form-group"> <!-- portfolio field -->
@@ -57,23 +57,23 @@
             Portfolio
           </label><br>
           <select class="govuk-select" id="portfolio" name="portfolio">
-            <option value="none"></option>
-            <option value="azure">Azure</option>
-            <option value="blue">Blue</option>
-            <option value="chrome">Chrome</option>
-            <option value="coral">Coral</option>
-            <option value="enablers">Enablers</option>
-            <option value="indigo">Indigo</option>
-            <option value="platinum">Platinum</option>
-            <option value="sapphire">Sapphire</option>
-            <option value="teal">Teal</option>
-            <option value="tom">TOM</option>
-            <option value="pre-portfolio">Pre-portfolio</option>
-            <option value="tbtc">TBCT</option>
-            <option value="bau">BAU</option>
-            <option value="bcm">BCM</option>
-            <option value="pm">PM</option>
-            <option value="cat">CAT</option>
+            <option value=""></option>
+            <option value="azure" {% if reqjson.portfolio=="azure" %} selected {% endif %}>Azure</option>
+            <option value="blue" {% if reqjson.portfolio=="blue" %} selected {% endif %}>Blue</option>
+            <option value="chrome" {% if reqjson.portfolio=="chrome" %} selected {% endif %}>Chrome</option>
+            <option value="coral" {% if reqjson.portfolio=="coral" %} selected {% endif %}>Coral</option>
+            <option value="enablers" {% if reqjson.portfolio=="enablers" %} selected {% endif %}>Enablers</option>
+            <option value="indigo" {% if reqjson.portfolio=="indigo" %} selected {% endif %}>Indigo</option>
+            <option value="platinum" {% if reqjson.portfolio=="platinum" %} selected {% endif %}>Platinum</option>
+            <option value="sapphire" {% if reqjson.portfolio=="sapphire" %} selected {% endif %}>Sapphire</option>
+            <option value="teal" {% if reqjson.portfolio=="teal" %} selected {% endif %}>Teal</option>
+            <option value="tom" {% if reqjson.portfolio=="tom" %} selected {% endif %}>TOM</option>
+            <option value="pre-portfolio" {% if reqjson.portfolio=="pre-portfolio" %} selected {% endif %}>Pre-portfolio</option>
+            <option value="tbtc" {% if reqjson.portfolio=="tbtc" %} selected {% endif %}>TBCT</option>
+            <option value="bau" {% if reqjson.portfolio=="bau" %} selected {% endif %}>BAU</option>
+            <option value="bcm" {% if reqjson.portfolio=="bcm" %} selected {% endif %}>BCM</option>
+            <option value="pm" {% if reqjson.portfolio=="pm" %} selected {% endif %}>PM</option>
+            <option value="cat" {% if reqjson.portfolio=="cat" %} selected {% endif %}>CAT</option>
           </select>
         </div>
 
@@ -82,28 +82,30 @@
             Lesson Category
           </label><br>
           <select class="govuk-select" id="category" name="category">
-            <option value="none" selected></option>
-            <option value="assurance">Assurance</option>
-            <option value="bau">BAU</option>
-            <option value="commercial">Commercial</option>
-            <option value="communications">Communications</option>
-            <option value="deployment">Deployment</option>
-            <option value="design">Design</option>
-            <option value="estates">Development</option>
-            <option value="estates">Estates</option>
-            <option value="financial">Financial</option>
-            <option value="governance">Governance</option>
-            <option value="management">Management</option>
-            <option value="regulatory">Regulatory</option>
-            <option value="resources">Resources</option>
-            <option value="scoperequirements">Scope/Requirements</option>
-            <option value="schedule">Schedule</option>
-            <option value="security">Security</option>
-            <option value="stakeholdes">Stakeholders</option>
-            <option value="strategy">Strategy</option>
-            <option value="technology">Technology</option>
-            <option value="testing">Testing</option>
-            <option value="training">Training</option>
+
+            <option value=""></option>
+            <option value="assurance" {% if reqjson.category=="assurance" %} selected {% endif %}>Assurance</option>
+            <option value="bau" {% if reqjson.category=="bau" %} selected {% endif %}>BAU</option>
+            <option value="commercial" {% if reqjson.category=="commercial" %} selected {% endif %}>Commercial</option>
+            <option value="communications" {% if reqjson.category=="communications" %} selected {% endif %}>Communications</option>
+            <option value="deployment" {% if reqjson.category=="deployment" %} selected {% endif %}>Deployment</option>
+            <option value="design" {% if reqjson.category=="design" %} selected {% endif %}>Design</option>
+            <option value="development" {% if reqjson.category=="development" %} selected {% endif %}>Development</option>
+            <option value="estates" {% if reqjson.category=="estates" %} selected {% endif %}>Estates</option>
+            <option value="financial" {% if reqjson.category=="financial" %} selected {% endif %}>Financial</option>
+            <option value="governance" {% if reqjson.category=="governance" %} selected {% endif %}>Governance</option>
+            <option value="management" {% if reqjson.category=="management" %} selected {% endif %}>Management</option>
+            <option value="regulatory" {% if reqjson.category=="regulatory" %} selected {% endif %}>Regulatory</option>
+            <option value="resources" {% if reqjson.category=="resources" %} selected {% endif %}>Resources</option>
+            <option value="scoperequirements" {% if reqjson.category=="scoperequirements" %} selected {% endif %}>Scope/Requirements</option>
+            <option value="schedule" {% if reqjson.category=="schedule" %} selected {% endif %}>Schedule</option>
+            <option value="security" {% if reqjson.category=="security" %} selected {% endif %}>Security</option>
+            <option value="stakeholdes" {% if reqjson.category=="stakeholdes" %} selected {% endif %}>Stakeholders</option>
+            <option value="strategy" {% if reqjson.category=="strategy" %} selected {% endif %}>Strategy</option>
+            <option value="technology" {% if reqjson.category=="technology" %} selected {% endif %}>Technology</option>
+            <option value="testing" {% if reqjson.category=="testing" %} selected {% endif %}>Testing</option>
+            <option value="training" {% if reqjson.category=="training" %} selected {% endif %}>Training</option>
+
           </select>
         </div>
 
@@ -112,9 +114,11 @@
             Lesson type
           </label><br>
           <select class="govuk-select" id="lesson_type" name="lesson_type">
-            <option value="none" selected></option>
-            <option value="www">What went well</option>
-            <option value="ebi">Even better if</option>
+
+            <option value="" selected></option>
+            <option value="www" {% if reqjson.lesson_type=="www" %} selected {% endif %}>What went well</option>
+            <option value="ebi" {% if reqjson.lesson_type=="ebi" %} selected {% endif %}>Even better if</option>
+
           </select>
         </div>
 
@@ -134,7 +138,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_day" name="date_from_day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_day" name="date_from_day" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_day }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -142,7 +146,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_month" name="date_from_month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_month" name="date_from_month" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_month }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -150,7 +154,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_from_year" name="date_from_year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_from_year" name="date_from_year" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="4" inputmode="numeric" value={{ reqjson.date_from_year }}>
                 </div>
               </div>
             </div>
@@ -173,7 +177,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_day" name="date_to_day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_day" name="date_to_day" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_day }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -181,7 +185,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-to-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_month" name="date_to_month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_month" name="date_to_month" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_month }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -189,7 +193,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_to_year" name="date_to_year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_to_year" name="date_to_year" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_year }}>
                 </div>
               </div>
             </div>
@@ -197,181 +201,43 @@
         </div>
 
         <input type="submit" draggable="false" value="Search" class="govuk-button">
-        <input type="reset" draggable="false" value="Reset" class="govuk-button govuk-button--secondary">
+        <a href="/search" value="Reset" class="govuk-button govuk-button--secondary">Reset</a>
 
       </form>
+
+      {% if lesson_details %} <!-- display table only if results exist -->
 
       <hr>
       <br>
 
-<!-- test -->
-<!-- TODO nunjucks hide table if no results -->
-<!-- TODO nunjucks for loop to display only the number of rows returned by search query -->
-<!-- TODO amend db query to return user name, not id -->
-<!-- TODO make lesson number a hyperlink to details page -->
+<!-- TODO amend DB query to return user name, not id -->
 
       <table class="govuk-table">
-      <thead class="govuk-table__head">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Lesson number</th>
+            <th scope="col" class="govuk-table__header">Date</th>
+            <th scope="col" class="govuk-table__header">Lesson summary</th>
+            <th scope="col" class="govuk-table__header">Uploaded by</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+
+        {% asyncEach lesson_detail in lesson_details %}
+
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Lesson number</th>
-          <th scope="col" class="govuk-table__header">Date</th>
-          <th scope="col" class="govuk-table__header">Lesson summary</th>
-          <th scope="col" class="govuk-table__header">Uploaded by</th>
+          <th scope="row" class="govuk-table__header"><a href="/{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}">{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}</a></th>
+          <td class="govuk-table__cell">{{lesson_detail.date_added | date }}</td>
+          <td class="govuk-table__cell">{{lesson_detail.summary}}</td>
+          <td class="govuk-table__cell">{{lesson_detail.username}}</td>
         </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[0].project_tp_num}}-{{lesson_details[0].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[0].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[0].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[0].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[1].project_tp_num}}-{{lesson_details[1].lesson_id}}</th>
-          <td class="govuk-table__cell" id="row1">{{lesson_details[1].date_added | date}}</td>
-          <td class="govuk-table__cell">{{lesson_details[1].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[1].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[2].project_tp_num}}-{{lesson_details[2].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[2].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[2].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[2].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[3].project_tp_num}}-{{lesson_details[3].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[3].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[3].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[3].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[4].project_tp_num}}-{{lesson_details[4].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[4].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[4].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[4].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[5].project_tp_num}}-{{lesson_details[5].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[5].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[5].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[5].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[6].project_tp_num}}-{{lesson_details[6].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[6].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[6].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[6].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[7].project_tp_num}}-{{lesson_details[7].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[7].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[7].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[7].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[8].project_tp_num}}-{{lesson_details[8].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[8].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[8].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[8].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[9].project_tp_num}}-{{lesson_details[9].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[9].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[9].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[9].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[10].project_tp_num}}-{{lesson_details[10].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[10].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[10].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[10].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[11].project_tp_num}}-{{lesson_details[11].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[11].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[11].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[11].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[12].project_tp_num}}-{{lesson_details[12].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[12].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[12].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[12].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[13].project_tp_num}}-{{lesson_details[13].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[13].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[13].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[13].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[14].project_tp_num}}-{{lesson_details[14].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[14].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[14].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[14].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[15].project_tp_num}}-{{lesson_details[15].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[15].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[15].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[15].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[16].project_tp_num}}-{{lesson_details[16].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[16].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[16].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[16].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[17].project_tp_num}}-{{lesson_details[17].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[17].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[17].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[17].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[18].project_tp_num}}-{{lesson_details[18].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[18].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[18].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[18].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[19].project_tp_num}}-{{lesson_details[19].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[19].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[19].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[19].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[20].project_tp_num}}-{{lesson_details[20].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[20].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[20].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[20].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[21].project_tp_num}}-{{lesson_details[21].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[21].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[21].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[21].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[22].project_tp_num}}-{{lesson_details[22].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[22].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[22].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[22].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[23].project_tp_num}}-{{lesson_details[23].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[23].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[23].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[23].uploaded_by}}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">{{lesson_details[24].project_tp_num}}-{{lesson_details[24].lesson_id}}</th>
-          <td class="govuk-table__cell">{{lesson_details[24].date_added | date }}</td>
-          <td class="govuk-table__cell">{{lesson_details[24].summary}}</td>
-          <td class="govuk-table__cell">{{lesson_details[24].uploaded_by}}</td>
-        </tr>
+
+        {% endeach %}
+
       </tbody>
     </table>
+
+    {% endif %}
 
     </div>
   </div>
