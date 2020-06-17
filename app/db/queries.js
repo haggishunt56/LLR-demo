@@ -27,7 +27,8 @@ module.exports = {
 
       let query = knex.select().table('lesson_details') //SELECT * FROM lesson_details;
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
-        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id');
+        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
 
       if(lessonName !== "") { //include only if field is not blank
         var initStr = `${lessonName}`;
@@ -70,13 +71,11 @@ module.exports = {
         //console.log(`${dateFromYear}`, `${dateFromMonth}`, `${dateFromDay}`);
         dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0);
         query.where('lesson_details.date_added', '>', dateFrom);
-        console.log(dateFrom);
       }
 
       if(dateToDay !== "") { //include only if field is not blank
         dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00);
         query.where('lesson_details.date_added', '<', dateTo);
-        console.log(dateTo);
       }
 
       return query;

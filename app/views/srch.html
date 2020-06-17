@@ -49,7 +49,7 @@
           <span id="date-from" class="govuk-hint">
             You can enter either the name of the project or the TP number.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text" value={{ reqjson.project_name }}>
+          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text" value="{{ reqjson.project_name }}">
         </div>
 
         <div class="govuk-form-group"> <!-- portfolio field -->
@@ -225,7 +225,7 @@
           <th scope="row" class="govuk-table__header"><a href="/{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}">{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}</a></th>
           <td class="govuk-table__cell">{{lesson_detail.date_added | date }}</td>
           <td class="govuk-table__cell">{{lesson_detail.summary}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.uploaded_by}}</td>
+          <td class="govuk-table__cell">{{lesson_detail.username}}</td>
         </tr>
 
         {% endeach %}

@@ -52,7 +52,7 @@ router.post('/search', (req, res) => {
     .then(
       lesson_details => {
         res.render('srch.html', {lesson_details, reqjson});
-      //res.send(lesson_details);
+        //res.send(lesson_details);
     });
 });
 
