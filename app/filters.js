@@ -44,6 +44,16 @@ module.exports = function (env) {
       return (dateStr.toString().slice(4,15));
     }
   }
+  filters.trim = function(fullStr) {
+    if (fullStr.length > 25) {
+      var trimStr = fullStr.substring(0, 25);
+      var newStr = trimStr.concat("...");
+      return (newStr);
+    }
+    else {
+      return (fullStr);
+    }
+  }
 
   /* ------------------------------------------------------------------
     keep the following line to return your filters to the app
