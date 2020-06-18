@@ -35,7 +35,7 @@ router.get('/:proj_id-:les_id', (req, res) => {
     });
 });
 
-//render search page when a user enters relevant URL
+//render search page
 router.get('/search', (req, res) => {
   res.render('srch.html');
 });
@@ -54,6 +54,11 @@ router.post('/search', (req, res) => {
         res.render('srch.html', {lesson_details, reqjson});
         //res.send(lesson_details);
     });
+});
+
+//render home page
+router.get('/home', (req, res) => {
+  res.render('hom.html');
 });
 
 //send bulk upload form as download
