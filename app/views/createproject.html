@@ -1,0 +1,181 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Lessons Learned Repository - LLR - Create
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Create a project</h1>
+
+      <form class="form" action="/home" method="post">
+
+        <div class="govuk-form-group"> <!-- Project name field -->
+          <label class="govuk-label--s" for="project-name">
+            Project name
+          </label><br>
+          <span id="project-name" class="govuk-hint">
+            Please enter the name of the project.
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="project-name" name="project-name" type="text">
+        </div>
+
+        <div class="govuk-form-group"> <!-- Project TP number field -->
+          <label class="govuk-label--s" for="project-tp-num">
+            Project TP number
+          </label><br>
+          <span id="project-name" class="govuk-hint">
+            Please enter the TP number of the project, for example, TP081
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="project-tp-num" name="project-tp-num" type="text">
+        </div>
+
+        <div class="govuk-form-group"> <!-- Date added field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date started
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-added">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-added-day" name="date-added-day" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-added-month" name="date-added-month" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-added-year" name="date-added-year" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="govuk-form-group"> <!-- Closure date field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-closed">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date closed
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-closed">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-closed-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-closed-day" name="date-closed-day" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-closed-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-closed-month" name="date-closed-month" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-closed-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-closed-year" name="date-closed-year" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="govuk-form-group"> <!-- Portfolio field -->
+          <label class="govuk-label--s" for="portfolio">
+            Portfolio
+          </label><br>
+          <select class="govuk-select" id="portfolio" name="portfolio">
+            <option value=""></option>
+            <option value="indigo">Indigo</option>
+            <option value="platinum">Platinum</option>
+            <option value="coral">Coral</option>
+            <option value="azure">Azure</option>
+          </select>
+        </div>
+
+        <div class="govuk-form-group"> <!-- SRM field -->
+          <label class="govuk-label--s" for="SRM">
+            Senior Responsible Manager (SRM)
+          </label>
+          <span id="SRM-hint" class="govuk-hint">
+            Please enter the full name of the person who is responsible for the project.
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="SRM" name="SRM" type="text">
+        </div>
+
+        <div class="govuk-form-group"> <!-- status field -->
+          <label class="govuk-label--s" for="status">
+            Status of project
+          </label><br>
+          <select class="govuk-select" id="status" name="status">
+            <option value=""></option>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+
+        <br>
+
+        <a href="/create_project_success" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
+          Create project
+        </a>
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

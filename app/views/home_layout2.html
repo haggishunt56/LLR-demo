@@ -32,6 +32,30 @@
 
 {% block head %}
   {% include "includes/head.html" %}
+  {{ govukHeader({
+    homepageUrl: "#",
+    serviceName: "Service name",
+    serviceUrl: "#",
+    navigation: [
+      {
+        href: "#1",
+        text: "Navigation item 1",
+        active: true
+      },
+      {
+        href: "#2",
+        text: "Navigation item 2"
+      },
+      {
+        href: "#3",
+        text: "Navigation item 3"
+      },
+      {
+        href: "#4",
+        text: "Navigation item 4"
+      }
+    ]
+  }) }}
 {% endblock %}
 
 {% block pageTitle %}
@@ -40,13 +64,6 @@
 
 {% block header %}
   {% include "includes/cookie-banner.html" %}
-  {# Set serviceName in config.js. #}
-  {{ govukHeader({
-    homepageUrl: "/",
-    serviceName: serviceName,
-    serviceUrl: "/",
-    containerClasses: "govuk-width-container"
-  }) }}
 {% endblock %}
 
 {% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
