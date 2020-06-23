@@ -89,8 +89,8 @@ router.post('/createlesson', (req, res) => {
       reqjson.target_date_year)
     .then(
       createLesson => {
-        //res.render('create_lesson_success.html', {createLesson});
-        res.send(createLesson);
+        res.render('create_lesson_success.html', {createLesson});
+        //res.send(createLesson);
     });
 });
 
