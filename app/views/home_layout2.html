@@ -33,26 +33,22 @@
 {% block head %}
   {% include "includes/head.html" %}
   {{ govukHeader({
-    homepageUrl: "#",
-    serviceName: "Service name",
-    serviceUrl: "#",
+    homepageUrl: "/home",
+    serviceName: "Lessons Learned Repository",
+    serviceUrl: "/home",
     navigation: [
       {
         href: "#1",
-        text: "Navigation item 1",
+        text: "Upload",
         active: true
       },
       {
         href: "#2",
-        text: "Navigation item 2"
+        text: "Create"
       },
       {
         href: "#3",
-        text: "Navigation item 3"
-      },
-      {
-        href: "#4",
-        text: "Navigation item 4"
+        text: "Search"
       }
     ]
   }) }}

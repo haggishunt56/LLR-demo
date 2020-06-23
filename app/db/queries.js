@@ -1,7 +1,7 @@
 const knex = require('./knex');
 
 module.exports = {
-  lessons: {
+  searchLessons: {
     getAll: function() {
       //SELECT * FROM lesson_details;
       return knex('lesson_details');
@@ -12,15 +12,6 @@ module.exports = {
         .table('lesson_details')
         .where('lesson_details.project_tp_num', 'like', `%${id}%`)
         ; //create and return json files with result of db query
-    },
-    getByProject: function(lessonName, projectName, portfolio, category, type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear) {
-      //SELECT * FROM lesson_details WHERE project_tp_num = id OR project_name = id;
-      return knex.select()
-        .table('lesson_details')
-        .fullOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
-        .where('lesson_details.project_tp_num', 'ilike', `%${id}%`)
-        .orWhere('project_details.project_name', 'ilike', `%${id}%`)
-        ;
     },
     getBySearchFields: function(lessonName, projectName, portfolio, category, type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear) {
       //SELECT * FROM lesson_details WHERE lesson_name = lessonName, project_name = projectName etc...;
@@ -86,6 +77,21 @@ module.exports = {
       return knex('lesson_details')
         .where('project_tp_num', project)
         .where('lesson_id', lesson)
+      ;
+    }
+  },
+  createLesson: {
+    createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
+        how_identified, summary, details, target_date_day, target_date_month, target_date_year) {
+
+      var targetDate = new Date(`${target_date_year}`, `${target_date_month}`, `${target_date_day}`, 0, 0, 0);
+      //INSERT INTO lesson_details VALUES [args]
+
+      return knex.insert({category: `${category}`, date_added: '2020-02-23', description: `${details}`,
+        how_identified: `${how_identified}`, identified_by: `${identified_by}`,
+        identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
+        summary: `${summary}`, target_date: targetDate, uploaded_by: '1', www_ebi: `${type}`}, ['lesson_id', 'project_tp_num'])
+        .into('lesson_details')
       ;
     }
   }
