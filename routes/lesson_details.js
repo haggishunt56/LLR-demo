@@ -7,18 +7,8 @@ const queries = require('../app/db/queries');
 //return raw json with full details of all lessons in the table
 router.get('/lessondetails', (req, res) => {
   queries
-    .searchLessons
+    .Lessons
     .getAll()
-    .then(lesson_details => {
-      res.json(lesson_details);
-    });
-});
-
-//return raw json with full details of all lessons related to a single project
-router.get('/lessondetails/:proj_id', (req, res) => {
-  queries
-    .searchLessons
-    .getByProject(req.params.proj_id)
     .then(lesson_details => {
       res.json(lesson_details);
     });
