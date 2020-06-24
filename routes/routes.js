@@ -26,12 +26,12 @@ router.get('/:proj_id-:les_id', (req, res) => {
 });
 
 //render search page
-router.get('/searchlesson', (req, res) => {
-  res.render('srch.html');
+router.get('/search/lessons', (req, res) => {
+  res.render('search/lessons.html');
 });
 
 //render data onto results table when a user searches for a lesson
-router.post('/searchlesson', (req, res) => {
+router.post('/search/lessons', (req, res) => {
   const reqjson = req.body;
   queries
     .searchLessons
@@ -41,28 +41,47 @@ router.post('/searchlesson', (req, res) => {
       reqjson.date_to_day, reqjson.date_to_month, reqjson.date_to_year)
     .then(
       lesson_details => {
-        res.render('srch.html', {lesson_details, reqjson});
+        res.render('search/lessons.html', {lesson_details, reqjson});
         //res.send(lesson_details);
     });
 });
 
 //render home page
 router.get('/home', (req, res) => {
-  res.render('hom.html');
+  res.render('home.html');
 });
 
-router.get('/createlesson', (req,res) => {
-  res.render('createlssn.html');
+//render createwhat page
+router.get('/create', (req, res) => {
+  res.render('create/createwhat.html');
 });
 
-router.post('/createlesson', (req, res) => {
+router.post('/create', (req, res) => {
+  if (req.body.lessonproject == 'lesson') {
+    res.render('create/lesson.html');
+  }
+  else if (req.body.lessonproject == 'project') {
+    res.render('create/project.html');
+  }
+  else {
+    res.render('create/createwhat.html'); //TODO validation and error message
+  };
+});
+
+//render create lesson page
+router.get('/create/lesson', (req,res) => {
+  res.render('create/lesson.html');
+});
+
+//add lesson to database and show success page
+router.post('/create/lesson', (req, res) => {
   reqjson = req.body;
   //res.send(reqjson);
 
-  if (reqjson.lesson_type_ebi = "ebi") {
+  if (reqjson.lesson_type_ebi == "ebi") {
     var lesson_type = "ebi";
   }
-  else if (reqjson.lesson_type_www = "www") {
+  else if (reqjson.lesson_type_www == "www") {
     var lesson_type = "www";
   }
   else {
@@ -79,10 +98,17 @@ router.post('/createlesson', (req, res) => {
       reqjson.target_date_year)
     .then(
       createLesson => {
-        res.render('create_lesson_success.html', {createLesson});
+        res.render('create/lessonsuccess.html', {createLesson});
         //res.send(createLesson);
     });
 });
+
+//TODO render create project page
+router.get('/create/project', (req,res) => {
+  res.render('create/project.html');
+});
+
+//TODO add project to database and show success page
 
 //send bulk upload form as download
 router.get('/file/bulkupload', function (req, res) {

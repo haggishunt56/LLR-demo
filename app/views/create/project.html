@@ -33,7 +33,7 @@
 
       <h1 class="govuk-heading-xl">Create a project</h1>
 
-      <form class="form" action="/home" method="post">
+      <form class="form" action="create/project" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Project name field -->
           <label class="govuk-label--s" for="project-name">
@@ -169,9 +169,7 @@
 
         <br>
 
-        <a href="/create_project_success" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
-          Create project
-        </a>
+        <input type="submit" draggable="false" value="Create" class="govuk-button">
 
       </form>
 
