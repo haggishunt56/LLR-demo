@@ -25,9 +25,28 @@ router.get('/:proj_id-:les_id', (req, res) => {
     });
 });
 
-//render search page
-router.get('/search/lessons', (req, res) => {
-  res.render('search/lessons.html');
+//render home page
+router.get('/home', (req, res) => {
+  res.render('home.html');
+});
+
+//render searchwhat  page
+router.get('/search', (req,res) => {
+  res.render('search/searchwhat.html');
+});
+
+//handle response to searchwhat question
+router.post('/search', (req, res) => {
+  //res.send(req.body);
+  if (req.body.lessonproject == 'lesson') {
+    res.render('search/lessons.html');
+  }
+  else if (req.body.lessonproject == 'project') {
+    res.render('search/projects.html');
+  }
+  else {
+    res.render('search/searchwhat.html'); //TODO validation and error message
+  };
 });
 
 //render data onto results table when a user searches for a lesson
@@ -46,16 +65,12 @@ router.post('/search/lessons', (req, res) => {
     });
 });
 
-//render home page
-router.get('/home', (req, res) => {
-  res.render('home.html');
-});
-
 //render createwhat page
 router.get('/create', (req, res) => {
   res.render('create/createwhat.html');
 });
 
+//handle response to createwhat question
 router.post('/create', (req, res) => {
   if (req.body.lessonproject == 'lesson') {
     res.render('create/lesson.html');
@@ -110,18 +125,19 @@ router.get('/create/project', (req,res) => {
 //add project to database and show success page
 router.post('/create/project', (req, res) => {
   reqjson = req.body;
-  res.send(reqjson.project_tp_num);
-  // queries
-  //   .createProject(reqjson.project_name, reqjson.project_tp_num,
-  //     reqjson.date_started_day, reqjson.date_started_month,
-  //     reqjson.date_started_year, reqjson.date_closed_day,
-  //     reqjson.date_closed_month, reqjson.date_closed_year, reqjson.portfolio,
-  //     reqjson.SRM, reqjson.status)
-  //   .then(
-  //     createProject => {
-  //       //res.render('create/projectsuccess.html', {createProject});
-  //       res.send(createProject);
-  //   });
+  //res.send(reqjson.project_tp_num);
+  queries
+    .createProject(reqjson.project_name, reqjson.project_tp_num,
+      reqjson.date_started_day, reqjson.date_started_month,
+      reqjson.date_started_year, reqjson.date_closed_day,
+      reqjson.date_closed_month, reqjson.date_closed_year, reqjson.portfolio,
+      reqjson.SRM, reqjson.status)
+    .then(
+      createProject => {
+        res.render('create/projectsuccess.html', {createProject});
+        //res.send(createProject);
+    })
+    ;
 });
 
 //send bulk upload form as download

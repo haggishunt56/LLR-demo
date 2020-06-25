@@ -33,20 +33,20 @@
 
       <h1 class="govuk-heading-xl">What would you like to search?</h1>
 
-      <form class="form" action="/home" method="post">
+      <form class="form" action="/search" method="post">
 
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
             <div class="govuk-radios govuk-radios--inline">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="changed-name" name="changed-name" type="radio" value="yes">
-                <label class="govuk-label govuk-radios__label" for="changed-name">
+                <input class="govuk-radios__input" id="lesson_radio" name="lessonproject" type="radio" value="lesson">
+                <label class="govuk-label govuk-radios__label" for="lesson">
                   Lessons
                 </label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="changed-name-2" name="changed-name" type="radio" value="no">
-                <label class="govuk-label govuk-radios__label" for="changed-name-2">
+                <input class="govuk-radios__input" id="project_radio" name="lessonproject" type="radio" value="project">
+                <label class="govuk-label govuk-radios__label" for="lesson">
                   Projects
                 </label>
               </div>
@@ -54,9 +54,7 @@
           </fieldset>
         </div>
 
-        <a href="/create_lesson_success" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
-          Search
-        </a>
+        <input type="submit" draggable="false" value="Next" class="govuk-button">
 
       </form>
 
