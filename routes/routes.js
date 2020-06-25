@@ -90,7 +90,6 @@ router.post('/create/lesson', (req, res) => {
   //res.send(lesson_type);
 
   queries
-    .createLesson
     .createLesson(reqjson.project_tp_num, reqjson.lesson_category,
       lesson_type, reqjson.identified_by, reqjson.identified_by_area,
       reqjson.how_identified, reqjson.summary, reqjson.details,
@@ -103,12 +102,27 @@ router.post('/create/lesson', (req, res) => {
     });
 });
 
-//TODO render create project page
+//render create project page
 router.get('/create/project', (req,res) => {
   res.render('create/project.html');
 });
 
-//TODO add project to database and show success page
+//add project to database and show success page
+router.post('/create/project', (req, res) => {
+  reqjson = req.body;
+  res.send(reqjson.project_tp_num);
+  // queries
+  //   .createProject(reqjson.project_name, reqjson.project_tp_num,
+  //     reqjson.date_started_day, reqjson.date_started_month,
+  //     reqjson.date_started_year, reqjson.date_closed_day,
+  //     reqjson.date_closed_month, reqjson.date_closed_year, reqjson.portfolio,
+  //     reqjson.SRM, reqjson.status)
+  //   .then(
+  //     createProject => {
+  //       //res.render('create/projectsuccess.html', {createProject});
+  //       res.send(createProject);
+  //   });
+});
 
 //send bulk upload form as download
 router.get('/file/bulkupload', function (req, res) {

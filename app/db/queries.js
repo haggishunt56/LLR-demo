@@ -80,19 +80,30 @@ module.exports = {
       ;
     }
   },
-  createLesson: {
-    createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
-        how_identified, summary, details, target_date_day, target_date_month, target_date_year) {
+  createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
+      how_identified, summary, details, target_date_day, target_date_month, target_date_year) {
 
-      var targetDate = new Date(`${target_date_year}`, `${target_date_month}`, `${target_date_day}`, 0, 0, 0);
-      //INSERT INTO lesson_details VALUES [args]
+    var targetDate = new Date(`${target_date_year}`, `${target_date_month}`, `${target_date_day}`, 0, 0, 0);
+    //INSERT INTO lesson_details VALUES [args]
 
-      return knex.insert({category: `${category}`, date_added: '2020-02-23', description: `${details}`,
-        how_identified: `${how_identified}`, identified_by: `${identified_by}`,
-        identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
-        summary: `${summary}`, target_date: targetDate, uploaded_by: '1', www_ebi: `${type}`}, ['lesson_id', 'project_tp_num'])
-        .into('lesson_details')
-      ;
-    }
+    return knex.insert({category: `${category}`, date_added: '2020-02-23', description: `${details}`,
+      how_identified: `${how_identified}`, identified_by: `${identified_by}`,
+      identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
+      summary: `${summary}`, target_date: targetDate, uploaded_by: '1', www_ebi: `${type}`}, ['lesson_id', 'project_tp_num'])
+      .into('lesson_details')
+    ;
+  },
+  createProject: function(projectName, projectTpNum, dateStartedDay,
+    dateStartedMonth, dateStartedYear, dateClosedDay, dateClosedMonth,
+    dateClosedYear, portfolio, srm, status) {
+
+    var startDate = new Date(`${dateStartedYear}`, `${dateStartedMonth}`, `${dateStartedDay}`, 0, 0, 0);
+    var closedDate = new Date(`${dateClosedYear}`, `${dateClosedMonth}`, `${dateClosedDay}`, 0, 0, 0);
+
+    return knex.insert({project_tp_num: `${projectTpNum}`, project_name: `${projectName}`,
+      start_date: startDate, closure_date: closedDate, srm: `${srm}`, status:`${status}`,
+       portfolio:'1'}, ['project_tp_num'])
+      .into('project_details')
+    ;
   }
 }
