@@ -33,13 +33,13 @@
 
       <h1 class="govuk-heading-xl">Search for a lesson</h1>
 
-      <form class="form" action="search/lessons" method="post" enctype='application/json'>
+      <form class="form" action="search" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Lesson name field -->
           <label class="govuk-label--s" for="Lesson name">
             Lesson name
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="lesson_name" name="lesson_name" type="text" pattern="[0-9]*" value={{ reqjson.lesson_name }}>
+          <input class="govuk-input govuk-!-width-two-thirds" id="lessonName" name="lessonName" type="text" pattern="[0-9]*" value={{ reqjson.lesson_name }}>
         </div>
 
         <div class="govuk-form-group"> <!-- Project name field -->
@@ -49,7 +49,7 @@
           <span id="date-from" class="govuk-hint">
             You can enter either the name of the project or the TP number.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text" value="{{ reqjson.project_name }}">
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value="{{ reqjson.project_name }}">
         </div>
 
         <div class="govuk-form-group"> <!-- portfolio field -->
@@ -113,11 +113,11 @@
           <label class="govuk-label--s" for="Lesson type">
             Lesson type
           </label><br>
-          <select class="govuk-select" id="lesson_type" name="lesson_type">
+          <select class="govuk-select" id="lessonType" name="lessonType">
 
             <option value="" selected></option>
-            <option value="www" {% if reqjson.lesson_type=="www" %} selected {% endif %}>What went well</option>
-            <option value="ebi" {% if reqjson.lesson_type=="ebi" %} selected {% endif %}>Even better if</option>
+            <option value="www" {% if reqjson.lessonType=="www" %} selected {% endif %}>What went well</option>
+            <option value="ebi" {% if reqjson.lessonType=="ebi" %} selected {% endif %}>Even better if</option>
 
           </select>
         </div>
@@ -135,10 +135,10 @@
             <div class="govuk-date-input" id="date-from">
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date_from_day">
+                  <label class="govuk-label govuk-date-input__label" for="date-from-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_day" name="date_from_day" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_day }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromDay" name="dateFromDay" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_day }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -146,7 +146,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_from_month" name="date_from_month" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_month }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromMonth" name="dateFromMonth" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_month }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -154,7 +154,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_from_year" name="date_from_year" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="4" inputmode="numeric" value={{ reqjson.date_from_year }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateFromYear" name="dateFromYear" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="4" inputmode="numeric" value={{ reqjson.date_from_year }}>
                 </div>
               </div>
             </div>
@@ -177,7 +177,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_day" name="date_to_day" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_day }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToDay" name="dateToDay" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_day }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -185,7 +185,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-to-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_to_month" name="date_to_month" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_month }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToMonth" name="dateToMonth" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_month }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -193,7 +193,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_to_year" name="date_to_year" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_year }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateToYear" name="dateToYear" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_year }}>
                 </div>
               </div>
             </div>
@@ -201,7 +201,7 @@
         </div>
 
         <input type="submit" draggable="false" value="Search" class="govuk-button">
-        <a href="/searchlesson" value="Reset" class="govuk-button govuk-button--secondary">Reset</a>
+        <!--<a href="search/lessons" value="Reset" class="govuk-button govuk-button--secondary">Reset</a> <!-- TODO reset button only works once. need to correct routing -->
 
       </form>
 

@@ -35,42 +35,43 @@ router.get('/search', (req,res) => {
   res.render('search/searchwhat.html');
 });
 
-//handle response to searchwhat question
+//handle responses to search forms
 router.post('/search', (req, res) => {
-  //res.send(req.body);
   if (req.body.lessonproject == 'lesson') {
     res.render('search/lessons.html');
   }
   else if (req.body.lessonproject == 'project') {
     res.render('search/projects.html');
   }
-  else {
+  else if (JSON.stringify(req.body) === '{}') {
     res.render('search/searchwhat.html'); //TODO validation and error message
+  }
+  else {
+    const reqjson = req.body;
+    queries
+      .searchLessons
+      .getBySearchFields(reqjson.lessonName, reqjson.projectName,
+        reqjson.portfolio, reqjson.category, reqjson.lessonType,
+        reqjson.dateFromDay, reqjson.dateFromMonth, reqjson.dateFromYear,
+        reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear)
+      .then(
+        lesson_details => {
+          res.render('search/lessons.html', {lesson_details, reqjson});
+          //res.send(lesson_details);
+      });
   };
 });
 
-//render data onto results table when a user searches for a lesson
-router.post('/search/lessons', (req, res) => {
-  const reqjson = req.body;
-  queries
-    .searchLessons
-    .getBySearchFields(reqjson.lesson_name, reqjson.project_name,
-      reqjson.portfolio, reqjson.category, reqjson.lesson_type,
-      reqjson.date_from_day, reqjson.date_from_month, reqjson.date_from_year,
-      reqjson.date_to_day, reqjson.date_to_month, reqjson.date_to_year)
-    .then(
-      lesson_details => {
-        res.render('search/lessons.html', {lesson_details, reqjson});
-        //res.send(lesson_details);
-    });
-});
+//TODO render search projects page
+
+//TOTO return project search results
 
 //render createwhat page
 router.get('/create', (req, res) => {
   res.render('create/createwhat.html');
 });
 
-//handle response to createwhat question
+//handle response to create forms
 router.post('/create', (req, res) => {
   if (req.body.lessonproject == 'lesson') {
     res.render('create/lesson.html');
@@ -78,44 +79,42 @@ router.post('/create', (req, res) => {
   else if (req.body.lessonproject == 'project') {
     res.render('create/project.html');
   }
-  else {
+  else if (JSON.stringify(req.body) === '{}') {
     res.render('create/createwhat.html'); //TODO validation and error message
+  }
+  else {
+    reqjson = req.body;
+    //res.send(reqjson);
+
+    if (reqjson.lesson_type_ebi == "ebi") {
+      var lesson_type = "ebi";
+    }
+    else if (reqjson.lesson_type_www == "www") {
+      var lesson_type = "www";
+    }
+    else {
+      var lesson_type = "";
+    }
+    //res.send(lesson_type);
+
+    queries
+      .createLesson(reqjson.projectTpNum, reqjson.lessonCategory,
+        lesson_type, reqjson.identifiedBy, reqjson.identifiedByArea,
+        reqjson.howIdentified, reqjson.summary, reqjson.details,
+        reqjson.targetDateDay, reqjson.targetDateMonth,
+        reqjson.targetDateYear)
+      .then(
+        createLesson => {
+          res.render('create/lessonsuccess.html', {createLesson});
+          //res.send(createLesson);
+      });
   };
 });
 
-//render create lesson page
-router.get('/create/lesson', (req,res) => {
-  res.render('create/lesson.html');
-});
-
-//add lesson to database and show success page
-router.post('/create/lesson', (req, res) => {
-  reqjson = req.body;
-  //res.send(reqjson);
-
-  if (reqjson.lesson_type_ebi == "ebi") {
-    var lesson_type = "ebi";
-  }
-  else if (reqjson.lesson_type_www == "www") {
-    var lesson_type = "www";
-  }
-  else {
-    var lesson_type = "";
-  }
-  //res.send(lesson_type);
-
-  queries
-    .createLesson(reqjson.project_tp_num, reqjson.lesson_category,
-      lesson_type, reqjson.identified_by, reqjson.identified_by_area,
-      reqjson.how_identified, reqjson.summary, reqjson.details,
-      reqjson.target_date_day, reqjson.target_date_month,
-      reqjson.target_date_year)
-    .then(
-      createLesson => {
-        res.render('create/lessonsuccess.html', {createLesson});
-        //res.send(createLesson);
-    });
-});
+//handle route from create leson success to create lesson
+router.post('/create/lessonsuccess', (req, res) => {
+  router.get('/create/lesson')
+})
 
 //render create project page
 router.get('/create/project', (req,res) => {
@@ -125,9 +124,8 @@ router.get('/create/project', (req,res) => {
 //add project to database and show success page
 router.post('/create/project', (req, res) => {
   reqjson = req.body;
-  //res.send(reqjson.project_tp_num);
   queries
-    .createProject(reqjson.project_name, reqjson.project_tp_num,
+    .createProject(reqjson.projectName, reqjson.project_tp_num,
       reqjson.date_started_day, reqjson.date_started_month,
       reqjson.date_started_year, reqjson.date_closed_day,
       reqjson.date_closed_month, reqjson.date_closed_year, reqjson.portfolio,
@@ -135,7 +133,6 @@ router.post('/create/project', (req, res) => {
     .then(
       createProject => {
         res.render('create/projectsuccess.html', {createProject});
-        //res.send(createProject);
     })
     ;
 });
