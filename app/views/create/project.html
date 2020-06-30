@@ -33,7 +33,7 @@
 
       <h1 class="govuk-heading-xl">Create a project</h1>
 
-      <form class="form" action="create/project" method="post" enctype='application/json'>
+      <form class="form" action="create" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Project name field -->
           <label class="govuk-label--s" for="project-name">
@@ -42,7 +42,7 @@
           <span id="project-name" class="govuk-hint">
             Please enter the name of the project.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text">
         </div>
 
         <div class="govuk-form-group"> <!-- Project TP number field -->
@@ -52,7 +52,7 @@
           <span id="project-name" class="govuk-hint">
             Please enter the TP number of the project, for example, TP081
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="project_tp_num" name="project_tp_num" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text">
         </div>
 
         <div class="govuk-form-group"> <!-- Date added field -->
@@ -68,10 +68,10 @@
             <div class="govuk-date-input" id="date-added">
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-added-day">
+                  <label class="govuk-label govuk-date-input__label" for="date-started-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_started_day" name="date_started_day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateStartedDay" name="dateStartedDay" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -79,7 +79,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_started_month" name="date_started_month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateStartedMonth" name="dateStartedMonth" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -87,7 +87,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_started_year" name="date_started_year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateStartedYear" name="dateStartedYear" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
             </div>
@@ -110,7 +110,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-closed-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_closed_day" name="date_closed_day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedDay" name="dateClosedDay" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -118,7 +118,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-closed-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date_closed_month" name="date_closed_month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedMonth" name="dateClosedMonth" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -126,7 +126,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-closed-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date_closed_year" name="date_closed_year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateClosedYear" name="dateClosedYear" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
             </div>
