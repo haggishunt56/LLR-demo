@@ -13,7 +13,9 @@ module.exports = {
         .where('lesson_details.project_tp_num', 'like', `%${id}%`)
         ; //create and return json files with result of db query
     },
-    getBySearchFields: function(lessonName, projectName, portfolio, category, type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear) {
+    getBySearchFields: function(lessonName, projectName, portfolio, category,
+      type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth,
+      dateToYear) {
       //SELECT * FROM lesson_details WHERE lesson_name = lessonName, project_name = projectName etc...;
 
       let query = knex.select().table('lesson_details') //SELECT * FROM lesson_details;
@@ -80,8 +82,43 @@ module.exports = {
       ;
     }
   },
+  searchProjects: {
+    getBySearchFields: function(projectName, portfolio, status, dateFromDay,
+      dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear) {
+
+      let query = knex.select().table('project_details') //SELECT * FROM lesson_details;
+        // .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        // .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
+
+      if (projectName !== "") { //include only if search field is not blank
+        query.where('project_details.project_name', 'ilike', `%${projectName}%`);
+      }
+
+      if(portfolio !== "") { //include search param only if field is not blank
+        query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
+      }
+
+      if (status !== "") { //include only if field is not blank
+        query.where('project_details.status', 'ilike', `%${status}%`);
+      }
+
+      if(dateFromDay !== "") { //include only if field is not blank
+        //console.log(`${dateFromYear}`, `${dateFromMonth}`, `${dateFromDay}`);
+        dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0);
+        query.where('lesson_details.start_date', '>', dateFrom);
+      }
+
+      if(dateToDay !== "") { //include only if field is not blank
+        dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00);
+        query.where('lesson_details.start_date', '<', dateTo);
+      }
+
+      return query;
+    }
+  },
   createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
-      how_identified, summary, details, target_date_day, target_date_month, target_date_year) {
+    how_identified, summary, details, target_date_day, target_date_month, target_date_year) {
 
     var targetDate = new Date(`${target_date_year}`, `${target_date_month}`, `${target_date_day}`, 0, 0, 0);
     //INSERT INTO lesson_details VALUES [args]

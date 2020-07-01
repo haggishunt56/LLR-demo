@@ -44,9 +44,10 @@ router.post('/search', (req, res) => {
     res.render('search/projects.html');
   }
   else if (JSON.stringify(req.body) === '{}') {
+    //res.send(req.body);
     res.render('search/searchwhat.html'); //TODO validation and error message
   }
-  else {
+  else if ('projectName' in req.body) { //search lessons
     const reqjson = req.body;
     queries
       .searchLessons
@@ -57,12 +58,21 @@ router.post('/search', (req, res) => {
       .then(
         lesson_details => {
           res.render('search/lessons.html', {lesson_details, reqjson});
-          //res.send(lesson_details);
       });
+  }
+  else { //search projects
+    const reqjson = req.body;
+    queries
+      .searchProjects
+      .getBySearchFields(reqjson.projectName_proj, reqjson.portfolio, reqjson.status,
+        reqjson.dateFromDay, reqjson.dateFromMonth, reqjson.dateFromYear,
+        reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear)
+      .then(
+        project_details => {
+          res.render('search/projects.html', {project_details, reqjson});
+        });
   };
 });
-
-//TODO render search projects page
 
 //TOTO return project search results
 

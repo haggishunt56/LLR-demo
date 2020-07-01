@@ -33,7 +33,7 @@
 
       <h1 class="govuk-heading-xl">Search for a project</h1>
 
-      <form class="form" action="search/project" method="post" enctype='application/json'>
+      <form class="form" action="search" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Project name field -->
           <label class="govuk-label--s" for="Project name">
@@ -42,7 +42,7 @@
           <span id="date-from" class="govuk-hint">
             You can enter either the name of the project or the TP number.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value="{{ reqjson.project_name }}">
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectName_proj" name="projectName_proj" type="text" value="{{ reqjson.projectName_proj }}">
         </div>
 
         <div class="govuk-form-group"> <!-- portfolio field -->
@@ -94,10 +94,10 @@
             <div class="govuk-date-input" id="date-from">
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="dateAddedDay">
+                  <label class="govuk-label govuk-date-input__label" for="date_from_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromDay" name="dateFromDay" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_day }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromDay" name="dateFromDay" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.dateFromDay }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -105,7 +105,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromMonth" name="dateFromMonth" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.date_from_month }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromMonth" name="dateFromMonth" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.dateFromMonth }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -113,7 +113,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateFromYear" name="dateFromYear" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="4" inputmode="numeric" value={{ reqjson.date_from_year }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateFromYear" name="dateFromYear" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="4" inputmode="numeric" value={{ reqjson.dateFromYear }}>
                 </div>
               </div>
             </div>
@@ -136,7 +136,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToDay" name="dateToDay" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_day }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToDay" name="dateToDay" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateToDay }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -144,7 +144,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-to-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToMonth" name="dateToMonth" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_month }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToMonth" name="dateToMonth" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateToMonth }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -152,25 +152,22 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateToYear" name="dateToYear" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.date_to_year }}>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateToYear" name="dateToYear" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateToYear }}>
                 </div>
               </div>
             </div>
             </fieldset>
         </div>
 
-        <!-- <input type="submit" draggable="false" value="Search" class="govuk-button"> -->
-        <a href="project_details.html" value="Search" class="govuk-button">Search</a>
+        <input type="submit" draggable="false" value="Search" class="govuk-button">
         <a href="/search" value="Reset" class="govuk-button govuk-button--secondary">Reset</a>
 
       </form>
 
-      <!-- {% if lesson_details %}  display table only if results exist -->
+      {% if project_details %} <!-- display table only if results exist -->
 
       <hr>
       <br>
-
-<!-- TODO amend DB query to return user name, not id -->
 
       <table class="govuk-table">
         <thead class="govuk-table__head">
@@ -184,14 +181,14 @@
         </thead>
         <tbody class="govuk-table__body">
 
-        {% asyncEach lesson_detail in lesson_details %}
+        {% asyncEach project_detail in project_details %}
 
         <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"><a href="/{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}">{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}</a></th>
-          <td class="govuk-table__cell">{{lesson_detail.project_name | trim}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.status}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.portfolio_name}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.date_added | date }}</td>
+          <th scope="row" class="govuk-table__header"><a href="#">{{project_detail.project_tp_num}}</a></th>
+          <td class="govuk-table__cell">{{project_detail.project_name | trim}}</td>
+          <td class="govuk-table__cell">{{project_detail.status}}</td>
+          <td class="govuk-table__cell">{{project_detail.portfolio_name}}</td>
+          <td class="govuk-table__cell">{{project_detail.date_added | date }}</td>
 
         </tr>
 
@@ -200,7 +197,7 @@
       </tbody>
     </table>
 
-    <!--{% endif %}-->
+    {% endif %}
 
     </div>
   </div>
