@@ -21,7 +21,7 @@ router.get('/:proj_id-:les_id', (req, res) => {
     .getByProjectLesson(req.params.proj_id, req.params.les_id)
     .then(lesson_details => {
       //res.json(lesson_details);
-      res.render('lesson_details.html', {lesson_details});
+      res.render('view/lesson_details.html', {lesson_details});
     });
 });
 
@@ -30,47 +30,48 @@ router.get('/home', (req, res) => {
   res.render('home.html');
 });
 
-//render searchwhat  page
+//render searchwhat page
 router.get('/search', (req,res) => {
   res.render('search/searchwhat.html');
 });
 
-//handle response to searchwhat question
+//handle responses to search forms
 router.post('/search', (req, res) => {
-  //res.send(req.body);
   if (req.body.lessonproject == 'lesson') {
     res.render('search/lessons.html');
   }
   else if (req.body.lessonproject == 'project') {
     res.render('search/projects.html');
   }
-  else {
+  else if (JSON.stringify(req.body) === '{}') {
     res.render('search/searchwhat.html'); //TODO validation and error message
+  }
+  else {
+    const reqjson = req.body;
+    queries
+      .searchLessons
+      .getBySearchFields(reqjson.lessonName, reqjson.projectName,
+        reqjson.portfolio, reqjson.category, reqjson.lessonType,
+        reqjson.dateFromDay, reqjson.dateFromMonth, reqjson.dateFromYear,
+        reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear)
+      .then(
+        lesson_details => {
+          res.render('search/lessons.html', {lesson_details, reqjson});
+          //res.send(lesson_details);
+      });
   };
 });
 
-//render data onto results table when a user searches for a lesson
-router.post('/search/lessons', (req, res) => {
-  const reqjson = req.body;
-  queries
-    .searchLessons
-    .getBySearchFields(reqjson.lesson_name, reqjson.project_name,
-      reqjson.portfolio, reqjson.category, reqjson.lesson_type,
-      reqjson.date_from_day, reqjson.date_from_month, reqjson.date_from_year,
-      reqjson.date_to_day, reqjson.date_to_month, reqjson.date_to_year)
-    .then(
-      lesson_details => {
-        res.render('search/lessons.html', {lesson_details, reqjson});
-        //res.send(lesson_details);
-    });
-});
+//TODO render search projects page
+
+//TOTO return project search results
 
 //render createwhat page
 router.get('/create', (req, res) => {
   res.render('create/createwhat.html');
 });
 
-//handle response to createwhat question
+//handle responses to create forms
 router.post('/create', (req, res) => {
   if (req.body.lessonproject == 'lesson') {
     res.render('create/lesson.html');
@@ -78,66 +79,44 @@ router.post('/create', (req, res) => {
   else if (req.body.lessonproject == 'project') {
     res.render('create/project.html');
   }
-  else {
+  else if (JSON.stringify(req.body) === '{}') {
     res.render('create/createwhat.html'); //TODO validation and error message
+  }
+  else if ('targetDateDay' in req.body) { //create lesson
+
+    if (req.body.lesson_type_ebi == "ebi") {
+      var lesson_type = "ebi";
+    }
+    else if (req.body.lesson_type_www == "www") {
+      var lesson_type = "www";
+    }
+    else {
+      var lesson_type = "";
+    }
+    queries
+      .createLesson(req.body.projectTpNum, req.body.lessonCategory,
+        lesson_type, req.body.identifiedBy, req.body.identifiedByArea,
+        req.body.howIdentified, req.body.summary, req.body.details,
+        req.body.targetDateDay, req.body.targetDateMonth,
+        req.body.targetDateYear)
+      .then(
+        createLesson => {
+          res.render('create/lessonsuccess.html', {createLesson});
+          //res.send(createLesson);
+      });
+  }
+  else { //create project
+    queries
+      .createProject(req.body.projectName, req.body.projectTpNum,
+        req.body.dateStartedDay, req.body.dateStartedMonth,
+        req.body.dateStartedYear, req.body.dateClosedDay,
+        req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
+        req.body.SRM, req.body.status)
+      .then(
+        createProject => {
+          res.render('create/projectsuccess.html', {createProject});
+      });
   };
-});
-
-//render create lesson page
-router.get('/create/lesson', (req,res) => {
-  res.render('create/lesson.html');
-});
-
-//add lesson to database and show success page
-router.post('/create/lesson', (req, res) => {
-  reqjson = req.body;
-  //res.send(reqjson);
-
-  if (reqjson.lesson_type_ebi == "ebi") {
-    var lesson_type = "ebi";
-  }
-  else if (reqjson.lesson_type_www == "www") {
-    var lesson_type = "www";
-  }
-  else {
-    var lesson_type = "";
-  }
-  //res.send(lesson_type);
-
-  queries
-    .createLesson(reqjson.project_tp_num, reqjson.lesson_category,
-      lesson_type, reqjson.identified_by, reqjson.identified_by_area,
-      reqjson.how_identified, reqjson.summary, reqjson.details,
-      reqjson.target_date_day, reqjson.target_date_month,
-      reqjson.target_date_year)
-    .then(
-      createLesson => {
-        res.render('create/lessonsuccess.html', {createLesson});
-        //res.send(createLesson);
-    });
-});
-
-//render create project page
-router.get('/create/project', (req,res) => {
-  res.render('create/project.html');
-});
-
-//add project to database and show success page
-router.post('/create/project', (req, res) => {
-  reqjson = req.body;
-  //res.send(reqjson.project_tp_num);
-  queries
-    .createProject(reqjson.project_name, reqjson.project_tp_num,
-      reqjson.date_started_day, reqjson.date_started_month,
-      reqjson.date_started_year, reqjson.date_closed_day,
-      reqjson.date_closed_month, reqjson.date_closed_year, reqjson.portfolio,
-      reqjson.SRM, reqjson.status)
-    .then(
-      createProject => {
-        res.render('create/projectsuccess.html', {createProject});
-        //res.send(createProject);
-    })
-    ;
 });
 
 //send bulk upload form as download

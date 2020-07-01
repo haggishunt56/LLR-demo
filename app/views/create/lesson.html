@@ -33,7 +33,7 @@
 
       <h1 class="govuk-heading-xl">Create a lesson</h1>
 
-      <form class="form" action="create/lesson" method="post" enctype='application/json'>
+      <form class="form" action="create" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Project tp_num field -->
           <label class="govuk-label--s" for="project-tp-num">
@@ -42,7 +42,7 @@
           <span id="project-tp-num-hint" class="govuk-hint">
             Please enter the TP number of the project. <!-- TODO change to name or TP num. Change to drop down with all projects? -->
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="project_tp_num" name="project_tp_num" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text">
         </div>
 
         <!-- TODO automatically calculate date -->
@@ -51,7 +51,7 @@
           <label class="govuk-label--s" for="lesson-category">
             Lesson category
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="lesson_category" name="lesson_category" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="lessonCategory" name="lessonCategory" type="text">
         </div>
 
         <div class="govuk-form-group"> <!-- type field -->
@@ -63,13 +63,13 @@
             </legend>
             <div class="govuk-radios govuk-radios--inline">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="lesson_type_www" name="lesson_type_www" type="radio" value="www">
+                <input class="govuk-radios__input" id="lessonTypeWww" name="lessonTypeWww" type="radio" value="www">
                 <label class="govuk-label govuk-radios__label" for="lesson-type-www">
                   WWW
                 </label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="lesson_type_ebi" name="lesson_type_ebi" type="radio" value="ebi">
+                <input class="govuk-radios__input" id="lessonTypeEbi" name="lessonTypeEbi" type="radio" value="ebi">
                 <label class="govuk-label govuk-radios__label" for="lesson-type-ebi">
                   EBI
                 </label>
@@ -85,21 +85,21 @@
           <span id="identified-by-hint" class="govuk-hint">
             Please enter the full name of the person who identified this lesson.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="identified_by" name="identified_by" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="identifiedBy" name="identifiedBy" type="text">
         </div>
 
         <div class="govuk-form-group"> <!-- area field -->
           <label class="govuk-label--s" for="identified-by-area">
             Area of staff member who identified lesson
           </label>
-          <input class="govuk-input govuk-!-width-two-thirds" id="identified_by_area" name="identified_by_area" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="identifiedByArea" name="identifiedByArea" type="text">
         </div>
 
         <div class="govuk-form-group"> <!-- how identified field -->
           <label class="govuk-label--s" for="how-identified">
             When or how was this lesson identified?
           </label>
-          <input class="govuk-input govuk-!-width-two-thirds" id="how_identified" name="how_identified" type="text">
+          <input class="govuk-input govuk-!-width-two-thirds" id="howIdentified" name="howIdentified" type="text">
         </div>
 
         <!-- TODO Automatically calculate name of uploader -->
@@ -142,7 +142,7 @@
                   <label class="govuk-label govuk-date-input__label" for="target-date-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_day" name="target_date_day" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="targetDateDay" name="targetDateDay" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -150,7 +150,7 @@
                   <label class="govuk-label govuk-date-input__label" for="target-date-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_month" name="target_date_month" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="targetDateMonth" name="targetDateMonth" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -158,7 +158,7 @@
                   <label class="govuk-label govuk-date-input__label" for="target-date-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="target_date_year" name="target_date_year" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="targetDateYear" name="targetDateYear" type="text" pattern="[0-9]*" inputmode="numeric">
                 </div>
               </div>
             </div>
