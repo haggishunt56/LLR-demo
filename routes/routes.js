@@ -103,6 +103,10 @@ router.post('/create', (req, res) => {
     else {
       var lesson_type = "";
     }
+
+    req.body.projectTpNumTest = (projectTpNum == "");
+    console.log(req.body.projectTpNumTest);
+    
     queries
       .createLesson(req.body.projectTpNum, req.body.lessonCategory,
         lesson_type, req.body.identifiedBy, req.body.identifiedByArea,
@@ -133,5 +137,16 @@ router.post('/create', (req, res) => {
 router.get('/file/bulkupload', function (req, res) {
   res.download('./app/views/LLR_upload_form_v0.0.xls');
 });
+
+router.get('/regex', function (req, res) {
+  let regTest = /ab*c/;
+  let strTest = 'adbc';
+
+  console.log(regTest);
+  console.log(strTest);
+  console.log(regTest.exec(strTest));
+
+  res.render('home.html');
+})
 
 module.exports = router;
