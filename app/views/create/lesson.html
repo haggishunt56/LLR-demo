@@ -1,0 +1,177 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Lessons Learned Repository - LLR - Create
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create a lesson</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Create a lesson</h1>
+
+      <form class="form" action="create" method="post" enctype='application/json'>
+
+        <div class="govuk-form-group"> <!-- Project tp_num field -->
+          <label class="govuk-label--s" for="project-tp-num">
+            Project TP number
+          </label>
+          <span id="project-tp-num-hint" class="govuk-hint">
+            Please enter the TP number of the project. <!-- TODO change to name or TP num. Change to drop down with all projects? -->
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text">
+        </div>
+
+        <!-- TODO automatically calculate date -->
+
+        <div class="govuk-form-group"> <!-- category field -->
+          <label class="govuk-label--s" for="lesson-category">
+            Lesson category
+          </label><br>
+          <input class="govuk-input govuk-!-width-two-thirds" id="lessonCategory" name="lessonCategory" type="text">
+        </div>
+
+        <div class="govuk-form-group"> <!-- type field -->
+          <fieldset class="govuk-fieldset" aria-describedby="lesson-type-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Lesson type
+              </h1>
+            </legend>
+            <div class="govuk-radios govuk-radios--inline">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="lessonTypeWww" name="lessonTypeWww" type="radio" value="www">
+                <label class="govuk-label govuk-radios__label" for="lesson-type-www">
+                  WWW
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="lessonTypeEbi" name="lessonTypeEbi" type="radio" value="ebi">
+                <label class="govuk-label govuk-radios__label" for="lesson-type-ebi">
+                  EBI
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="govuk-form-group"> <!-- identified by field -->
+          <label class="govuk-label--s" for="identified-by">
+            Identified by
+          </label>
+          <span id="identified-by-hint" class="govuk-hint">
+            Please enter the full name of the person who identified this lesson.
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="identifiedBy" name="identifiedBy" type="text">
+        </div>
+
+        <div class="govuk-form-group"> <!-- area field -->
+          <label class="govuk-label--s" for="identified-by-area">
+            Area of staff member who identified lesson
+          </label>
+          <input class="govuk-input govuk-!-width-two-thirds" id="identifiedByArea" name="identifiedByArea" type="text">
+        </div>
+
+        <div class="govuk-form-group"> <!-- how identified field -->
+          <label class="govuk-label--s" for="how-identified">
+            When or how was this lesson identified?
+          </label>
+          <input class="govuk-input govuk-!-width-two-thirds" id="howIdentified" name="howIdentified" type="text">
+        </div>
+
+        <!-- TODO Automatically calculate name of uploader -->
+
+        <div class="govuk-form-group"> <!-- lesson summary field -->
+          <label class="govuk-label--s" for="summary">
+            Summary
+          </label>
+          <span id="summary-hint" class="govuk-hint">
+            Please enter a brief summary of the lesson.
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="summary" name="summary" type="text">
+        </div>
+
+        <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="2000"> <!-- lesson details field -->
+          <div class="govuk-form-group">
+            <label class="govuk-label--s" for="with-hint">
+              Lesson learned details
+            </label>
+            <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="details" name="details"" rows="5" aria-describedby="with-hint-info with-hint-hint"></textarea>
+          </div>
+          <span id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+            You can enter up to 2000 characters
+          </span>
+        </div>
+
+        <div class="govuk-form-group"> <!-- target date field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="target-date">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Target date
+              </h1>
+            </legend>
+            <span id="target-date-hint" class="govuk-hint">
+              Date all actions should be completed by. For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="target-date">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="target-date-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="targetDateDay" name="targetDateDay" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="target-date-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="targetDateMonth" name="targetDateMonth" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="target-date-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="targetDateYear" name="targetDateYear" type="text" pattern="[0-9]*" inputmode="numeric">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <br>
+
+        <input type="submit" draggable="false" value="Create" class="govuk-button">
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

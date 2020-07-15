@@ -32,6 +32,26 @@
 
 {% block head %}
   {% include "includes/head.html" %}
+  {{ govukHeader({
+    homepageUrl: "/home",
+    serviceName: "Lessons Learned Repository",
+    serviceUrl: "/home",
+    navigation: [
+      {
+        href: "#1",
+        text: "Upload",
+        active: true
+      },
+      {
+        href: "#2",
+        text: "Create"
+      },
+      {
+        href: "#3",
+        text: "Search"
+      }
+    ]
+  }) }}
 {% endblock %}
 
 {% block pageTitle %}
@@ -40,13 +60,6 @@
 
 {% block header %}
   {% include "includes/cookie-banner.html" %}
-  {# Set serviceName in config.js. #}
-  {{ govukHeader({
-    homepageUrl: "/",
-    serviceName: serviceName,
-    serviceUrl: "/",
-    containerClasses: "govuk-width-container"
-  }) }}
 {% endblock %}
 
 {% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}

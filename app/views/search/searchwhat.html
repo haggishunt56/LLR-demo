@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Lessons Learned Repository - LLR - Create
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">What would you like to search?</h1>
+
+      <form class="form" action="/search" method="post">
+
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
+            <div class="govuk-radios govuk-radios--inline">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="lesson_radio" name="lessonproject" type="radio" value="lesson">
+                <label class="govuk-label govuk-radios__label" for="lesson">
+                  Lessons
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="project_radio" name="lessonproject" type="radio" value="project">
+                <label class="govuk-label govuk-radios__label" for="lesson">
+                  Projects
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <input type="submit" draggable="false" value="Next" class="govuk-button">
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

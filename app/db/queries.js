@@ -1,7 +1,7 @@
 const knex = require('./knex');
 
 module.exports = {
-  lessons: {
+  searchLessons: {
     getAll: function() {
       //SELECT * FROM lesson_details;
       return knex('lesson_details');
@@ -13,16 +13,9 @@ module.exports = {
         .where('lesson_details.project_tp_num', 'like', `%${id}%`)
         ; //create and return json files with result of db query
     },
-    getByProject: function(lessonName, projectName, portfolio, category, type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear) {
-      //SELECT * FROM lesson_details WHERE project_tp_num = id OR project_name = id;
-      return knex.select()
-        .table('lesson_details')
-        .fullOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
-        .where('lesson_details.project_tp_num', 'ilike', `%${id}%`)
-        .orWhere('project_details.project_name', 'ilike', `%${id}%`)
-        ;
-    },
-    getBySearchFields: function(lessonName, projectName, portfolio, category, type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear) {
+    getBySearchFields: function(lessonName, projectName, portfolio, category,
+      type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth,
+      dateToYear) {
       //SELECT * FROM lesson_details WHERE lesson_name = lessonName, project_name = projectName etc...;
 
       let query = knex.select().table('lesson_details') //SELECT * FROM lesson_details;
@@ -88,5 +81,66 @@ module.exports = {
         .where('lesson_id', lesson)
       ;
     }
+  },
+  searchProjects: {
+    getBySearchFields: function(projectName, portfolio, status, dateFromDay,
+      dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear) {
+
+      let query = knex.select().table('project_details') //SELECT * FROM lesson_details;
+        // .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        // .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
+
+      if (projectName !== "") { //include only if search field is not blank
+        query.where('project_details.project_name', 'ilike', `%${projectName}%`);
+      }
+
+      if(portfolio !== "") { //include search param only if field is not blank
+        query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
+      }
+
+      if (status !== "") { //include only if field is not blank
+        query.where('project_details.status', 'ilike', `%${status}%`);
+      }
+
+      if(dateFromDay !== "") { //include only if field is not blank
+        //console.log(`${dateFromYear}`, `${dateFromMonth}`, `${dateFromDay}`);
+        dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0);
+        query.where('lesson_details.start_date', '>', dateFrom);
+      }
+
+      if(dateToDay !== "") { //include only if field is not blank
+        dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00);
+        query.where('lesson_details.start_date', '<', dateTo);
+      }
+
+      return query;
+    }
+  },
+  createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
+    how_identified, summary, details, target_date_day, target_date_month, target_date_year) {
+
+    var targetDate = new Date(`${target_date_year}`, `${target_date_month}`, `${target_date_day}`, 0, 0, 0);
+    //INSERT INTO lesson_details VALUES [args]
+
+    return knex.insert({category: `${category}`, date_added: '2020-02-23', description: `${details}`,
+      how_identified: `${how_identified}`, identified_by: `${identified_by}`,
+      identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
+      summary: `${summary}`, target_date: targetDate, uploaded_by: '1', www_ebi: `${type}`}, ['lesson_id', 'project_tp_num'])
+      .into('lesson_details')
+    ;
+  },
+  createProject: function(projectName, projectTpNum, dateStartedDay,
+    dateStartedMonth, dateStartedYear, dateClosedDay, dateClosedMonth,
+    dateClosedYear, portfolio, srm, status) {
+
+    var startDate = new Date(`${dateStartedYear}`, `${dateStartedMonth}`, `${dateStartedDay}`, 0, 0, 0);
+    var closedDate = new Date(`${dateClosedYear}`, `${dateClosedMonth}`, `${dateClosedDay}`, 0, 0, 0);
+
+    return knex.insert({project_tp_num: `${projectTpNum}`, project_name: `${projectName}`,
+      start_date: startDate, closure_date: closedDate, srm: `${srm}`, status:`${status}`,
+       portfolio:'1'}, ['project_tp_num'])
+      .into('project_details')
+    ;
   }
 }
