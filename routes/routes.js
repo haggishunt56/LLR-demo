@@ -74,64 +74,90 @@ router.post('/search', (req, res) => {
   };
 });
 
-//TOTO return project search results
-
 //render createwhat page
 router.get('/create', (req, res) => {
   res.render('create/createwhat.html');
 });
 
 //handle responses to create forms
-router.post('/create', (req, res) => {
-  if (req.body.lessonproject == 'lesson') {
-    res.render('create/lesson.html');
-  }
-  else if (req.body.lessonproject == 'project') {
-    res.render('create/project.html');
-  }
-  else if (JSON.stringify(req.body) === '{}') {
-    res.render('create/createwhat.html'); //TODO validation and error message
-  }
-  else if ('targetDateDay' in req.body) { //create lesson
+router.post('/create', function (req, res) {
 
-    if (req.body.lesson_type_ebi == "ebi") {
-      var lesson_type = "ebi";
-    }
-    else if (req.body.lesson_type_www == "www") {
-      var lesson_type = "www";
-    }
-    else {
-      var lesson_type = "";
+    if (req.body.lessonproject == 'lesson') { //if lesson selected
+      return res.render('create/lesson.html'); //display create lesson page
     }
 
-    req.body.projectTpNumTest = (projectTpNum == "");
-    console.log(req.body.projectTpNumTest);
-    
-    queries
-      .createLesson(req.body.projectTpNum, req.body.lessonCategory,
-        lesson_type, req.body.identifiedBy, req.body.identifiedByArea,
-        req.body.howIdentified, req.body.summary, req.body.details,
-        req.body.targetDateDay, req.body.targetDateMonth,
-        req.body.targetDateYear)
-      .then(
-        createLesson => {
-          res.render('create/lessonsuccess.html', {createLesson});
-          //res.send(createLesson);
-      });
-  }
-  else { //create project
-    queries
-      .createProject(req.body.projectName, req.body.projectTpNum,
-        req.body.dateStartedDay, req.body.dateStartedMonth,
-        req.body.dateStartedYear, req.body.dateClosedDay,
-        req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
-        req.body.SRM, req.body.status)
-      .then(
-        createProject => {
-          res.render('create/projectsuccess.html', {createProject});
-      });
-  };
-});
+    else if (req.body.lessonproject == 'project') { //if project selected
+      return res.render('create/project.html'); //display create project page
+    }
+
+    else if (JSON.stringify(req.body) === '{}') { //if nothing selected
+      var err = '{ "error" : "noSelection" }';
+      return res.render('create/createwhat.html', {err}); //display error
+    }
+
+    else if ('targetDateDay' in req.body) { //create lesson
+
+      //test for blank fields
+      var err = {};
+      if (req.body.projectTpNum == "") {
+        err.projectTpNum = true;
+      }
+      if (req.body.lessonCategory == "") {
+        err.lessonCategory = true;
+      }
+      if (req.body.lessonType == "") {
+        err.lessonType = true;
+      }
+      if (req.body.identifiedBy == "") {
+        err.identifiedBy = true;
+      }
+      if (req.body.identifiedByArea == "") {
+        err.identifiedByArea = true;
+      }
+      if (req.body.howIdentified == "") {
+        err.howIdentified = true;
+      }
+      if (req.body.summary == "") {
+        err.summary = true;
+      }
+      if (req.body.details == "") {
+        err.details = true;
+      }
+
+      //summarise and send errors
+      if (JSON.stringify(err) !== JSON.stringify({})) {
+        const reqjson = req.body;
+        return res.render('create/lesson.html', {err, reqjson});
+      }
+      else { //query database
+        queries
+          .createLesson(req.body.projectTpNum, req.body.lessonCategory,
+            req.body.lessonType, req.body.identifiedBy, req.body.identifiedByArea,
+            req.body.howIdentified, req.body.summary, req.body.details,
+            req.body.targetDateDay, req.body.targetDateMonth,
+            req.body.targetDateYear)
+          .then(
+            createLesson => {
+              return res.render('create/lessonsuccess.html', {createLesson}); //display success page
+              //res.send(createLesson);
+            }
+          );
+      }
+    }
+
+    else { //create project
+      queries
+        .createProject(req.body.projectName, req.body.projectTpNum,
+          req.body.dateStartedDay, req.body.dateStartedMonth,
+          req.body.dateStartedYear, req.body.dateClosedDay,
+          req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
+          req.body.SRM, req.body.status)
+        .then(
+          createProject => {
+            return res.render('create/projectsuccess.html', {createProject}); //display success page
+        });
+    };
+  });
 
 //send bulk upload form as download
 router.get('/file/bulkupload', function (req, res) {
