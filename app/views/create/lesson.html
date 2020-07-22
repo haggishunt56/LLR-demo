@@ -41,11 +41,11 @@
             Project TP number
           </label>
           <span id="project-tp-num-hint" class="govuk-hint">
-            Please enter the TP number of the project. <!-- TODO Change to drop down with all projects? -->
+            Please enter the TP number of the project <!-- TODO Change to drop down with all projects? -->
           </span>
           {% if err.projectTpNum %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the TP number for the project, for example, "TP081"
+            <span class="govuk-visually-hidden">Error:</span> Enter the TP number of the project, for example, "TP081"
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value = {{ reqjson.projectTpNum }}>
@@ -81,14 +81,14 @@
             {% endif %}
             <div class="govuk-radios govuk-radios--inline">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="lessonTypeWww" name="lessonType" type="radio" value="www"
+                <input class="govuk-radios__input" id="lessonType" name="lessonType" type="radio" value="www"
                     {% if reqjson.lessonType == "www" %} checked="checked" {% endif %}>
                 <label class="govuk-label govuk-radios__label" for="lessonTypeWww">
                   WWW
                 </label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="lessonTypeEbi" name="lessonType" type="radio" value="ebi"
+                <input class="govuk-radios__input" id="lessonType" name="lessonType" type="radio" value="ebi"
                     {% if reqjson.lessonType == "ebi" %} checked="checked" {% endif %}>
                 <label class="govuk-label govuk-radios__label" for="lessonTypeEbi">
                   EBI
@@ -96,7 +96,7 @@
               </div>
             </div>
           </fieldset>
-        </div> <!-- TODO keep selection on err -->
+        </div>
 
         <!-- identified by field -->
         <div {% if err.identifiedBy %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
@@ -174,7 +174,8 @@
           </span>
         </div>
 
-        <div class="govuk-form-group"> <!-- target date field -->
+        <!-- target date field -->
+        <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" role="group" aria-describedby="target-date">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">

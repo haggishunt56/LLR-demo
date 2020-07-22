@@ -45,7 +45,7 @@ router.post('/search', (req, res) => {
   }
   else if (JSON.stringify(req.body) === '{}') {
     //res.send(req.body);
-    res.render('search/searchwhat.html'); //TODO validation and error message
+    res.render('search/searchwhat.html');
   }
   else if ('projectName' in req.body) { //search lessons
     const reqjson = req.body;
@@ -98,14 +98,14 @@ router.post('/create', function (req, res) {
     else if ('targetDateDay' in req.body) { //create lesson
 
       //test for blank fields
-      var err = {};
+      let err = {};
       if (req.body.projectTpNum == "") {
         err.projectTpNum = true;
       }
       if (req.body.lessonCategory == "") {
         err.lessonCategory = true;
       }
-      if (req.body.lessonType == "") {
+      if (req.body.lessonType == undefined) {
         err.lessonType = true;
       }
       if (req.body.identifiedBy == "") {
@@ -145,17 +145,54 @@ router.post('/create', function (req, res) {
       }
     }
 
-    else { //create project
-      queries
-        .createProject(req.body.projectName, req.body.projectTpNum,
-          req.body.dateStartedDay, req.body.dateStartedMonth,
-          req.body.dateStartedYear, req.body.dateClosedDay,
-          req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
-          req.body.SRM, req.body.status)
-        .then(
-          createProject => {
-            return res.render('create/projectsuccess.html', {createProject}); //display success page
-        });
+    else { //create project TODO - check for duplicate TP NUMs
+
+      //test for blank fields
+      let err = {};
+      if (req.body.projectName == "") {
+        err.projectName = true;
+      }
+      if (req.body.projectTpNum == "") {
+        err.projectTpNum = true;
+      }
+      if (req.body.dateStartedDay == "") {
+        console.log(req.body.dateStartedDay);
+        err.dateStartedDay = true;
+      }
+      if (req.body.dateStartedMonth == "") {
+        err.dateStartedMonth = true;
+      }
+      if (req.body.dateStartedYear == "") {
+        err.dateStartedYear = true;
+      }
+      if (req.body.portfolio == "") {
+        err.portfolio = true;
+      }
+      if (req.body.srm == "") {
+        err.srm = true;
+      }
+      if (req.body.status == "") {
+        err.status = true;
+      }
+
+      //summarise and send errors
+      if (JSON.stringify(err) !== JSON.stringify({})) {
+        const reqjson = req.body;
+        return res.render('create/project.html', {err, reqjson});
+      }
+      else { //query db
+        queries
+          .createProject(req.body.projectName, req.body.projectTpNum,
+            req.body.dateStartedDay, req.body.dateStartedMonth,
+            req.body.dateStartedYear, req.body.dateClosedDay,
+            req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
+            req.body.SRM, req.body.status)
+          .then(
+            createProject => {
+              return res.render('create/projectsuccess.html', {createProject}); //display success page
+            }
+          );
+      }
     };
   });
 

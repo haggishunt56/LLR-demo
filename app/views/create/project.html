@@ -35,27 +35,40 @@
 
       <form class="form" action="create" method="post" enctype='application/json'>
 
-        <div class="govuk-form-group"> <!-- Project name field -->
+        <!-- Project name field -->
+        <div {% if err.projectName %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="project-name">
             Project name
           </label><br>
           <span id="project-name" class="govuk-hint">
-            Please enter the name of the project.
+            Please enter the name of the project or conference.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text">
+          {% if err.projectName %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the project or conference
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value={{ reqjson.projectName }}>
         </div>
 
-        <div class="govuk-form-group"> <!-- Project TP number field -->
+        <!-- Project TP number field -->
+        <div {% if err.projectTpNum %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="project-tp-num">
             Project TP number
           </label><br>
           <span id="project-name" class="govuk-hint">
             Please enter the TP number of the project, for example, TP081
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text">
+          {% if err.projectTpNum %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the TP number of the project
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value={{ reqjson.projectTpNum }}>
         </div>
 
-        <div class="govuk-form-group"> <!-- Date added field -->
+        <!-- Date added field -->
+        <div {% if err.err.dateStartedDay or err.dateStartedMonth or err.dateStartedYear %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
@@ -65,13 +78,18 @@
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>
+            {% if err.dateStartedDay or err.dateStartedMonth or err.dateStartedYear %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter the date the project started
+            </span>
+            {% endif %}
             <div class="govuk-date-input" id="date-added">
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
                   <label class="govuk-label govuk-date-input__label" for="date-started-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateStartedDay" name="dateStartedDay" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateStartedDay" name="dateStartedDay" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateStartedDay }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -79,7 +97,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateStartedMonth" name="dateStartedMonth" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateStartedMonth" name="dateStartedMonth" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateStartedMonth }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -87,14 +105,15 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateStartedYear" name="dateStartedYear" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateStartedYear" name="dateStartedYear" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateStartedYear }}>
                 </div>
               </div>
             </div>
           </fieldset>
         </div>
 
-        <div class="govuk-form-group"> <!-- Closure date field -->
+        <!-- Closure date field -->
+        <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-closed">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
@@ -133,37 +152,67 @@
           </fieldset>
         </div>
 
-        <div class="govuk-form-group"> <!-- Portfolio field -->
+        <!-- Portfolio field -->
+        <div {% if err.portfolio %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="portfolio">
             Portfolio
           </label><br>
+          {% if err.portfolio %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Select a portfolio
+          </span>
+          {% endif %}
           <select class="govuk-select" id="portfolio" name="portfolio">
             <option value=""></option>
-            <option value="indigo">Indigo</option>
-            <option value="platinum">Platinum</option>
-            <option value="coral">Coral</option>
-            <option value="azure">Azure</option>
+            <option value="azure" {% if reqjson.portfolio=="azure" %} selected {% endif %}>Azure</option>
+            <option value="blue" {% if reqjson.portfolio=="blue" %} selected {% endif %}>Blue</option>
+            <option value="chrome" {% if reqjson.portfolio=="chrome" %} selected {% endif %}>Chrome</option>
+            <option value="coral" {% if reqjson.portfolio=="coral" %} selected {% endif %}>Coral</option>
+            <option value="enablers" {% if reqjson.portfolio=="enablers" %} selected {% endif %}>Enablers</option>
+            <option value="indigo" {% if reqjson.portfolio=="indigo" %} selected {% endif %}>Indigo</option>
+            <option value="platinum" {% if reqjson.portfolio=="platinum" %} selected {% endif %}>Platinum</option>
+            <option value="sapphire" {% if reqjson.portfolio=="sapphire" %} selected {% endif %}>Sapphire</option>
+            <option value="teal" {% if reqjson.portfolio=="teal" %} selected {% endif %}>Teal</option>
+            <option value="tom" {% if reqjson.portfolio=="tom" %} selected {% endif %}>TOM</option>
+            <option value="pre-portfolio" {% if reqjson.portfolio=="pre-portfolio" %} selected {% endif %}>Pre-portfolio</option>
+            <option value="tbtc" {% if reqjson.portfolio=="tbtc" %} selected {% endif %}>TBCT</option>
+            <option value="bau" {% if reqjson.portfolio=="bau" %} selected {% endif %}>BAU</option>
+            <option value="bcm" {% if reqjson.portfolio=="bcm" %} selected {% endif %}>BCM</option>
+            <option value="pm" {% if reqjson.portfolio=="pm" %} selected {% endif %}>PM</option>
+            <option value="cat" {% if reqjson.portfolio=="cat" %} selected {% endif %}>CAT</option>
           </select>
         </div>
 
-        <div class="govuk-form-group"> <!-- SRM field -->
-          <label class="govuk-label--s" for="SRM">
+        <!-- SRM field -->
+        <div {% if err.srm %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="srm">
             Senior Responsible Manager (SRM)
           </label>
           <span id="SRM-hint" class="govuk-hint">
-            Please enter the full name of the person who is responsible for the project.
+            Please enter the full name of the person who is responsible for the project
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="SRM" name="SRM" type="text">
+          {% if err.srm %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the full name of the person who is responsible for the project
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="srm" name="srm" type="text" value={{ reqjson.srm }}>
         </div>
 
-        <div class="govuk-form-group"> <!-- status field -->
+        <!-- status field -->
+        <div {% if err.status %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="status">
             Status of project
           </label><br>
+          {% if err.status %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Select a status
+          </span>
+          {% endif %}
           <select class="govuk-select" id="status" name="status">
             <option value=""></option>
-            <option value="open">Open</option>
-            <option value="closed">Closed</option>
+            <option value="open" {% if reqjson.status=="open" %} selected {% endif %}>Open</option>
+            <option value="closed" {% if reqjson.status=="closed" %} selected {% endif %}>Closed</option>
           </select>
         </div>
 
