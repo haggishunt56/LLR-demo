@@ -31,28 +31,49 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
-      <h1 class="govuk-heading-xl">What would you like to create?</h1>
-
       <form class="form" action="/create" method="post">
 
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="what-to-create">
-            <div class="govuk-radios govuk-radios--inline">
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="lesson_radio" name="lessonproject" type="radio" value="lesson">
-                <label class="govuk-label govuk-radios__label" for="lesson">
-                  Lesson
-                </label>
-              </div>
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="project_radio" name="lessonproject" type="radio" value="project">
-                <label class="govuk-label govuk-radios__label" for="lesson">
-                  Project
-                </label>
-              </div>
+        {% if err %} <!-- display only if error returned by Express -->
+        <div class="govuk-form-group govuk-form-group--error">
+          <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint changed-name-error">
+        {% endif %}
+
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+            <h1 class="govuk-fieldset__heading">
+              What would you like to create?
+            </h1>
+          </legend>
+
+          {% if err %} <!-- display only if error returned by Express -->
+            <span id="changed-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Select "Lesson" if you wish to add a lesson to a project, or "Project" if you wish to add a new project
+            </span>
+          {% endif %}
+
+          <div class="govuk-radios govuk-radios--inline">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="lesson_radio" name="lessonproject" type="radio" value="lesson">
+              <label class="govuk-label govuk-radios__label" for="lesson">
+                Lesson
+              </label>
             </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="project_radio" name="lessonproject" type="radio" value="project">
+              <label class="govuk-label govuk-radios__label" for="project">
+                Project
+              </label>
+            </div>
+          </div>
+
+        {% if err %} <!-- display only if error returned by Express -->
           </fieldset>
         </div>
+        {% endif %}
+
+        {% if not err %} <!-- display only if no error returned by Express (formats page correctly) -->
+        <br>
+        {% endif %}
+
 
         <input type="submit" draggable="false" value="Next" class="govuk-button">
 
