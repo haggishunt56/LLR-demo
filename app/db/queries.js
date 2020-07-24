@@ -6,13 +6,6 @@ module.exports = {
       //SELECT * FROM lesson_details;
       return knex('lesson_details');
     },
-    getByID: function(id) {
-      //SELECT * FROM lesson_details WHERE project_tp_num = id;
-      return knex.select()
-        .table('lesson_details')
-        .where('lesson_details.project_tp_num', 'like', `%${id}%`)
-        ; //create and return json files with result of db query
-    },
     getBySearchFields: function(lessonName, projectName, portfolio, category,
       type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth,
       dateToYear) {
@@ -21,7 +14,8 @@ module.exports = {
       let query = knex.select().table('lesson_details') //SELECT * FROM lesson_details;
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
-        .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
+        .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
+        .orderBy('lesson_id', 'asc');
 
       if(lessonName !== "") { //include only if field is not blank
         var initStr = `${lessonName}`;
@@ -75,9 +69,22 @@ module.exports = {
 
     },
     getByProjectLesson: function(project,lesson) {
-      //SELECT * FROM lesson_details WHERE project_tp_num = [passed to function], lesson_id = [passed to function];
-      return knex('lesson_details')
-        .where('project_tp_num', project)
+      // TODO - update comment below. this is no longer all the query does.
+      //SELECT * FROM lesson_details WHERE project_tp_num = [arg], lesson_id = [arg];
+      return knex.select(
+          '*',
+          knex.raw('EXTRACT(YEAR FROM date_added) as year_added'),
+          knex.raw('EXTRACT(MONTH FROM date_added) as month_added'),
+          knex.raw('EXTRACT(DAY FROM date_added) as day_added'),
+          knex.raw('EXTRACT(YEAR FROM target_date) as target_year'),
+          knex.raw('EXTRACT(MONTH FROM target_date) as target_month'),
+          knex.raw('EXTRACT(DAY FROM target_date) as target_day')
+        )
+        .from('lesson_details')
+        .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
+        .where('lesson_details.project_tp_num', project)
         .where('lesson_id', lesson)
       ;
     }
@@ -142,5 +149,22 @@ module.exports = {
        portfolio:'1'}, ['project_tp_num'])
       .into('project_details')
     ;
+  },
+  updateLesson: function(projectId, lessonId, projectName, category, type, identifiedBy,
+    identifiersArea, summary, details, targetDateDay, targetDateMonth, targetDateYear) {
+
+    let targetDate = new Date(targetDateYear, targetDateMonth, targetDateDay);
+    return knex('lesson_details')
+      .where('lesson_id', '=', lessonId)
+      .update({
+        category: category,
+        www_ebi: type,
+        identified_by: identifiedBy,
+        identifiers_area: identifiersArea,
+        target_date: targetDate,
+        summary: summary,
+        description: details
+      })
+      .returning(['lesson_id', 'project_tp_num']);
   }
 }

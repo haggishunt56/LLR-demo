@@ -35,7 +35,7 @@ router.get('/search', (req,res) => {
   res.render('search/searchwhat.html');
 });
 
-//handle responses to search forms
+//handle input on search forms
 router.post('/search', (req, res) => {
   if (req.body.lessonproject == 'lesson') {
     res.render('search/lessons.html');
@@ -58,6 +58,7 @@ router.post('/search', (req, res) => {
       .then(
         lesson_details => {
           res.render('search/lessons.html', {lesson_details, reqjson});
+          //res.send(lesson_details);
       });
   }
   else { //search projects
@@ -79,7 +80,7 @@ router.get('/create', (req, res) => {
   res.render('create/createwhat.html');
 });
 
-//handle responses to create forms
+//handle input on create forms
 router.post('/create', function (req, res) {
 
     if (req.body.lessonproject == 'lesson') { //if lesson selected
@@ -145,7 +146,8 @@ router.post('/create', function (req, res) {
       }
     }
 
-    else { //create project TODO - check for duplicate TP NUMs
+    else { //create project   //TODO - check for duplicate TP NUMs
+
 
       //test for blank fields
       let err = {};
@@ -195,6 +197,59 @@ router.post('/create', function (req, res) {
       }
     };
   });
+
+//display update fields as json
+router.get('/json/:proj_id-:les_id', (req, res) => {
+  queries
+    .searchLessons
+    .getByProjectLesson(req.params.proj_id, req.params.les_id)
+    .then(lesson_details => {
+      res.json(lesson_details);
+      //res.render('update/update_entry.html', {lesson_details});
+    });
+
+});
+
+//display update lesson page
+router.get('/update/:proj_id-:les_id', (req, res) => {
+  const url = req.params;
+  queries
+    .searchLessons
+    .getByProjectLesson(req.params.proj_id, req.params.les_id)
+    .then(lesson_details => {
+      //res.json(lesson_details);
+      res.render('update/update_entry.html', {lesson_details, url});
+    }
+  );
+});
+
+//handle update lesson instruction
+router.post('/update/:proj_id-:les_id', (req, res) => { //
+  queries
+    .updateLesson(req.params.proj_id, req.params.les_id, req.body.projectName,
+      req.body.category, req.body.type, req.body.identifiedBy, req.body.identifiersArea,
+      req.body.summary, req.body.details, req.body.targetDateDay, req.body.targetDateMonth,
+      req.body.targetDateYear) // TODO req.body.howIdentified
+    .then(lesson_id => {
+      let targetUrl = '/success/';
+      console.log(targetUrl);
+      targetUrl = targetUrl.concat(req.params.proj_id, '-', req.params.les_id);
+      console.log(targetUrl);
+      res.redirect(targetUrl);
+    }
+  );
+});
+
+//return full detail of a single lesson rendered onto html page, with success banner
+router.get('/success/:proj_id-:les_id', (req, res) => {
+  queries
+    .searchLessons
+    .getByProjectLesson(req.params.proj_id, req.params.les_id)
+    .then(lesson_details => {
+      //res.json(lesson_details);
+      res.render('../views/update/update_entry_success.html', {lesson_details});
+    });
+});
 
 //send bulk upload form as download
 router.get('/file/bulkupload', function (req, res) {
