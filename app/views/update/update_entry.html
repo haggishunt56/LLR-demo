@@ -21,7 +21,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Update</li>
   </ol>
 </div>
 {% endblock %}
@@ -33,16 +33,18 @@
 
       <h1 class="govuk-heading-xl">Update a lesson</h1>
 
-      <form class="form" action="/home" method="post">
+      <form class="form" action="/update/{{lesson_details[0].project_tp_num}}-{{lesson_details[0].lesson_id}}" method="post">
 
-        <div class="govuk-form-group"> <!-- Project name field -->
+        <!-- Project name field -->
+        <div class="govuk-form-group">
           <label class="govuk-label--s" for="Project name">
             Project name
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="project-name" name="project-name" type="text" value="My project">
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value="{{lesson_details[0].project_name}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- date added field -->
+        <!-- date added field -->
+        <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
@@ -58,7 +60,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-added-day" name="date-added-day" type="text" pattern="[0-9]*" inputmode="numeric" value="12">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateAddedDay" name="dateAddedDay" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].day_added}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -66,7 +68,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-added-month" name="date-added-month" type="text" pattern="[0-9]*" inputmode="numeric" value="12">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateAddedMonth" name="dateAddedMonth" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].month_added}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -74,21 +76,23 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-added-year" name="date-added-year" type="text" pattern="[0-9]*" inputmode="numeric" value="2019">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateAddedYear" name="dateAddedYear" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].year_added}}">
                 </div>
               </div>
             </div>
           </fieldset>
         </div>
 
-        <div class="govuk-form-group"> <!-- category field -->
+        <!-- category field -->
+        <div class="govuk-form-group">
           <label class="govuk-label--s" for="Lesson category">
             Lesson category
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="lesson-category" name="lesson-category" type="text" value="Estates">
+          <input class="govuk-input govuk-!-width-two-thirds" id="category" name="category" type="text" value="{{lesson_details[0].category}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- WWW/EBI field -->
+        <!-- type field -->
+        <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" aria-describedby="wwwebi-hint">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
@@ -97,13 +101,13 @@
             </legend>
             <div class="govuk-radios govuk-radios--inline">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="changed-name" name="changed-name" type="radio" value="www" checked>
+                <input class="govuk-radios__input" id="typeWww" name="type" type="radio" value="www" {% if lesson_details[0].www_ebi=="WWW" %} checked {% endif %}>
                 <label class="govuk-label govuk-radios__label" for="changed-name">
                   WWW
                 </label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="changed-name-2" name="changed-name" type="radio" value="ebi">
+                <input class="govuk-radios__input" id="typeEbi" name="type" type="radio" value="ebi" {% if lesson_details[0].www_ebi=="EBI" %} checked {% endif %}>
                 <label class="govuk-label govuk-radios__label" for="changed-name-2">
                   EBI
                 </label>
@@ -112,48 +116,56 @@
           </fieldset>
         </div>
 
-        <div class="govuk-form-group"> <!-- portfolio field -->
+        <!-- portfolio field -->
+        <div class="govuk-form-group">
           <label class="govuk-label--s" for="portfolio">
             Portfolio
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="portfolio" name="portfolio" type="text" value="Indigo">
+          <input class="govuk-input govuk-!-width-two-thirds" id="portfolio" name="portfolio" type="text" value="{{lesson_details[0].portfolio_name}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- lesson summary field -->
+        <!-- lesson summary field -->
+        <div class="govuk-form-group">
           <label class="govuk-label--s" for="portfolio">
             Summary
           </label>
           <span id="date-from" class="govuk-hint">
             Please enter a brief (less than 120 characters) summary of the lesson.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="portfolio" name="portfolio" type="text" value="This is a lesson we learned while completing the my project project">
+          <input class="govuk-input govuk-!-width-two-thirds" id="summary" name="summary" type="text" value="{{lesson_details[0].summary}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- identified by field -->
+        <!-- identified by field -->
+        <div class="govuk-form-group">
           <label class="govuk-label--s" for="identified-by">
             Identified by
           </label>
           <span id="date-from" class="govuk-hint">
             Please enter the full name of the person who identified this lesson.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="identified-by" name="identified-by" type="text" value="Douglas Pollock">
+          <input class="govuk-input govuk-!-width-two-thirds" id="identifiedBy" name="identifiedBy" type="text" value="{{lesson_details[0].identified_by}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- area field -->
+        <!-- TODO how identified field -->
+
+        <!-- area field -->
+        <div class="govuk-form-group">
           <label class="govuk-label--s" for="identified-by-area">
             Area of staff member who identified lesson
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="identified-by-area" name="identified-by-area" type="text" value="SPDS">
+          <input class="govuk-input govuk-!-width-two-thirds" id="identifiersArea" name="identifiersArea" type="text" value="{{lesson_details[0].identifiers_area}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- uploaded by field -->
+        <!-- uploaded by field -->
+        <div class="govuk-form-group">
           <label class="govuk-label--s" for="added-by">
             Uploaded by
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="added-by" name="added-by" type="text" value="Douglas Pollock">
+          <input class="govuk-input govuk-!-width-two-thirds" id="uploadedBy" name="uploadedBy" type="text" value="{{lesson_details[0].username}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- date added field -->
+        <!-- target date field -->
+        <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
@@ -169,7 +181,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-added-day" name="date-added-day" type="text" pattern="[0-9]*" inputmode="numeric" value="12">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="targetDateDay" name="targetDateDay" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_day}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -177,7 +189,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="date-added-month" name="date-added-month" type="text" pattern="[0-9]*" inputmode="numeric" value="12">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="targetDateMonth" name="targetDateMonth" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_month}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -185,54 +197,30 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="date-added-year" name="date-added-year" type="text" pattern="[0-9]*" inputmode="numeric" value="2020">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="targetDateYear" name="targetDateYear" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_year}}">
                 </div>
               </div>
             </div>
           </fieldset>
         </div>
 
-        <div class="govuk-form-group"> <!-- Action 1 field -->
-          <label class="govuk-label--s" for="added-by">
-            Action 1
-          </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="added-by" name="added-by" type="text" value="The first action we have to take">
-        </div>
-
-        <div class="govuk-form-group"> <!-- Action 2 field -->
-          <label class="govuk-label--s" for="added-by">
-            Action 2
-          </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="added-by" name="added-by" type="text" value="The second action we have to take">
-        </div>
-
-        <div class="govuk-form-group"> <!-- Action 3 field -->
-          <label class="govuk-label--s" for="added-by">
-            Action 3
-          </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="added-by" name="added-by" type="text" value="The third action we have to take">
-        </div>
-
+        <!-- details field -->
         <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="2000">
           <div class="govuk-form-group">
-            <h1 class="govuk-label" for="with-hint">
-              <b>Lesson learned details<b> <!-- should not need <b> tags however text doesnt format problerly without them -->
-            </h1>
+            <label class="govuk-label--s" for="with-hint">
+              Lesson learned details
+            </label>
             <span id="with-hint-hint" class="govuk-hint">
               Do not include personal or financial information.
             </span>
-            <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="with-hint" name="with-hint" rows="5" aria-describedby="with-hint-info with-hint-hint">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris at justo orci. Donec viverra urna leo, nec sagittis nunc euismod ut. Curabitur arcu nulla, scelerisque ut ipsum et, bibendum molestie augue. Maecenas interdum accumsan tincidunt. Sed id dolor aliquet, tristique sem quis, molestie quam. Sed sagittis congue orci nec volutpat. Aliquam vestibulum nisl eu nisl vestibulum, et feugiat nisl rhoncus. In eleifend dignissim justo, ut imperdiet nisi. Aliquam ut posuere odio. Nam massa lorem, pellentesque eget feugiat a, aliquet ut ipsum. Cras eget sem a purus auctor aliquet. Morbi quis bibendum lectus. Vestibulum hendrerit justo vel mi vestibulum porttitor. Maecenas laoreet ligula ante, at sagittis lectus varius in. Integer lobortis ante non ante maximus rutrum. Nullam viverra arcu sagittis massa tristique, nec malesuada turpis auctor. Aliquam euismod eu lectus non rutrum. Curabitur massa lectus, vulputate ac neque quis, condimentum finibus mi. Sed ultrices facilisis tellus, ac sagittis odio elementum ut. Aliquam id maximus orci. Sed efficitur sapien eget risus laoreet malesuada. Nullam tempus ipsum id quam molestie blandit. Vestibulum ac felis sit amet leo porttitor rutrum sed eu dolor. Ut lacinia arcu sapien. Suspendisse feugiat, ligula et rhoncus fermentum, ex ex pretium nibh, eu auctor tortor augue ac felis. Nam et nisl auctor risus posuere tempor sit amet id neque. In hac habitasse platea dictumst. Integer volutpat nisi nulla.</textarea>
+            <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="details" name="details" rows="5" aria-describedby="with-hint-info with-hint-hint">{{lesson_details[0].description}}</textarea>
           </div>
           <span id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
             You can enter up to 2000 characters
           </span>
         </div>
 
-        <br>
-
-        <a href="/update_success" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
-          Update
-        </a>
+        <input type="submit" draggable="false" value="Update" class="govuk-button">
 
       </form>
 
