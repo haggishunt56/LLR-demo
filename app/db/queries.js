@@ -122,6 +122,13 @@ module.exports = {
       }
 
       return query;
+    },
+    getByTpNum: function(project) {
+
+      return knex.select().from('project_details')
+        .where('project_tp_num', project)
+      ;
+
     }
   },
   createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
@@ -154,6 +161,7 @@ module.exports = {
     identifiersArea, summary, details, targetDateDay, targetDateMonth, targetDateYear) {
 
     let targetDate = new Date(targetDateYear, targetDateMonth, targetDateDay);
+
     return knex('lesson_details')
       .where('lesson_id', '=', lessonId)
       .update({
@@ -166,5 +174,28 @@ module.exports = {
         description: details
       })
       .returning(['lesson_id', 'project_tp_num']);
+  },
+  updateProject: function(projectTpNum, projectName, srm, status, portfolio,
+      startDateDay, startDateMonth, startDateYear) {
+
+        console.log("yes");
+
+
+      let startDate = new Date(startDateYear, startDateMonth, startDateDay);
+
+      console.log(projectTpNum, projectName, srm, status, portfolio, startDate);
+
+      return knex('project_details')
+      .where('project_tp_num', '=', projectTpNum)
+      .update({
+        project_name: projectName,
+        start_date: startDate,
+        closure_date: null,
+        srm: srm,
+        status: status,
+        portfolio: portfolio
+      })
+      .returning(['project_tp_num', 'project_name', 'start_date', 'closure_date',
+        'srm', 'status', 'portfolio']);
   }
 }
