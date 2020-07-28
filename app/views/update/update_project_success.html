@@ -24,7 +24,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/search">Search</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Project details</li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Lesson details</li>
   </ol>
 </div>
 {% endblock %}
@@ -34,7 +34,16 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
-      <h1 class="govuk-heading-xl">Project details</h1>
+      <h1 class="govuk-heading-xl">Lesson details</h1>
+
+      <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">
+          Success
+        </h1>
+        <div class="govuk-panel__body">
+          {{project_details[0].project_tp_num}} updated successfully
+        </div>
+      </div>
 
       <table class="govuk-table">
         <thead class="govuk-table__head">
@@ -54,7 +63,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date added</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell"><i>{{project_details[0].start_date | date}}</i></td> <!-- TODO -->
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">SRM</th>
@@ -62,7 +71,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Portfolio</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell"><i>{{project_details[0].portfolio}}</i></td> <!-- TODO join tables -->
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Status</th>
@@ -70,17 +79,17 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date closed</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell"><i>{{project_details[0].closed_date | date}}</i></td>
           </tr>
         </tbody>
       </table>
 
       <a href="/update/{{project_details[0].project_tp_num}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
-        Update project
+        Update entry
       </a>
 
       <a href="/delete_confirmation" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
-        Delete project
+        Delete lesson
       </a>
 
     </div>

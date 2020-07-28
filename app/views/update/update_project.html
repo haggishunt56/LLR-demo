@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Lessons Learned Repository - LLR - Update
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Update</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Update a project</h1>
+
+      <form class="form" action="/update/{{project_details[0].project_tp_num}}" method="post">
+
+        <!-- Project tp number field -->
+        <div class="govuk-form-group">
+          <label class="govuk-label--s" for="Project tp num">
+            Project TP number
+          </label><br>
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value="{{project_details[0].project_tp_num}}">
+        </div>
+
+        <!-- Project name field -->
+        <div class="govuk-form-group">
+          <label class="govuk-label--s" for="Project name">
+            Project name
+          </label><br>
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value="{{project_details[0].project_name}}">
+        </div>
+
+        <!-- date added field -->
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date added
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-added">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="startDateDay" name="startDateDay" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].day_added}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="startDateMonth" name="startDateMonth" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].month_added}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="startDateYear" name="startDateYear" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].year_added}}">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- SRM field -->
+        <div class="govuk-form-group">
+          <label class="govuk-label--s" for="srm">
+            SRM
+          </label><br>
+          <input class="govuk-input govuk-!-width-two-thirds" id="srm" name="srm" type="text" value="{{project_details[0].srm}}">
+        </div>
+
+        <!-- portfolio field --> <!-- TODO join portfolio table -->
+        <div class="govuk-form-group">
+          <label class="govuk-label--s" for="portfolio">
+            Portfolio
+          </label><br>
+          <input class="govuk-input govuk-!-width-two-thirds" id="portfolio" name="portfolio" type="text" value="{{project_details[0].portfolio}}">
+        </div>
+
+        <!-- status field -->
+        <div class='govuk-form-group'>
+          <label class="govuk-label--s" for="status">
+            Status of project
+          </label><br>
+          <select class="govuk-select" id="status" name="status">
+            <option value="" selected></option>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+
+        <!-- date closed field -->
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date Closed
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              Date the project was formally closed. For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-added">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedDay" name="dateClosedDay" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].date_closed_day}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedMonth" name="dateClosedMonth" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].date_closed_month}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateClosedYear" name="dateClosedYear" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].date_closed_year}}">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <input type="submit" draggable="false" value="Update" class="govuk-button">
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

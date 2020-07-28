@@ -184,7 +184,7 @@
         {% asyncEach project_detail in project_details %}
 
         <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"><a href="#">{{project_detail.project_tp_num}}</a></th>
+          <th scope="row" class="govuk-table__header"><a href="/view/{{project_detail.project_tp_num}}">{{project_detail.project_tp_num}}</a></th>
           <td class="govuk-table__cell">{{project_detail.project_name | trim}}</td>
           <td class="govuk-table__cell">{{project_detail.status}}</td>
           <td class="govuk-table__cell">{{project_detail.portfolio_name}}</td>

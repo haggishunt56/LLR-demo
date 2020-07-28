@@ -15,13 +15,24 @@ router.get('/lessondetails', (req, res) => {
 });
 
 //return full detail of a single lesson rendered onto html page
-router.get('/:proj_id-:les_id', (req, res) => {
+router.get('/view/:proj_id-:les_id', (req, res) => {
   queries
     .searchLessons
     .getByProjectLesson(req.params.proj_id, req.params.les_id)
     .then(lesson_details => {
       //res.json(lesson_details);
       res.render('view/lesson_details.html', {lesson_details});
+    });
+});
+
+//return full detail of a single project rendered onto html page
+router.get('/view/:proj_id', (req, res) => {
+  queries
+    .searchProjects
+    .getByTpNum(req.params.proj_id)
+    .then(project_details => {
+      //res.json(project_details);
+      res.render('view/project_details.html', {project_details});
     });
 });
 
@@ -198,18 +209,6 @@ router.post('/create', function (req, res) {
     };
   });
 
-//display update fields as json
-router.get('/json/:proj_id-:les_id', (req, res) => {
-  queries
-    .searchLessons
-    .getByProjectLesson(req.params.proj_id, req.params.les_id)
-    .then(lesson_details => {
-      res.json(lesson_details);
-      //res.render('update/update_entry.html', {lesson_details});
-    });
-
-});
-
 //display update lesson page
 router.get('/update/:proj_id-:les_id', (req, res) => {
   const url = req.params;
@@ -236,6 +235,32 @@ router.post('/update/:proj_id-:les_id', (req, res) => { //
       targetUrl = targetUrl.concat(req.params.proj_id, '-', req.params.les_id);
       console.log(targetUrl);
       res.redirect(targetUrl);
+    }
+  );
+});
+
+//display update project page
+router.get('/update/:proj_id', (req, res) => {
+  queries
+    .searchProjects
+    .getByTpNum(req.params.proj_id)
+    .then(project_details => {
+      //res.json(project_details);
+      res.render('update/update_project.html', {project_details});
+    }
+  );
+});
+
+//handle update project instruction
+router.post('/update/:proj_id', (req, res) => { //
+  queries
+    .updateProject(req.params.proj_id, req.body.projectName, req.body.srm,
+      req.body.status, req.body.portfolio, req.body.startDateDay, req.body.startDateMonth,
+      req.body.startDateYear) // TODO closeDate
+
+    .then(project_details => {
+
+      res.render('update/update_project_success.html', {project_details});
     }
   );
 });
