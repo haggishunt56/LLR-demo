@@ -63,7 +63,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date added</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell"><i>{{project_details[0].start_date | date}}</i></td> <!-- TODO -->
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">SRM</th>
@@ -71,7 +71,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Portfolio</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell"><i>{{project_details[0].portfolio}}</i></td> <!-- TODO join tables -->
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Status</th>
@@ -79,7 +79,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date closed</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell"><i>{{project_details[0].closed_date | date}}</i></td>
           </tr>
         </tbody>
       </table>

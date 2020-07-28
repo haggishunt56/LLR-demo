@@ -178,12 +178,7 @@ module.exports = {
   updateProject: function(projectTpNum, projectName, srm, status, portfolio,
       startDateDay, startDateMonth, startDateYear) {
 
-        console.log("yes");
-
-
       let startDate = new Date(startDateYear, startDateMonth, startDateDay);
-
-      console.log(projectTpNum, projectName, srm, status, portfolio, startDate);
 
       return knex('project_details')
       .where('project_tp_num', '=', projectTpNum)
