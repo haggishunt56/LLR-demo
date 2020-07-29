@@ -157,10 +157,12 @@ module.exports = {
       .into('project_details')
     ;
   },
-  updateLesson: function(projectId, lessonId, projectName, category, type, identifiedBy,
-    identifiersArea, summary, details, targetDateDay, targetDateMonth, targetDateYear) {
+  updateLesson: function(projectId, lessonId, startDay, startMonth, startYear,
+    category, type, identifiedBy, identifiersArea, howIdentified, uploadedBy,
+    summary, details, targetDateDay, targetDateMonth, targetDateYear) {
 
     let targetDate = new Date(targetDateYear, targetDateMonth, targetDateDay);
+    let startDate = new Date(startYear, startMonth, startDay);
 
     return knex('lesson_details')
       .where('lesson_id', '=', lessonId)
@@ -169,11 +171,12 @@ module.exports = {
         www_ebi: type,
         identified_by: identifiedBy,
         identifiers_area: identifiersArea,
+        how_identified: howIdentified,
         target_date: targetDate,
         summary: summary,
         description: details
       })
-      .returning(['lesson_id', 'project_tp_num']);
+      .returning(['*']);
   },
   updateProject: function(projectTpNum, projectName, srm, status, portfolio,
       startDateDay, startDateMonth, startDateYear) {

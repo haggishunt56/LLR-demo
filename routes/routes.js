@@ -21,7 +21,7 @@ router.get('/view/:proj_id-:les_id', (req, res) => {
     .getByProjectLesson(req.params.proj_id, req.params.les_id)
     .then(lesson_details => {
       //res.json(lesson_details);
-      res.render('view/lesson_details.html', {lesson_details});
+      res.render('view/view_lesson.html', {lesson_details});
     });
 });
 
@@ -32,7 +32,7 @@ router.get('/view/:proj_id', (req, res) => {
     .getByTpNum(req.params.proj_id)
     .then(project_details => {
       //res.json(project_details);
-      res.render('view/project_details.html', {project_details});
+      res.render('view/view_project.html', {project_details});
     });
 });
 
@@ -49,10 +49,10 @@ router.get('/search', (req,res) => {
 //handle input on search forms
 router.post('/search', (req, res) => {
   if (req.body.lessonproject == 'lesson') {
-    res.render('search/lessons.html');
+    res.render('search/search_lessons.html');
   }
   else if (req.body.lessonproject == 'project') {
-    res.render('search/projects.html');
+    res.render('search/search_projects.html');
   }
   else if (JSON.stringify(req.body) === '{}') {
     //res.send(req.body);
@@ -69,7 +69,7 @@ router.post('/search', (req, res) => {
         reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear)
       .then(
         lesson_details => {
-          res.render('search/lessons.html', {lesson_details, reqjson});
+          res.render('search/search_lessons.html', {lesson_details, reqjson});
           //res.send(lesson_details);
       });
   }
@@ -82,7 +82,7 @@ router.post('/search', (req, res) => {
         reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear)
       .then(
         project_details => {
-          res.render('search/projects.html', {project_details, reqjson});
+          res.render('search/search_projects.html', {project_details, reqjson});
         });
   };
 });
@@ -96,7 +96,7 @@ router.get('/create', (req, res) => {
 router.post('/create', function (req, res) {
 
     if (req.body.lessonproject == 'lesson') { //if lesson selected
-      return res.render('create/lesson.html'); //display create lesson page
+      return res.render('create/create_lesson.html'); //display create lesson page
     }
 
     else if (req.body.lessonproject == 'project') { //if project selected
@@ -140,7 +140,7 @@ router.post('/create', function (req, res) {
       //summarise and send errors
       if (JSON.stringify(err) !== JSON.stringify({})) {
         const reqjson = req.body;
-        return res.render('create/lesson.html', {err, reqjson});
+        return res.render('create/create_lesson.html', {err, reqjson});
       }
       else { //query database
         queries
@@ -151,7 +151,7 @@ router.post('/create', function (req, res) {
             req.body.targetDateYear)
           .then(
             createLesson => {
-              return res.render('create/lessonsuccess.html', {createLesson}); //display success page
+              return res.render('create/create_lesson_success.html', {createLesson}); //display success page
               //res.send(createLesson);
             }
           );
@@ -166,27 +166,29 @@ router.post('/create', function (req, res) {
       if (req.body.projectName == "") {
         err.projectName = true;
       }
-      if (req.body.projectTpNum == "") {
-        err.projectTpNum = true;
-      }
-      if (req.body.dateStartedDay == "") {
-        console.log(req.body.dateStartedDay);
-        err.dateStartedDay = true;
-      }
-      if (req.body.dateStartedMonth == "") {
-        err.dateStartedMonth = true;
-      }
-      if (req.body.dateStartedYear == "") {
-        err.dateStartedYear = true;
+      if (req.body.Category == "") {
+        err.Category = true;
       }
       if (req.body.portfolio == "") {
         err.portfolio = true;
       }
-      if (req.body.srm == "") {
-        err.srm = true;
+      if (req.body.Summary == "") {
+        err.portfolio = true;
       }
-      if (req.body.status == "") {
-        err.status = true;
+      if (req.body.identifiedBy == "") {
+        err.identifiedBy = true;
+      }
+      if (req.body.identifiedByArea == "") {
+        err.identifiedByArea = true;
+      }
+      if (req.body.howIdentified == "") {
+        err.howIdentified = true;
+      }
+      if (req.body.summary == "") {
+        err.summary = true;
+      }
+      if (req.body.details == "") {
+        err.details = true;
       }
 
       //summarise and send errors
@@ -203,7 +205,7 @@ router.post('/create', function (req, res) {
             req.body.SRM, req.body.status)
           .then(
             createProject => {
-              return res.render('create/projectsuccess.html', {createProject}); //display success page
+              return res.render('create/create_project_success.html', {createProject}); //display success page
             }
           );
       }
@@ -212,32 +214,86 @@ router.post('/create', function (req, res) {
 
 //display update lesson page
 router.get('/update/:proj_id-:les_id', (req, res) => {
-  const url = req.params;
+  const id = req.params;
   queries
     .searchLessons
     .getByProjectLesson(req.params.proj_id, req.params.les_id)
     .then(lesson_details => {
-      //res.json(lesson_details);
-      res.render('update/update_entry.html', {lesson_details, url});
+      //res.json(id);
+      res.render('update/update_lesson.html', {lesson_details, id});
     }
   );
 });
 
 //handle update lesson instruction
 router.post('/update/:proj_id-:les_id', (req, res) => { //
-  queries
-    .updateLesson(req.params.proj_id, req.params.les_id, req.body.projectName,
-      req.body.category, req.body.type, req.body.identifiedBy, req.body.identifiersArea,
-      req.body.summary, req.body.details, req.body.targetDateDay, req.body.targetDateMonth,
-      req.body.targetDateYear) // TODO req.body.howIdentified
-    .then(lesson_id => {
-      let targetUrl = '/success/';
-      console.log(targetUrl);
-      targetUrl = targetUrl.concat(req.params.proj_id, '-', req.params.les_id);
-      console.log(targetUrl);
-      res.redirect(targetUrl);
-    }
-  );
+
+  const id = req.params;
+
+  //test for blank fields
+  let err = {};
+  if (req.body.project_tp_num == "") {
+    err.project_tp_num = true;
+  }
+  if (req.body.day_added == "") {
+    err.day_added = true;
+  }
+  if (req.body.month_added == "") {
+    err.month_added = true;
+  }
+  if (req.body.year_added == "") {
+    err.year_added = true;
+  }
+  if (req.body.category == "") {
+    err.category = true;
+  }
+  if (req.body.type == "") {
+    err.type = true;
+  }
+  if (req.body.identified_by == "") {
+    err.identified_by = true;
+  }
+  if (req.body.identifiers_area == "") {
+    err.identifiers_area = true;
+  }
+  if (req.body.how_identified == "") {
+    err.how_identified = true;
+  }
+  if (req.body.username == "") {
+    err.username = true;
+  }
+  if (req.body.summary == "") {
+    err.summary = true;
+  }
+  if (req.body.description == "") {
+    err.description = true;
+  }
+
+   // res.json(req.body);
+
+  //
+  // let dateAdded = new Date(req.body.year_added, req.body.month_added, req.body.day_added);
+  // summarise and send errors
+  if (JSON.stringify(err) !== JSON.stringify({})) {
+    const lesson_details = [{}];
+    lesson_details[0] = req.body;
+    // return res.json(lesson_details);
+    // console.log(lesson_details[0].type);
+    return res.render('update/update_lesson.html', {err, lesson_details, id});
+  }
+  else {
+    queries
+      .updateLesson(req.params.proj_id, req.params.les_id, req.body.day_added,
+        req.body.month_added, req.body.year_added, req.body.category, req.body.type,
+        req.body.identified_by, req.body.identifiers_area, req.body.how_identified,
+        req.body.username, req.body.summary, req.body.description, req.body.target_date_day,
+        req.body.target_date_month, req.body.target_date_year)
+      .then(lesson_details => {
+        res.render('update/update_lesson_success.html', {lesson_details});
+      }
+    );
+  }
+
 });
 
 //display update project page
@@ -273,7 +329,7 @@ router.get('/success/:proj_id-:les_id', (req, res) => {
     .getByProjectLesson(req.params.proj_id, req.params.les_id)
     .then(lesson_details => {
       //res.json(lesson_details);
-      res.render('../views/update/update_entry_success.html', {lesson_details});
+      res.render('../views/update/update_lesson_success.html', {lesson_details});
     });
 });
 
