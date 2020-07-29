@@ -56,7 +56,8 @@ router.post('/search', (req, res) => {
   }
   else if (JSON.stringify(req.body) === '{}') {
     //res.send(req.body);
-    res.render('search/searchwhat.html');
+    var err = '{ "error" : "noSelection" }';
+    res.render('search/searchwhat.html', {err});
   }
   else if ('projectName' in req.body) { //search lessons
     const reqjson = req.body;
