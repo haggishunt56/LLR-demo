@@ -1,0 +1,273 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Lessons Learned Repository - LLR - Update
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Update</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Update a lesson</h1>
+
+      <form class="form" action="/update/{{id.proj_id}}-{{id.les_id}}" method="post">
+
+        <!-- Project tp number field -->
+        <div {% if err.project_tp_num %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="Project TP num">
+            Project TP number
+          </label><br>
+          {% if err.project_tp_num %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the TP number of the project, for example, "TP081"
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="project_tp_num" name="project_tp_num" type="text" value="{{ lesson_details[0].project_tp_num }}">
+        </div>
+
+        <!-- date added field --> <!-- TODO validation -->
+        <div class="govuk-form-group" >
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date added
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-added">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day_added" name="day_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].day_added}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month_added" name="month_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].month_added}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year_added" name="year_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].year_added}}">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- category field --> <!-- TODO change to dropdown -->
+        <div {% if err.category %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="Lesson category">
+            Lesson category
+          </label><br>
+          {% if err.category %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the category of the project, for example, "Security"
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="category" name="category" type="text" value="{{lesson_details[0].category}}">
+        </div>
+
+        <!-- type field -->
+        <div {% if err.type %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <fieldset class="govuk-fieldset" aria-describedby="wwwebi-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Is this a "what went well" or "even better if" lesson?
+              </h1>
+            </legend>
+            {% if err.type %} <!-- display only if error returned by routes -->
+              <span id="changed-name-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> Select "WWW" for "what went well" or "EBI" for "even better if"
+              </span>
+            {% endif %}
+            <div class="govuk-radios govuk-radios--inline">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="typeWww" name="www_ebi" type="radio" value="www" {% if lesson_details[0].www_ebi=="www" or lesson_details[0].www_ebi=="WWW" %} checked {% endif %}>
+                <label class="govuk-label govuk-radios__label" for="changed-name">
+                  WWW
+                </label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="typeEbi" name="www_ebi" type="radio" value="ebi" {% if lesson_details[0].www_ebi=="ebi" or lesson_details[0].www_ebi=="EBI" %} checked {% endif %}>
+                <label class="govuk-label govuk-radios__label" for="changed-name-2">
+                  EBI
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- identified by field -->
+        <div {% if err.identified_by %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="identified-by">
+            Identified by
+          </label>
+          {% if err.identified_by %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the person who identified the project
+          </span>
+          {% endif %}
+          <span id="date-from" class="govuk-hint">
+            Please enter the full name of the person who identified this lesson.
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="identified_by" name="identified_by" type="text" value="{{lesson_details[0].identified_by}}">
+        </div>
+
+        <!-- area field -->
+        <div {% if err.identifiers_area %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="identified-by-area">
+            Area of staff member who identified lesson
+          </label>
+          {% if err.identifiers_area %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the work area of the person who identified this lesson, for example, TEaL portfolio
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="identifiers_area" name="identifiers_area" type="text" value="{{lesson_details[0].identifiers_area}}">
+        </div>
+
+        <!-- how identified field -->
+        <div {% if err.how_identified %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="how-identified">
+            How was this lesson identified?
+          </label><br>
+          {% if err.how_identified %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Briefly explain how or when this lesson was identified, for example, at a sprint retrospective
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="how_identified" name="how_identified" type="text" value="{{lesson_details[0].how_identified}}">
+        </div>
+
+        <!-- uploaded by field -->
+        <div {% if err.username %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="added-by">
+            Uploaded by
+          </label><br>
+          {% if err.username %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the person who added the lesson to the repository
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="username" name="username" type="text" value="{{lesson_details[0].username}}">
+        </div>
+
+        <!-- lesson summary field -->
+        <div {% if err.summary %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="portfolio">
+            Summary
+          </label>
+          <span id="date-from" class="govuk-hint">
+            Please enter a brief (less than 120 characters) summary of the lesson.
+          </span>
+          {% if err.summary %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Provide a summary of the lesson learned
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="summary" name="summary" type="text" value="{{lesson_details[0].summary}}">
+        </div>
+
+        <!-- details field -->
+        <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="2000">
+          <div {% if err.description %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+            <label class="govuk-label--s" for="with-hint">
+              Lesson learned details
+            </label>
+            <span id="with-hint-hint" class="govuk-hint">
+              Do not include personal or financial information.
+            </span>
+            {% if err.description %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Describe the impact or benefit of the lesson
+            </span>
+            {% endif %}
+            <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="description" name="description" rows="5" aria-describedby="with-hint-info with-hint-hint">{{lesson_details[0].description}}</textarea>
+          </div>
+          <span id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+            You can enter up to 2000 characters
+          </span>
+        </div>
+
+        <!-- target date field -->
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Target date
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              Date all actions should be completed by. For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-added">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_day" name="target_date_day" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_day}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_month" name="target_date_month" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_month}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="target_date_year" name="target_date_year" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_year}}">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <input type="submit" draggable="false" value="Update" class="govuk-button">
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}
