@@ -36,39 +36,49 @@
       <form class="form" action="create" method="post" enctype='application/json'>
 
         <!-- Project name field -->
-        <div {% if err.projectName %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.projectName.blank or err.projectName.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="project-name">
             Project name
           </label><br>
           <span id="project-name" class="govuk-hint">
             Please enter the name of the project or conference.
           </span>
-          {% if err.projectName %}
+          {% if err.projectName.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the name of the project or conference
+          </span>
+          {% endif %}
+          {% if err.projectName.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Project name cannot be longer than 100 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value={{ reqjson.projectName }}>
         </div>
 
         <!-- Project TP number field -->
-        <div {% if err.projectTpNum %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.projectTpNum or err.projectTpNum.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="project-tp-num">
             Project TP number
           </label><br>
           <span id="project-name" class="govuk-hint">
             Please enter the TP number of the project, for example, TP081
           </span>
-          {% if err.projectTpNum %}
+          {% if err.projectTpNum.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the TP number of the project
+          </span>
+          {% endif %}
+          {% if err.projectTpNum.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> TP number cannot be longer than 6 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value={{ reqjson.projectTpNum }}>
         </div>
 
-        <!-- Date added field -->
-        <div {% if err.err.dateStartedDay or err.dateStartedMonth or err.dateStartedYear %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <!-- Date started field -->
+        <div {% if err.dateStarted.blank %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
@@ -78,7 +88,7 @@
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>
-            {% if err.dateStartedDay or err.dateStartedMonth or err.dateStartedYear %}
+            {% if err.dateStarted.blank %}
             <span id="event-name-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Enter the date the project started
             </span>
@@ -153,11 +163,11 @@
         </div>
 
         <!-- Portfolio field -->
-        <div {% if err.portfolio %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.portfolio.blank %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="portfolio">
             Portfolio
           </label><br>
-          {% if err.portfolio %}
+          {% if err.portfolio.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Select a portfolio
           </span>
@@ -184,27 +194,32 @@
         </div>
 
         <!-- SRM field -->
-        <div {% if err.srm %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.srm.blank or err.srm.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="srm">
             Senior Responsible Manager (SRM)
           </label>
           <span id="SRM-hint" class="govuk-hint">
             Please enter the full name of the person who is responsible for the project
           </span>
-          {% if err.srm %}
+          {% if err.srm.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the full name of the person who is responsible for the project
+          </span>
+          {% endif %}
+          {% if err.srm.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> SRM cannot be longer than 45 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="srm" name="srm" type="text" value={{ reqjson.srm }}>
         </div>
 
         <!-- status field -->
-        <div {% if err.status %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.status.blank %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="status">
             Status of project
           </label><br>
-          {% if err.status %}
+          {% if err.status.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Select a status
           </span>
