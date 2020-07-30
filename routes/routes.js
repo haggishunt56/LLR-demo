@@ -93,14 +93,14 @@ router.get('/create', (req, res) => {
 });
 
 //handle input on create forms
-router.post('/create', function (req, res) {
+router.post('/create', (req, res) => {
 
     if (req.body.lessonproject == 'lesson') { //if lesson selected
       return res.render('create/create_lesson.html'); //display create lesson page
     }
 
     else if (req.body.lessonproject == 'project') { //if project selected
-      return res.render('create/project.html'); //display create project page
+      return res.render('create/create_project.html'); //display create project page
     }
 
     else if (JSON.stringify(req.body) === '{}') { //if nothing selected
@@ -110,41 +110,90 @@ router.post('/create', function (req, res) {
 
     else if ('targetDateDay' in req.body) { //create lesson
 
-      //test for blank fields
-      let err = {};
+      //validate fields
+      let err = {summary:{}, projectTpNum:{}, category:{}, lessonType:{},
+          identifiedBy:{}, identifiedByArea:{}, howIdentified:{}, summary:{},
+          details:{}};
+
       if (req.body.projectTpNum == "") {
-        err.projectTpNum = true;
-      }
-      if (req.body.lessonCategory == "") {
-        err.lessonCategory = true;
-      }
-      if (req.body.lessonType == undefined) {
-        err.lessonType = true;
-      }
-      if (req.body.identifiedBy == "") {
-        err.identifiedBy = true;
-      }
-      if (req.body.identifiedByArea == "") {
-        err.identifiedByArea = true;
-      }
-      if (req.body.howIdentified == "") {
-        err.howIdentified = true;
-      }
-      if (req.body.summary == "") {
+        err.projectTpNum.blank = true;
         err.summary = true;
       }
-      if (req.body.details == "") {
-        err.details = true;
+      if (req.body.projectTpNum.length > 6){
+        err.projectTpNum.tooLong = true;
+        err.summary = true;
       }
 
+      if (req.body.category == "") {
+        err.category.blank = true;
+        err.summary = true;
+      }
+      if (req.body.category.length > 45) {
+        err.category.tooLong = true;
+        err.summary = true;
+      }
+
+      if (req.body.lessonType == undefined) {
+        err.lessonType.blank = true;
+        err.summary = true;
+      }
+
+      if (req.body.identifiedBy == "") {
+        err.identifiedBy.blank = true;
+        err.summary = true;
+      }
+      if (req.body.identifiedBy.length > 45) {
+        err.identifiedBy.tooLong = true;
+        err.summary = true;
+      }
+
+      if (req.body.identifiedByArea == "") {
+        err.identifiedByArea.blank = true;
+        err.summary = true;
+      }
+      if (req.body.identifiedByArea.length > 45) {
+        err.identifiedByArea.tooLong = true;
+        err.summary = true;
+      }
+
+      if (req.body.howIdentified == "") {
+        err.howIdentified.blank = true;
+        err.summary = true;
+      }
+      if (req.body.howIdentified.length > 128) {
+        err.howIdentified.tooLong = true;
+        err.summary = true;
+      }
+
+      if (req.body.summary == "") {
+        err.summary.blank = true;
+        err.summary = true;
+      }
+      if (req.body.summary.length > 128) {
+        err.summary.tooLong = true;
+        err.summary = true;
+      }
+
+      if (req.body.details == "") {
+        err.details.blank = true;
+        err.summary = true;
+      }
+      if (req.body.details.length > 2000) {
+        err.details.tooLong = true;
+        err.summary = true;
+      }
+      console.log(err);
+
       //summarise and send errors
-      if (JSON.stringify(err) !== JSON.stringify({})) {
+      if (JSON.stringify(err.summary) !== JSON.stringify({})) {
         const reqjson = req.body;
         return res.render('create/create_lesson.html', {err, reqjson});
       }
-      else { //query database
+
+      //query database
+      else {
         queries
-          .createLesson(req.body.projectTpNum, req.body.lessonCategory,
+          .createLesson(req.body.projectTpNum, req.body.category,
             req.body.lessonType, req.body.identifiedBy, req.body.identifiedByArea,
             req.body.howIdentified, req.body.summary, req.body.details,
             req.body.targetDateDay, req.body.targetDateMonth,
@@ -160,41 +209,56 @@ router.post('/create', function (req, res) {
 
     else { //create project   //TODO - check for duplicate TP NUMs
 
-
       //test for blank fields
-      let err = {};
+      let err = {summary:{}, projectName:{}, projectTpNum:{}, portfolio:{}, srm:{}, status:{}, dateStarted:{}}; //TODO include start and close date
+
       if (req.body.projectName == "") {
-        err.projectName = true;
-      }
-      if (req.body.Category == "") {
-        err.Category = true;
-      }
-      if (req.body.portfolio == "") {
-        err.portfolio = true;
-      }
-      if (req.body.Summary == "") {
-        err.portfolio = true;
-      }
-      if (req.body.identifiedBy == "") {
-        err.identifiedBy = true;
-      }
-      if (req.body.identifiedByArea == "") {
-        err.identifiedByArea = true;
-      }
-      if (req.body.howIdentified == "") {
-        err.howIdentified = true;
-      }
-      if (req.body.summary == "") {
+        err.projectName.blank = true;
         err.summary = true;
       }
-      if (req.body.details == "") {
-        err.details = true;
+      if (req.body.projectName.length > 100) {
+        err.projectName.tooLong = true;
+        err.summary = true;
+      }
+
+      if (req.body.projectTpNum == "") {
+        err.projectTpNum.blank = true;
+        err.summary = true;
+      }
+      if (req.body.projectTpNum.length > 6) {
+        err.projectTpNum.tooLong = true;
+        err.summary = true;
+      }
+
+      if (req.body.dateStartedDay == "" || req.body.dateStartedMonth == "" ||
+          req.body.dateStartedYear == "") {
+        err.dateStarted.blank = true;
+        err.summary = true;
+      }
+
+      if (req.body.portfolio == "") {
+        err.portfolio.blank = true;
+        err.summary = true;
+      }
+
+      if (req.body.srm == "") {
+        err.srm.blank = true;
+        err.summary = true;
+      }
+      if (req.body.srm.length > 45) {
+        err.srm.tooLong = true;
+        err.summary = true;
+      }
+
+      if (req.body.status == "") {
+        err.status.blank = true;
+        err.summary = true;
       }
 
       //summarise and send errors
-      if (JSON.stringify(err) !== JSON.stringify({})) {
+      if (JSON.stringify(err.summary) !== JSON.stringify({})) {
         const reqjson = req.body;
-        return res.render('create/project.html', {err, reqjson});
+        return res.render('create/create_project.html', {err, reqjson});
       }
       else { //query db
         queries
@@ -364,6 +428,7 @@ router.get('/file/bulkupload', function (req, res) {
   res.download('./app/views/LLR_upload_form_v0.0.xls');
 });
 
+//regex practice
 router.get('/regex', function (req, res) {
   let regTest = /ab*c/;
   let strTest = 'adbc';

@@ -142,10 +142,14 @@ module.exports = {
   createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
     how_identified, summary, details, target_date_day, target_date_month, target_date_year) {
 
-    var targetDate = new Date(`${target_date_year}`, `${target_date_month}`, `${target_date_day}`, 0, 0, 0);
+    console.log(project_tp_num, category, type, identified_by, identifiers_area,
+      how_identified, summary, details, target_date_day, target_date_month, target_date_year);
+
+    let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
+    let targetDate = new Date(`${target_date_year}`, `${target_date_month}`, `${target_date_day}`, 0, 0, 0);
     //INSERT INTO lesson_details VALUES [args]
 
-    return knex.insert({category: `${category}`, date_added: '2020-02-23', description: `${details}`,
+    return knex.insert({category: `${category}`, date_added: dateAdded, description: `${details}`,
       how_identified: `${how_identified}`, identified_by: `${identified_by}`,
       identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
       summary: `${summary}`, target_date: targetDate, uploaded_by: '1', www_ebi: `${type}`}, ['lesson_id', 'project_tp_num'])

@@ -36,16 +36,21 @@
       <form class="form" action="create" method="post" enctype='application/json'>
 
         <!-- Project tp_num field -->
-        <div {% if err.projectTpNum %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.projectTpNum.blank or err.projectTpNum.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="project-tp-num">
             Project TP number
           </label>
           <span id="project-tp-num-hint" class="govuk-hint">
             Please enter the TP number of the project <!-- TODO Change to drop down with all projects? -->
           </span>
-          {% if err.projectTpNum %}
+          {% if err.projectTpNum.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the TP number of the project, for example, "TP081"
+          </span>
+          {% endif %}
+          {% if err.projectTpNum.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> The TP number cannot be longer than 6 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value = {{ reqjson.projectTpNum }}>
@@ -54,27 +59,51 @@
         <!-- TODO automatically calculate date -->
 
         <!-- category field -->
-        <div {% if err.lessonCategory %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="lesson-category">
-            Lesson category
+        <div {% if err.category.blank or err.category.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="category">
+            Lesson Category
           </label><br>
-          {% if err.lessonCategory %}
-          <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the category of the lesson, for example, "Security"
+          {% if err.category.blank or err.category.tooLong %}
+            <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Select a category
           </span>
           {% endif %}
-          <input class="govuk-input govuk-!-width-two-thirds" id="lessonCategory" name="lessonCategory" type="text" value = {{ reqjson.lessonCategory }}>
+          <select class="govuk-select" id="category" name="category">
+            <option value=""></option>
+            <option value="assurance" {% if reqjson.category=="assurance" %} selected {% endif %}>Assurance</option>
+            <option value="bau" {% if reqjson.category=="bau" %} selected {% endif %}>BAU</option>
+            <option value="commercial" {% if reqjson.category=="commercial" %} selected {% endif %}>Commercial</option>
+            <option value="communications" {% if reqjson.category=="communications" %} selected {% endif %}>Communications</option>
+            <option value="deployment" {% if reqjson.category=="deployment" %} selected {% endif %}>Deployment</option>
+            <option value="design" {% if reqjson.category=="design" %} selected {% endif %}>Design</option>
+            <option value="development" {% if reqjson.category=="development" %} selected {% endif %}>Development</option>
+            <option value="estates" {% if reqjson.category=="estates" %} selected {% endif %}>Estates</option>
+            <option value="financial" {% if reqjson.category=="financial" %} selected {% endif %}>Financial</option>
+            <option value="governance" {% if reqjson.category=="governance" %} selected {% endif %}>Governance</option>
+            <option value="management" {% if reqjson.category=="management" %} selected {% endif %}>Management</option>
+            <option value="regulatory" {% if reqjson.category=="regulatory" %} selected {% endif %}>Regulatory</option>
+            <option value="resources" {% if reqjson.category=="resources" %} selected {% endif %}>Resources</option>
+            <option value="scoperequirements" {% if reqjson.category=="scoperequirements" %} selected {% endif %}>Scope/Requirements</option>
+            <option value="schedule" {% if reqjson.category=="schedule" %} selected {% endif %}>Schedule</option>
+            <option value="security" {% if reqjson.category=="security" %} selected {% endif %}>Security</option>
+            <option value="stakeholdes" {% if reqjson.category=="stakeholdes" %} selected {% endif %}>Stakeholders</option>
+            <option value="strategy" {% if reqjson.category=="strategy" %} selected {% endif %}>Strategy</option>
+            <option value="technology" {% if reqjson.category=="technology" %} selected {% endif %}>Technology</option>
+            <option value="testing" {% if reqjson.category=="testing" %} selected {% endif %}>Testing</option>
+            <option value="training" {% if reqjson.category=="training" %} selected {% endif %}>Training</option>
+
+          </select>
         </div>
 
         <!-- type field -->
-        <div {% if err.lessonType %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.lessonType.blank %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <fieldset class="govuk-fieldset" aria-describedby="lesson-type-hint">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
                 Lesson type
               </h1>
             </legend>
-            {% if err.lessonType %} <!-- display only if error returned by routes -->
+            {% if err.lessonType.blank %} <!-- display only if error returned by routes -->
               <span id="changed-name-error" class="govuk-error-message">
                 <span class="govuk-visually-hidden">Error:</span> Select "WWW" for "what went well" or "EBI" for "even better if"
               </span>
@@ -99,42 +128,57 @@
         </div>
 
         <!-- identified by field -->
-        <div {% if err.identifiedBy %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.identifiedBy.blank or err.identifiedBy.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="identified-by">
             Identified by
           </label>
           <span id="identified-by-hint" class="govuk-hint">
             Please enter the full name of the person who identified this lesson.
           </span>
-          {% if err.identifiedBy %}
+          {% if err.identifiedBy.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the name of the person who identified this lesson
+          </span>
+          {% endif %}
+          {% if err.identifiedBy.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter 45 characters or fewer
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="identifiedBy" name="identifiedBy" type="text" value = {{ reqjson.identifiedBy }}>
         </div>
 
         <!-- area field -->
-        <div {% if err.identifiedByArea %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.identifiedByArea.blank or err.identifiedByArea.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="identified-by-area">
             Area of staff member who identified lesson
           </label>
-          {% if err.identifiedByArea %}
+          {% if err.identifiedByArea.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the work area of the person who identified this lesson, for example, TEaL portfolio
+          </span>
+          {% endif %}
+          {% if err.identifiedByArea.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter 45 characters or fewer
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="identifiedByArea" name="identifiedByArea" type="text" value = {{ reqjson.identifiedByArea }}>
         </div>
 
         <!-- how identified field -->
-        <div {% if err.howIdentified %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.howIdentified.blank or err.howidentified.toolong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="how-identified">
             When or how was this lesson identified?
           </label>
-          {% if err.howIdentified %}
+          {% if err.howIdentified.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Briefly explain how or when this lesson was identified, for example, at a sprint retrospective
+          </span>
+          {% endif %}
+          {% if err.howIdentified.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter 128 characters or fewer
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="howIdentified" name="howIdentified" type="text" value = {{ reqjson.howIdentified }}>
@@ -143,29 +187,39 @@
         <!-- TODO Automatically calculate name of uploader -->
 
         <!-- lesson summary field -->
-        <div {% if err.summary %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.summary.blank or err.summary.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="summary">
             Summary
           </label>
           <span id="summary-hint" class="govuk-hint">
             Please enter a brief summary of the lesson.
           </span>
-          {% if err.summary %}
+          {% if err.summary.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Provide a summary of the lesson learned
+          </span>
+          {% endif %}
+          {% if err.summary.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter 128 characters or fewer
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="summary" name="summary" type="text" value = {{ reqjson.summary }}>
         </div>
 
         <!-- lesson details field -->
-        <div {% if err.details %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} data-module="govuk-character-count" data-maxlength="2000">
+        <div {% if err.details.blank or err.details.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} data-module="govuk-character-count" data-maxlength="2000">
           <label class="govuk-label--s" for="with-hint">
             Lesson learned details
           </label>
-          {% if err.details %}
+          {% if err.details.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Describe the impact or benefit of the lesson
+          </span>
+          {% endif %}
+          {% if err.details.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter 2000 characters or fewer
           </span>
           {% endif %}
           <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="details" name="details" rows="5" aria-describedby="with-hint-info with-hint-hint">{{ reqjson.details }}</textarea>
