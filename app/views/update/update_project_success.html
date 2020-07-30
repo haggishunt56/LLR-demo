@@ -24,7 +24,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/search">Search</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Lesson details</li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">project details</li>
   </ol>
 </div>
 {% endblock %}
@@ -34,7 +34,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
-      <h1 class="govuk-heading-xl">Lesson details</h1>
+      <h1 class="govuk-heading-xl">Project details</h1>
 
       <div class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title">
@@ -79,7 +79,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date closed</th>
-            <td class="govuk-table__cell"><i>{{project_details[0].closed_date | date}}</i></td>
+            <td class="govuk-table__cell"><i>{{project_details[0].closure_date | date}}</i></td>
           </tr>
         </tbody>
       </table>
