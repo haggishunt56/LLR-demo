@@ -35,23 +35,20 @@
 
       <form class="form" action="/update/{{project_details[0].project_tp_num}}" method="post">
 
-        <!-- Project tp number field -->
-        <div class="govuk-form-group">
-          <label class="govuk-label--s" for="Project tp num">
-            Project TP number
-          </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value="{{project_details[0].project_tp_num}}">
-        </div>
-
         <!-- Project name field -->
-        <div class="govuk-form-group">
+        <div {% if err.project_name %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="Project name">
             Project name
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value="{{project_details[0].project_name}}">
+          {% if err.project_name %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the project, for example, "EU Exit"
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text" value="{{project_details[0].project_name}}">
         </div>
 
-        <!-- date added field -->
+        <!-- date added field --> <!-- TODO validation -->
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
@@ -68,7 +65,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="startDateDay" name="startDateDay" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].day_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="start_day" name="start_day" type="text" pattern="[0-9]*" inputmode="numeric" value="{{project_details[0].start_day}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -76,7 +73,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="startDateMonth" name="startDateMonth" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].month_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="start_month" name="start_month" type="text" pattern="[0-9]*" inputmode="numeric" value="{{project_details[0].start_month}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -84,7 +81,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="startDateYear" name="startDateYear" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].year_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="start_year" name="start_year" type="text" pattern="[0-9]*" inputmode="numeric" value="{{project_details[0].start_year}}">
                 </div>
               </div>
             </div>
@@ -92,30 +89,45 @@
         </div>
 
         <!-- SRM field -->
-        <div class="govuk-form-group">
+        <div {% if err.srm %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="srm">
             SRM
           </label><br>
+          {% if err.srm %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the Senior Responsible Manager for this project
+          </span>
+          {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="srm" name="srm" type="text" value="{{project_details[0].srm}}">
         </div>
 
         <!-- portfolio field --> <!-- TODO join portfolio table -->
-        <div class="govuk-form-group">
+        <div {% if err.portfolio %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="portfolio">
             Portfolio
           </label><br>
+          {% if err.portfolio %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the portfolio to which the project belongs
+          </span>
+          {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="portfolio" name="portfolio" type="text" value="{{project_details[0].portfolio}}">
         </div>
 
         <!-- status field -->
-        <div class='govuk-form-group'>
+        <div {% if err.status %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="status">
             Status of project
           </label><br>
+          {% if err.status %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Select a status
+          </span>
+          {% endif %}
           <select class="govuk-select" id="status" name="status">
-            <option value="" selected></option>
-            <option value="open">Open</option>
-            <option value="closed">Closed</option>
+            <option value="" {% if project_details[0].status=="" %} selected {% endif %}></option>
+            <option value="open" {% if project_details[0].status=="open" %} selected {% endif %}>Open</option>
+            <option value="closed" {% if project_details[0].status=="closed" %} selected {% endif %}>Closed</option>
           </select>
         </div>
 
@@ -136,7 +148,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedDay" name="dateClosedDay" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].date_closed_day}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="closure_day" name="closure_day" type="text" pattern="[0-9]*" inputmode="numeric" value="{{project_details[0].closure_day}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -144,7 +156,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedMonth" name="dateClosedMonth" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].date_closed_month}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="closure_month" name="closure_month" type="text" pattern="[0-9]*" inputmode="numeric" value="{{project_details[0].closure_month}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -152,7 +164,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateClosedYear" name="dateClosedYear" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].date_closed_year}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="closure_year" name="closure_year" type="text" pattern="[0-9]*" inputmode="numeric" value="{{project_details[0].closure_year}}">
                 </div>
               </div>
             </div>

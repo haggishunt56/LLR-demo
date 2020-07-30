@@ -226,7 +226,7 @@ router.get('/update/:proj_id-:les_id', (req, res) => {
 });
 
 //handle update lesson instruction
-router.post('/update/:proj_id-:les_id', (req, res) => { //
+router.post('/update/:proj_id-:les_id', (req, res) => {
 
   const id = req.params;
 
@@ -269,16 +269,10 @@ router.post('/update/:proj_id-:les_id', (req, res) => { //
     err.description = true;
   }
 
-   // res.json(req.body);
-
-  //
-  // let dateAdded = new Date(req.body.year_added, req.body.month_added, req.body.day_added);
   // summarise and send errors
   if (JSON.stringify(err) !== JSON.stringify({})) {
     const lesson_details = [{}];
     lesson_details[0] = req.body;
-    // return res.json(lesson_details);
-    // console.log(lesson_details[0].type);
     return res.render('update/update_lesson.html', {err, lesson_details, id});
   }
   else {
@@ -293,7 +287,6 @@ router.post('/update/:proj_id-:les_id', (req, res) => { //
       }
     );
   }
-
 });
 
 //display update project page
@@ -309,17 +302,50 @@ router.get('/update/:proj_id', (req, res) => {
 });
 
 //handle update project instruction
-router.post('/update/:proj_id', (req, res) => { //
-  queries
-    .updateProject(req.params.proj_id, req.body.projectName, req.body.srm,
-      req.body.status, req.body.portfolio, req.body.startDateDay, req.body.startDateMonth,
-      req.body.startDateYear) // TODO closeDate
+router.post('/update/:project_tp_num', (req, res) => { //
 
-    .then(project_details => {
+  //validate empty fields
+  let err = {};
+  if (req.body.project_name == "") {
+    err.project_name = true;
+  }
+  if (req.body.start_day == "") {
+    err.start_day = true;
+  }
+  if (req.body.start_month == "") {
+    err.start_month = true;
+  }
+  if (req.body.start_year == "") {
+    err.start_year = true;
+  }
+  if (req.body.srm == "") {
+    err.srm = true;
+  }
+  if (req.body.portfolio == "") {
+    err.portfolio = true;
+  }
+  if (req.body.status == "") {
+    err.status = true;
+  }
 
-      res.render('update/update_project_success.html', {project_details});
-    }
-  );
+  if (JSON.stringify(err) !== JSON.stringify({})) {
+    const project_details = [{}];
+    project_details[0] = req.body;
+    project_details[0].project_tp_num = req.params.project_tp_num;
+    return res.render('update/update_project.html', {err, project_details});
+  }
+  else {
+    queries
+      .updateProject(req.params.project_tp_num, req.body.project_name, req.body.srm,
+        req.body.status, req.body.portfolio, req.body.start_day, req.body.start_month,
+        req.body.start_year, req.body.closure_day, req.body.closure_month,
+        req.body.closure_year)
+      .then(project_details => {
+        res.render('update/update_project_success.html', {project_details});
+      }
+    );
+  }
+
 });
 
 //return full detail of a single lesson rendered onto html page, with success banner

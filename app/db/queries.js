@@ -125,10 +125,18 @@ module.exports = {
     },
     getByTpNum: function(project) {
 
-      return knex.select().from('project_details')
-        .where('project_tp_num', project)
+      return knex.select(
+        '*',
+        knex.raw('EXTRACT(YEAR FROM start_date) as start_year'),
+        knex.raw('EXTRACT(MONTH FROM start_date) as start_month'),
+        knex.raw('EXTRACT(DAY FROM start_date) as start_day'),
+        knex.raw('EXTRACT(YEAR FROM closure_date) as closure_year'),
+        knex.raw('EXTRACT(MONTH FROM closure_date) as closure_month'),
+        knex.raw('EXTRACT(DAY FROM closure_date) as closure_day')
+      )
+      .from('project_details')
+      .where('project_tp_num', project)
       ;
-
     }
   },
   createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
@@ -179,19 +187,21 @@ module.exports = {
       .returning(['*']);
   },
   updateProject: function(projectTpNum, projectName, srm, status, portfolio,
-      startDateDay, startDateMonth, startDateYear) {
+    startDateDay, startDateMonth, startDateYear, closeDateDay, closeDateMonth,
+    closeDateYear) {
 
       let startDate = new Date(startDateYear, startDateMonth, startDateDay);
+      let closeDate = new Date(closeDateYear, closeDateMonth, closeDateDay);
 
       return knex('project_details')
       .where('project_tp_num', '=', projectTpNum)
       .update({
         project_name: projectName,
         start_date: startDate,
-        closure_date: null,
         srm: srm,
         status: status,
-        portfolio: portfolio
+        portfolio: portfolio,
+        closure_date: closeDate
       })
       .returning(['project_tp_num', 'project_name', 'start_date', 'closure_date',
         'srm', 'status', 'portfolio']);
