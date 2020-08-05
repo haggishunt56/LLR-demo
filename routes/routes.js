@@ -111,81 +111,81 @@ router.post('/create', (req, res) => {
     else if ('targetDateDay' in req.body) { //create lesson
 
       //validate fields
-      let err = {summary:{}, projectTpNum:{}, category:{}, lessonType:{},
+      let err = {summarise:{}, projectTpNum:{}, category:{}, lessonType:{},
           identifiedBy:{}, identifiedByArea:{}, howIdentified:{}, summary:{},
           details:{}};
 
       if (req.body.projectTpNum == "") {
         err.projectTpNum.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.projectTpNum.length > 6){
         err.projectTpNum.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.category == "") {
         err.category.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.category.length > 45) {
         err.category.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.lessonType == undefined) {
         err.lessonType.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.identifiedBy == "") {
         err.identifiedBy.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.identifiedBy.length > 45) {
         err.identifiedBy.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.identifiedByArea == "") {
         err.identifiedByArea.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.identifiedByArea.length > 45) {
         err.identifiedByArea.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.howIdentified == "") {
         err.howIdentified.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.howIdentified.length > 128) {
         err.howIdentified.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.summary == "") {
         err.summary.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.summary.length > 128) {
         err.summary.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.details == "") {
         err.details.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.details.length > 2000) {
         err.details.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
       console.log(err);
 
       //summarise and send errors
-      if (JSON.stringify(err.summary) !== JSON.stringify({})) {
+      if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
         const reqjson = req.body;
         return res.render('create/create_lesson.html', {err, reqjson});
       }
@@ -295,51 +295,98 @@ router.post('/update/:proj_id-:les_id', (req, res) => {
   const id = req.params;
 
   //test for blank fields
-  let err = {};
+  let err = {summarise:{}, project_tp_num:{}, day_added:{}, month_added:{},
+      year_added:{}, category:{}, type:{}, identified_by:{}, identifiers_area:{},
+      how_identified:{}, summary:{}, description:{}};
+
   if (req.body.project_tp_num == "") {
-    err.project_tp_num = true;
+    err.project_tp_num.blank = true;
+    err.summarise = true;
   }
+  if (req.body.project_tp_num.length > 6) {
+    err.project_tp_num.tooLong = true;
+    err.summarise = true;
+  }
+
   if (req.body.day_added == "") {
-    err.day_added = true;
+    err.day_added.blank = true;
+    err.summarise = true;
   }
   if (req.body.month_added == "") {
-    err.month_added = true;
+    err.month_added.blank = true;
+    err.summarise = true;
   }
   if (req.body.year_added == "") {
-    err.year_added = true;
+    err.year_added.blank = true;
+    err.summarise = true;
   }
+
   if (req.body.category == "") {
-    err.category = true;
+    err.category.blank = true;
+    err.summarise = true;
   }
+  if (req.body.category.length > 45) {
+    err.category.tooLong = true;
+    err.summarise = true;
+  }
+
   if (req.body.type == "") {
-    err.type = true;
+    err.type.blank = true;
+    err.summarise = true;
   }
+
   if (req.body.identified_by == "") {
-    err.identified_by = true;
+    err.identified_by.blank = true;
+    err.summarise = true;
   }
+  if (req.body.identified_by.length > 45) {
+    err.identified_by.tooLong = true;
+    err.summarise = true;
+  }
+
   if (req.body.identifiers_area == "") {
-    err.identifiers_area = true;
+    err.identifiers_area.blank = true;
+    err.summarise = true;
   }
+  if (req.body.identifiers_area.length > 45) {
+    err.identifiers_area.tooLong = true;
+    err.summarise = true;
+  }
+
   if (req.body.how_identified == "") {
-    err.how_identified = true;
+    err.how_identified.blank = true;
+    err.summarise = true;
   }
-  if (req.body.username == "") {
-    err.username = true;
+  if (req.body.how_identified.length > 128) {
+    err.how_identified.tooLong = true;
+    err.summarise = true;
   }
+
   if (req.body.summary == "") {
-    err.summary = true;
+    err.summary.blank = true;
+    err.summarise = true;
   }
+  if (req.body.summary.length > 128) {
+    err.summary.tooLong = true;
+    err.summarise = true;
+  }
+
   if (req.body.description == "") {
-    err.description = true;
+    err.description.blank = true;
+    err.summarise = true;
+  }
+  if (req.body.description.length > 2000) {
+    err.description.tooLong = true;
+    err.summarise = true;
   }
 
   // summarise and send errors
-  if (JSON.stringify(err) !== JSON.stringify({})) {
+  if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
     const lesson_details = [{}];
     lesson_details[0] = req.body;
     return res.render('update/update_lesson.html', {err, lesson_details, id});
   }
-  else {
+  else { //update lesson
     queries
       .updateLesson(req.params.proj_id, req.params.les_id, req.body.day_added,
         req.body.month_added, req.body.year_added, req.body.category, req.body.type,
@@ -369,10 +416,17 @@ router.get('/update/:proj_id', (req, res) => {
 router.post('/update/:project_tp_num', (req, res) => { //
 
   //validate empty fields
-  let err = {};
+  let err = {summarise:{}, project_name:{}, srm:{}, portfolio:{}, status:{}};
+
   if (req.body.project_name == "") {
-    err.project_name = true;
+    err.project_name.blank = true;
+    err.summarise = true;
   }
+  if (req.body.project_name.length > 100) {
+    err.project_name.tooLong = true;
+    err.summarise = true;
+  }
+
   if (req.body.start_day == "") {
     err.start_day = true;
   }
@@ -382,17 +436,35 @@ router.post('/update/:project_tp_num', (req, res) => { //
   if (req.body.start_year == "") {
     err.start_year = true;
   }
+
   if (req.body.srm == "") {
-    err.srm = true;
+    err.srm.blank = true;
+    err.summarise = true;
   }
-  if (req.body.portfolio == "") {
-    err.portfolio = true;
-  }
-  if (req.body.status == "") {
-    err.status = true;
+  if (req.body.srm.length > 45) {
+    err.srm.tooLong = true;
+    err.summarise = true;
   }
 
-  if (JSON.stringify(err) !== JSON.stringify({})) {
+  if (req.body.portfolio == "") {
+    err.portfolio.blank = true;
+    err.summarise = true;
+  }
+  if (req.body.portfolio.length > 6) {
+    err.portfolio.tooLong = true;
+    err.summarise = true;
+  }
+
+  if (req.body.status == "") {
+    err.status.blank = true;
+    err.summarise = true;
+  }
+  if (req.body.status.length > 6) {
+    err.status.tooLong = true;
+    err.summarise = true;
+  }
+
+  if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
     const project_details = [{}];
     project_details[0] = req.body;
     project_details[0].project_tp_num = req.params.project_tp_num;

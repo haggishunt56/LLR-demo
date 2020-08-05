@@ -63,7 +63,7 @@
           <label class="govuk-label--s" for="category">
             Lesson Category
           </label><br>
-          {% if err.category.blank or err.category.tooLong %}
+          {% if err.category.blank %}
             <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Select a category
           </span>

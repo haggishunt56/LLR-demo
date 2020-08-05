@@ -42,13 +42,18 @@
       <form class="form" action="/update/{{project_details[0].project_tp_num}}" method="post">
 
         <!-- Project name field -->
-        <div {% if err.project_name %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.project_name.blank or err.project_name.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="Project name">
             Project name
           </label><br>
-          {% if err.project_name %}
+          {% if err.project_name.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the name of the project, for example, "EU Exit"
+          </span>
+          {% endif %}
+          {% if err.project_name.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Project name cannot be longer than 100 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="project_name" name="project_name" type="text" value="{{project_details[0].project_name}}">
@@ -95,39 +100,54 @@
         </div>
 
         <!-- SRM field -->
-        <div {% if err.srm %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.srm.blank or err.srm.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="srm">
             SRM
           </label><br>
-          {% if err.srm %}
+          {% if err.srm.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the name of the Senior Responsible Manager for this project
+          </span>
+          {% endif %}
+          {% if err.srm.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> SRM cannot be longer than 45 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="srm" name="srm" type="text" value="{{project_details[0].srm}}">
         </div>
 
-        <!-- portfolio field --> <!-- TODO join portfolio table -->
-        <div {% if err.portfolio %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <!-- portfolio field --> <!-- TODO join portfolio table & make dropdown -->
+        <div {% if err.portfolio.blank or err.portfolio.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="portfolio">
             Portfolio
           </label><br>
-          {% if err.portfolio %}
+          {% if err.portfolio.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the name of the portfolio to which the project belongs
+          </span>
+          {% endif %}
+          {% if err.portfolio.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Portfolio cannot be longer than 6 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="portfolio" name="portfolio" type="text" value="{{project_details[0].portfolio}}">
         </div>
 
         <!-- status field -->
-        <div {% if err.status %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.status.blank %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="status">
             Status of project
           </label><br>
-          {% if err.status %}
+          {% if err.status.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Select a status
+          </span>
+          {% endif %}
+          {% if err.status.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Status cannot be longer than 6 characters
           </span>
           {% endif %}
           <select class="govuk-select" id="status" name="status">
