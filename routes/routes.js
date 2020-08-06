@@ -495,21 +495,25 @@ router.get('/success/:proj_id-:les_id', (req, res) => {
     });
 });
 
+//display delete project confirmation page
+router.get('/delete/:proj_id', (req, res) => {
+  let id = req.params.proj_id;
+  res.render('delete/delete_project_confirm.html', {id});
+});
+
+router.post('/delete/:proj_id', (req, res) => {
+  tpNum = req.params.proj_id
+  queries.deleteProject(tpNum)
+    .then(
+      rows_deleted => {
+        res.render('delete/delete_project_success.html', {rows_deleted, tpNum});
+      }
+    )
+});
+
 //send bulk upload form as download
 router.get('/file/bulkupload', function (req, res) {
   res.download('./app/views/LLR_upload_form_v0.0.xls');
 });
-
-//regex practice
-router.get('/regex', function (req, res) {
-  let regTest = /ab*c/;
-  let strTest = 'adbc';
-
-  console.log(regTest);
-  console.log(strTest);
-  console.log(regTest.exec(strTest));
-
-  res.render('home.html');
-})
 
 module.exports = router;

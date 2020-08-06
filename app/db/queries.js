@@ -142,9 +142,6 @@ module.exports = {
   createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
     how_identified, summary, details, target_date_day, target_date_month, target_date_year) {
 
-    console.log(project_tp_num, category, type, identified_by, identifiers_area,
-      how_identified, summary, details, target_date_day, target_date_month, target_date_year);
-
     let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
     let targetDate = new Date(`${target_date_year}`, `${target_date_month}`, `${target_date_day}`, 0, 0, 0);
     //INSERT INTO lesson_details VALUES [args]
@@ -209,5 +206,13 @@ module.exports = {
       })
       .returning(['project_tp_num', 'project_name', 'start_date', 'closure_date',
         'srm', 'status', 'portfolio']);
+  },
+  deleteLesson: function() {},
+  deleteProject: function(projectTpNum) {
+    let query = knex('project_details')
+      .del()
+      .where({project_tp_num:projectTpNum});
+
+    return query;
   }
 }
