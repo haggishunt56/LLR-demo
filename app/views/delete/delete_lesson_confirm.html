@@ -21,7 +21,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Delete</li> <!-- TODO check breadcrumbs -->
   </ol>
 </div>
 {% endblock %}
@@ -37,7 +37,10 @@
             Confirm delete
           </h1>
           <div class="govuk-panel__body">
-            Are you sure you want to delete this lesson record?
+            Are you sure you want to delete lesson {{id.proj_id}}-{{id.les_id}}?<br>
+          </div>
+          <div class="govuk-panel__body--s">
+          <br>This action can <b>not</b> be undone.
           </div>
         </div>
       </div>
@@ -45,17 +48,10 @@
   </main>
 </div>
 
-        <a href="/delete_success" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
-          Confirm delete
-        </a>
-
-        <a href="/lesson_details_page" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
-          No, take me back
-        </a>
-
-      </form>
-
-    </div>
-  </div>
-
+<form class="form" action="{{id.proj_id}}-{{id.les_id}}" method="post" enctype='application/json'>
+  <input type="submit" draggable="false" value="Yes, delete" class="govuk-button govuk-button--warning">
+  <a href="/view/{{id.proj_id}}-{{id.les_id}}" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
+    No, take me back
+  </a>
+</form>
 {% endblock %}

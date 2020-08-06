@@ -207,12 +207,20 @@ module.exports = {
       .returning(['project_tp_num', 'project_name', 'start_date', 'closure_date',
         'srm', 'status', 'portfolio']);
   },
-  deleteLesson: function() {},
+  deleteLesson: function(projectTpNum, lessonId) {
+    let query = knex('lesson_details')
+      .del()
+      .where({project_tp_num:projectTpNum, lesson_id:lessonId});
+
+    return query;
+  },
   deleteProject: function(projectTpNum) {
+    console.log("working 2...");
     let query = knex('project_details')
       .del()
       .where({project_tp_num:projectTpNum});
 
+      console.log("working 3...");
     return query;
   }
 }
