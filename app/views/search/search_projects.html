@@ -76,8 +76,8 @@
           </label><br>
           <select class="govuk-select" id="status" name="status">
             <option value=""></option>
-            <option value="open">Open</option>
-            <option value="closed">Closed</option>
+            <option value="open" {% if reqjson.status=="open" %} selected {% endif %}>Open</option>
+            <option value="closed" {% if reqjson.status=="closed" %} selected {% endif %}>Closed</option>
           </select>
         </div>
 

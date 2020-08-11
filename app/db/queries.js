@@ -99,10 +99,8 @@ module.exports = {
         // .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
 
       if (projectName !== "") { //include only if search field is not blank
-        query.where(function() {
-          this.where('project_details.project_name', 'ilike', `%${projectName}%`)
-            .orwhere('project_details.project_tp_num', 'ilike', `%${projectName}%`)
-        })
+        query.where('project_details.project_name', 'ilike', `%${projectName}%`)
+            .orWhere('project_details.project_tp_num', 'ilike', `%${projectName}%`)
       }
 
       if(portfolio !== "") { //include search param only if field is not blank
@@ -137,6 +135,7 @@ module.exports = {
         knex.raw('EXTRACT(MONTH FROM closure_date) as closure_month'),
         knex.raw('EXTRACT(DAY FROM closure_date) as closure_day')
       )
+      .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
       .from('project_details')
       .where('project_tp_num', project)
       ;
@@ -188,7 +187,7 @@ module.exports = {
         summary: summary,
         description: details
       })
-      .returning(['*']);
+      .returning('*');
   },
   updateProject: function(projectTpNum, projectName, srm, status, portfolio,
     startDateDay, startDateMonth, startDateYear, closeDateDay, closeDateMonth,

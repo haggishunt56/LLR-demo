@@ -40,7 +40,7 @@ module.exports = function (env) {
 
   ------------------------------------------------------------------ */
   filters.date = function(dateStr) {
-    if (!(dateStr === undefined)) {
+    if (!(dateStr === undefined) && !(dateStr === null)) {
       return (dateStr.toString().slice(4,15));
     }
   }
