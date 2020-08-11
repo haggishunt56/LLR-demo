@@ -57,7 +57,7 @@
         </div>
 
         <!-- Project TP number field -->
-        <div {% if err.projectTpNum or err.projectTpNum.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.projectTpNum.blank or err.projectTpNum.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="project-tp-num">
             Project TP number
           </label><br>

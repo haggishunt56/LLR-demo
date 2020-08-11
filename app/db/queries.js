@@ -99,7 +99,10 @@ module.exports = {
         // .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
 
       if (projectName !== "") { //include only if search field is not blank
-        query.where('project_details.project_name', 'ilike', `%${projectName}%`);
+        query.where(function() {
+          this.where('project_details.project_name', 'ilike', `%${projectName}%`)
+            .orwhere('project_details.project_tp_num', 'ilike', `%${projectName}%`)
+        })
       }
 
       if(portfolio !== "") { //include search param only if field is not blank

@@ -75,6 +75,7 @@ router.post('/search', (req, res) => {
   }
   else { //search projects
     const reqjson = req.body;
+    console.log(reqjson);
     queries
       .searchProjects
       .getBySearchFields(reqjson.projectName_proj, reqjson.portfolio, reqjson.status,
@@ -521,14 +522,13 @@ router.get('/delete/:proj_id', (req, res) => {
 
 //handle instruction to delete project
 router.post('/delete/:proj_id', (req, res) => {
-  res.send(req.params)
-  // tpNum = req.params.proj_id
-  // queries.deleteProject(tpNum)
-  //   .then(
-  //     rows_deleted => {
-  //       res.render('delete/delete_project_success.html', {rows_deleted, tpNum});
-  //     }
-  //   )
+  tpNum = req.params.proj_id
+  queries.deleteProject(tpNum)
+    .then(
+      rows_deleted => {
+        res.render('delete/delete_project_success.html', {rows_deleted, tpNum});
+      }
+    )
 });
 
 //send bulk upload form as download
