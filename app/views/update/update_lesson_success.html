@@ -54,12 +54,12 @@
         </thead>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">Project name</th>
-            <td class="govuk-table__cell">{{lesson_details[0].project_id}}</td>
+            <th scope="row" class="govuk-table__header">Project TP number</th>
+            <td class="govuk-table__cell">{{lesson_details[0].project_name}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date added</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell">{{lesson_details[0].date_added | date}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Category</th>
@@ -71,7 +71,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Portfolio</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell">{{lesson_details[0].portfolio_name}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Lesson Summary</th>
@@ -91,15 +91,15 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Uploaded by</th>
-            <td class="govuk-table__cell">{{lesson_details[0].uploaded_by}}</td>
+            <td class="govuk-table__cell">{{lesson_details[0].username}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Target date</th>
-            <td class="govuk-table__cell">{{lesson_details[0].target_date}}</td>
+            <td class="govuk-table__cell">{{lesson_details[0].target_date | date}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Completed date</th>
-            <td class="govuk-table__cell">{{lesson_details[0].completion_date}}</td>
+            <td class="govuk-table__cell">{{lesson_details[0].completion_date | date}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Lesson details</th>
@@ -112,7 +112,7 @@
         Update entry
       </a>
 
-      <a href="/delete_confirmation" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+      <a href="/delete/{{lesson_details[0].project_tp_num}}-{{lesson_details[0].lesson_id}}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
         Delete lesson
       </a>
 

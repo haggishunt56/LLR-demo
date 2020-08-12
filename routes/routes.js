@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const queries = require('../app/db/queries');
 
-//return raw json with full details of all lessons in the table
+//return raw json with full details of all lessons in the database
 router.get('/lessondetails', (req, res) => {
   queries
     .Lessons
@@ -71,6 +71,7 @@ router.post('/search', (req, res) => {
         lesson_details => {
           res.render('search/search_lessons.html', {lesson_details, reqjson});
           //res.send(lesson_details);
+          //res.send(reqjson);
       });
   }
   else { //search projects
@@ -330,7 +331,7 @@ router.post('/update/:proj_id-:les_id', (req, res) => {
     err.summarise = true;
   }
 
-  if (req.body.type == "") {
+  if (req.body.www_ebi == "") {
     err.type.blank = true;
     err.summarise = true;
   }
@@ -389,22 +390,27 @@ router.post('/update/:proj_id-:les_id', (req, res) => {
   else { //update lesson
     queries
       .updateLesson(req.params.proj_id, req.params.les_id, req.body.day_added,
-        req.body.month_added, req.body.year_added, req.body.category, req.body.type,
+        req.body.month_added, req.body.year_added, req.body.category, req.body.www_ebi,
         req.body.identified_by, req.body.identifiers_area, req.body.how_identified,
         req.body.username, req.body.summary, req.body.description, req.body.target_date_day,
         req.body.target_date_month, req.body.target_date_year)
       .then(lesson_details => {
-        res.render('update/update_lesson_success.html', {lesson_details});
-      }
-    );
+        queries
+          .searchLessons
+          .getByProjectLesson(req.params.proj_id, req.params.les_id)
+          .then(lesson_details => {
+            //res.json(lesson_details);
+            res.render('update/update_lesson_success.html', {lesson_details});
+      });
+    });
   }
 });
 
 //display update project page
-router.get('/update/:proj_id', (req, res) => {
+router.get('/update/:proj_tp_num', (req, res) => {
   queries
     .searchProjects
-    .getByTpNum(req.params.proj_id)
+    .getByTpNum(req.params.proj_tp_num)
     .then(project_details => {
       //res.json(project_details);
       res.render('update/update_project.html', {project_details});
@@ -477,21 +483,16 @@ router.post('/update/:project_tp_num', (req, res) => { //
         req.body.start_year, req.body.closure_day, req.body.closure_month,
         req.body.closure_year)
       .then(project_details => {
-        res.render('update/update_project_success.html', {project_details});
+        queries
+          .searchProjects
+          .getByTpNum(req.params.project_tp_num)
+          .then(project_details => {
+            //res.json(project_details);
+            res.render('update/update_project_success.html', {project_details});
+          });
       }
     );
   }
-});
-
-//return full detail of a single lesson rendered onto html page, with success banner
-router.get('/success/:proj_id-:les_id', (req, res) => {
-  queries
-    .searchLessons
-    .getByProjectLesson(req.params.proj_id, req.params.les_id)
-    .then(lesson_details => {
-      //res.json(lesson_details);
-      res.render('../views/update/update_lesson_success.html', {lesson_details});
-    });
 });
 
 //display delete lesson confirmation page
@@ -521,14 +522,13 @@ router.get('/delete/:proj_id', (req, res) => {
 
 //handle instruction to delete project
 router.post('/delete/:proj_id', (req, res) => {
-  res.send(req.params)
-  // tpNum = req.params.proj_id
-  // queries.deleteProject(tpNum)
-  //   .then(
-  //     rows_deleted => {
-  //       res.render('delete/delete_project_success.html', {rows_deleted, tpNum});
-  //     }
-  //   )
+  tpNum = req.params.proj_id
+  queries.deleteProject(tpNum)
+    .then(
+      rows_deleted => {
+        res.render('delete/delete_project_success.html', {rows_deleted, tpNum});
+      }
+    )
 });
 
 //send bulk upload form as download

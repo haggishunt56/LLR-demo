@@ -54,7 +54,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date added</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell">{{project_details[0].start_date | date}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">SRM</th>
@@ -62,7 +62,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Portfolio</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell">{{project_details[0].portfolio_name}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Status</th>
@@ -70,7 +70,7 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date closed</th>
-            <td class="govuk-table__cell"><i>TBC</i></td>
+            <td class="govuk-table__cell">{{project_details[0].closure_date | date}}</td>
           </tr>
         </tbody>
       </table>

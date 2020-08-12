@@ -152,8 +152,8 @@
           {% endif %}
           <select class="govuk-select" id="status" name="status">
             <option value="" {% if project_details[0].status=="" %} selected {% endif %}></option>
-            <option value="open" {% if project_details[0].status=="open" %} selected {% endif %}>Open</option>
-            <option value="closed" {% if project_details[0].status=="closed" %} selected {% endif %}>Closed</option>
+            <option value="Open" {% if project_details[0].status=="Open" %} selected {% endif %}>Open</option>
+            <option value="Closed" {% if project_details[0].status=="Closed" %} selected {% endif %}>Closed</option>
           </select>
         </div>
 
