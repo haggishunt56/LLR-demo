@@ -217,12 +217,9 @@ module.exports = {
     return query;
   },
   deleteProject: function(projectTpNum) {
-    console.log("working 2...");
     let query = knex('project_details')
       .del()
       .where({project_tp_num:projectTpNum});
-
-      console.log("working 3...");
     return query;
   }
 }
