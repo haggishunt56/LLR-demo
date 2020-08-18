@@ -183,7 +183,6 @@ router.post('/create', (req, res) => {
         err.details.tooLong = true;
         err.summarise = true;
       }
-      console.log(err);
 
       //summarise and send errors
       if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
