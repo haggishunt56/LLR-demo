@@ -69,7 +69,8 @@ router.post('/search', (req, res) => {
         reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear)
       .then(
         lesson_details => {
-          res.render('search/search_lessons.html', {lesson_details, reqjson});
+          var rowsReturned = Object.keys(lesson_details).length
+          res.render('search/search_lessons.html', {lesson_details, reqjson, rowsReturned});
           //res.send(lesson_details);
           //res.send(reqjson);
       });
@@ -83,7 +84,8 @@ router.post('/search', (req, res) => {
         reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear)
       .then(
         project_details => {
-          res.render('search/search_projects.html', {project_details, reqjson});
+          var rowsReturned = Object.keys(project_details).length
+          res.render('search/search_projects.html', {project_details, reqjson, rowsReturned});
         });
   };
 });
