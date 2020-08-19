@@ -33,11 +33,69 @@
 
       <h1 class="govuk-heading-xl">Create a project</h1>
 
+      {% if err.summarise %}
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            {% if err.projectName.blank %}
+            <li>
+              <a href="#projectName">Enter the name of the project or conference</a>
+            </li>
+            {% endif %}
+            {% if err.projectName.tooLong %}
+            <li>
+              <a href="#projectName">Project name cannot be longer than 100 characters</a>
+            </li>
+            {% endif %}
+            {% if err.projectTpNum.blank %}
+            <li>
+              <a href="#projectTpNum">Enter the TP number of the project</a>
+            </li>
+            {% endif %}
+            {% if err.projectTpNum.tooLong %}
+            <li>
+              <a href="#projectTpNum">TP number cannot be longer than 6 characters</a>
+            </li>
+            {% endif %}
+            {% if err.dateStarted.blank %}
+            <li>
+              <a href="#dateStartedDay">Enter the date the project started</a>
+            </li>
+            {% endif %}
+            {% if err.portfolio.blank %}
+            <li>
+              <a href="#portfolio">Select a portfolio</a>
+            </li>
+            {% endif %}
+            {% if err.srm.blank %}
+            <li>
+              <a href="#srm">Enter the name of the SRM for the project</a>
+            </li>
+            {% endif %}
+            {% if err.srm.tooLong %}
+            <li>
+              <a href="#srm">SRM field cannot be longer than 45 characters</a>
+            </li>
+            {% endif %}
+            {% if err.status.blank %}
+            <li>
+              <a href="#status">Select the status</a>
+            </li>
+            {% endif %}
+
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
       <form class="form" action="create" method="post" enctype='application/json'>
 
         <!-- Project name field -->
         <div {% if err.projectName.blank or err.projectName.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="project-name">
+          <label class="govuk-label--s" for="projectName">
             Project name
           </label><br>
           <span id="project-name" class="govuk-hint">
@@ -58,7 +116,7 @@
 
         <!-- Project TP number field -->
         <div {% if err.projectTpNum.blank or err.projectTpNum.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="project-tp-num">
+          <label class="govuk-label--s" for="projectTpNum">
             Project TP number
           </label><br>
           <span id="project-name" class="govuk-hint">
@@ -79,11 +137,11 @@
 
         <!-- Date started field -->
         <div {% if err.dateStarted.blank %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="dateStarted">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-              <h1 class="govuk-fieldset__heading">
+              <label class="govuk-fieldset__heading" for="dateStarted">
                 Date started
-              </h1>
+              <label>
             </legend>
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
@@ -96,7 +154,7 @@
             <div class="govuk-date-input" id="date-added">
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-started-day">
+                  <label class="govuk-label govuk-date-input__label" for="dateStartedDay">
                     Day
                   </label>
                   <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateStartedDay" name="dateStartedDay" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateStartedDay }}>
@@ -104,7 +162,7 @@
               </div>
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-added-month">
+                  <label class="govuk-label govuk-date-input__label" for="dateStartedMonth">
                     Month
                   </label>
                   <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateStartedMonth" name="dateStartedMonth" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateStartedMonth }}>
@@ -112,7 +170,7 @@
               </div>
               <div class="govuk-date-input__item">
                 <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-added-year">
+                  <label class="govuk-label govuk-date-input__label" for="dateStartedYear">
                     Year
                   </label>
                   <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateStartedYear" name="dateStartedYear" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateStartedYear }}>

@@ -33,11 +33,93 @@
 
       <h1 class="govuk-heading-xl">Create a lesson</h1>
 
+      {% if err.summary %}
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            {% if err.projectTpNum.blank %}
+            <li>
+              <a href="#projectTpNum">Enter the TP number of the project</a>
+            </li>
+            {% endif %}
+            {% if err.projectTpNum.tooLong %}
+            <li>
+              <a href="#projectTpNum">Enter the TP number of the project, for example, "TP081"</a>
+            </li>
+            {% endif %}
+            {% if err.category.blank %}
+            <li>
+              <a href="#category">Select a category</a>
+            </li>
+            {% endif %}
+            {% if err.lessonType.blank %}
+            <li>
+              <a href="#lessonType">Select a lesson type</a>
+            </li>
+            {% endif %}
+            {% if err.identifiedBy.blank %}
+            <li>
+              <a href="#identifiedBy">Enter the name of the person who identified this lesson</a>
+            </li>
+            {% endif %}
+            {% if err.identifiedBy.tooLong %}
+            <li>
+              <a href="#identifiedBy">Identified By field cannot contain more than 45 characters</a>
+            </li>
+            {% endif %}
+            {% if err.identifiedByArea.blank %}
+            <li>
+              <a href="#identifiedByArea">Enter the work area of the person who identified this lesson</a>
+            </li>
+            {% endif %}
+            {% if err.identifiedByArea.tooLong %}
+            <li>
+              <a href="#identifiedByArea">Identifier's area field cannot contain more than 45 characters</a>
+            </li>
+            {% endif %}
+            {% if err.howIdentified.blank %}
+            <li>
+              <a href="#howIdentified">Briefly explain how or when this lesson was identified</a>
+            </li>
+            {% endif %}
+            {% if err.howIdentified.tooLong %}
+            <li>
+              <a href="#howIdentified">How Identified field cannot contain more than 128 characters</a>
+            </li>
+            {% endif %}
+            {% if err.summary.blank %}
+            <li>
+              <a href="#summary">Enter a summary of the lesson learned</a>
+            </li>
+            {% endif %}
+            {% if err.summary.tooLong %}
+            <li>
+              <a href="#summary">Summary field cannot contain more than 128 characters</a>
+            </li>
+            {% endif %}
+            {% if err.details.blank %}
+            <li>
+              <a href="#details">Explain the impact or benefit of this lesson learned</a>
+            </li>
+            {% endif %}
+            {% if err.details.tooLong %}
+            <li>
+              <a href="#details">Details field cannot contain more than 2000 characters</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
       <form class="form" action="create" method="post" enctype='application/json'>
 
         <!-- Project tp_num field -->
         <div {% if err.projectTpNum.blank or err.projectTpNum.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="project-tp-num">
+          <label class="govuk-label--s" for="projectTpNum">
             Project TP number
           </label>
           <span id="project-tp-num-hint" class="govuk-hint">
@@ -104,7 +186,7 @@
               </h1>
             </legend>
             {% if err.lessonType.blank %} <!-- display only if error returned by routes -->
-              <span id="changed-name-error" class="govuk-error-message">
+              <span id="lessonType" class="govuk-error-message">
                 <span class="govuk-visually-hidden">Error:</span> Select "WWW" for "what went well" or "EBI" for "even better if"
               </span>
             {% endif %}
@@ -129,7 +211,7 @@
 
         <!-- identified by field -->
         <div {% if err.identifiedBy.blank or err.identifiedBy.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="identified-by">
+          <label class="govuk-label--s" for="identifiedBy">
             Identified by
           </label>
           <span id="identified-by-hint" class="govuk-hint">
@@ -150,7 +232,7 @@
 
         <!-- area field -->
         <div {% if err.identifiedByArea.blank or err.identifiedByArea.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="identified-by-area">
+          <label class="govuk-label--s" for="identifiedByArea">
             Area of staff member who identified lesson
           </label>
           {% if err.identifiedByArea.blank %}
@@ -167,8 +249,8 @@
         </div>
 
         <!-- how identified field -->
-        <div {% if err.howIdentified.blank or err.howidentified.toolong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="how-identified">
+        <div {% if err.howIdentified.blank or err.howIdentified.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+          <label class="govuk-label--s" for="howIdentified">
             When or how was this lesson identified?
           </label>
           {% if err.howIdentified.blank %}
