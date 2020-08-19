@@ -210,53 +210,53 @@ router.post('/create', (req, res) => {
     else { //create project   //TODO - check for duplicate TP NUMs
 
       //test for blank fields
-      let err = {summary:{}, projectName:{}, projectTpNum:{}, portfolio:{}, srm:{}, status:{}, dateStarted:{}}; //TODO include start and close date
+      let err = {summarise:{}, projectName:{}, projectTpNum:{}, portfolio:{}, srm:{}, status:{}, dateStarted:{}}; //TODO include start and close date
 
       if (req.body.projectName == "") {
         err.projectName.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.projectName.length > 100) {
         err.projectName.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.projectTpNum == "") {
         err.projectTpNum.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.projectTpNum.length > 6) {
         err.projectTpNum.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.dateStartedDay == "" || req.body.dateStartedMonth == "" ||
           req.body.dateStartedYear == "") {
         err.dateStarted.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.portfolio == "") {
         err.portfolio.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.srm == "") {
         err.srm.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
       if (req.body.srm.length > 45) {
         err.srm.tooLong = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       if (req.body.status == "") {
         err.status.blank = true;
-        err.summary = true;
+        err.summarise = true;
       }
 
       //summarise and send errors
-      if (JSON.stringify(err.summary) !== JSON.stringify({})) {
+      if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
         const reqjson = req.body;
         return res.render('create/create_project.html', {err, reqjson});
       }
@@ -471,6 +471,7 @@ router.post('/update/:project_tp_num', (req, res) => { //
 
   if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
     const project_details = [{}];
+    console.log(err)
     project_details[0] = req.body;
     project_details[0].project_tp_num = req.params.project_tp_num;
     return res.render('update/update_project.html', {err, project_details});

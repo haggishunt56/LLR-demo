@@ -33,11 +33,93 @@
 
       <h1 class="govuk-heading-xl">Update a lesson</h1>
 
+      {% if err.summary %}
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            {% if err.project_tp_num.blank %}
+            <li>
+              <a href="#project_tp_num">Enter the TP number of the project</a>
+            </li>
+            {% endif %}
+            {% if err.project_tp_num.tooLong %}
+            <li>
+              <a href="#project_tp_num">Enter the TP number of the project, for example, "TP081"</a>
+            </li>
+            {% endif %}
+            {% if err.category.blank %}
+            <li>
+              <a href="#category">Select a category</a>
+            </li>
+            {% endif %}
+            {% if err.lessonType.blank %}
+            <li>
+              <a href="#www_ebi">Select a lesson type</a>
+            </li>
+            {% endif %}
+            {% if err.identified_by.blank %}
+            <li>
+              <a href="#identified_by">Enter the name of the person who identified this lesson</a>
+            </li>
+            {% endif %}
+            {% if err.identified_by.tooLong %}
+            <li>
+              <a href="#identified_by">Identified By field cannot contain more than 45 characters</a>
+            </li>
+            {% endif %}
+            {% if err.identifiers_area.blank %}
+            <li>
+              <a href="#identifiers_area">Enter the work area of the person who identified this lesson</a>
+            </li>
+            {% endif %}
+            {% if err.identifiers_area.tooLong %}
+            <li>
+              <a href="#identifiers_area">Identifier's area field cannot contain more than 45 characters</a>
+            </li>
+            {% endif %}
+            {% if err.how_identified.blank %}
+            <li>
+              <a href="#how_identified">Briefly explain how or when this lesson was identified</a>
+            </li>
+            {% endif %}
+            {% if err.how_identified.tooLong %}
+            <li>
+              <a href="#how_identified">How Identified field cannot contain more than 128 characters</a>
+            </li>
+            {% endif %}
+            {% if err.summary.blank %}
+            <li>
+              <a href="#summary">Enter a summary of the lesson learned</a>
+            </li>
+            {% endif %}
+            {% if err.summary.tooLong %}
+            <li>
+              <a href="#summary">Summary field cannot contain more than 128 characters</a>
+            </li>
+            {% endif %}
+            {% if err.description.blank %}
+            <li>
+              <a href="#description">Explain the impact or benefit of this lesson learned</a>
+            </li>
+            {% endif %}
+            {% if err.description.tooLong %}
+            <li>
+              <a href="#description">Details field cannot contain more than 2000 characters</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
       <form class="form" action="/update/{{id.proj_id}}-{{id.les_id}}" method="post">
 
         <!-- Project tp number field -->
         <div {% if err.project_tp_num.blank or err.project_tp_num.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="Project TP num">
+          <label class="govuk-label--s" for="project_tp_num">
             Project TP number
           </label><br>
           {% if err.project_tp_num.blank %}
@@ -127,13 +209,13 @@
             <div class="govuk-radios govuk-radios--inline">
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="typeWww" name="www_ebi" type="radio" value="WWW" {% if lesson_details[0].www_ebi=="WWW" or lesson_details[0].www_ebi=="WWW" %} checked {% endif %}>
-                <label class="govuk-label govuk-radios__label" for="changed-name">
+                <label class="govuk-label govuk-radios__label" for="www_ebi">
                   WWW
                 </label>
               </div>
               <div class="govuk-radios__item">
                 <input class="govuk-radios__input" id="typeEbi" name="www_ebi" type="radio" value="EBI" {% if lesson_details[0].www_ebi=="EBI" or lesson_details[0].www_ebi=="EBI" %} checked {% endif %}>
-                <label class="govuk-label govuk-radios__label" for="changed-name-2">
+                <label class="govuk-label govuk-radios__label" for="www_ebi-2">
                   EBI
                 </label>
               </div>
@@ -143,7 +225,7 @@
 
         <!-- identified by field -->
         <div {% if err.identified_by.blank or err.identified_by.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="identified-by">
+          <label class="govuk-label--s" for="identified_by">
             Identified by
           </label>
           {% if err.identified_by.blank %}
@@ -164,7 +246,7 @@
 
         <!-- area field -->
         <div {% if err.identifiers_area.blank or err.identifiers_area.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="identified-by-area">
+          <label class="govuk-label--s" for="identifiers_area">
             Area of staff member who identified lesson
           </label>
           {% if err.identifiers_area.blank %}
@@ -182,7 +264,7 @@
 
         <!-- how identified field -->
         <div {% if err.how_identified.blank or err.how_identified.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="how-identified">
+          <label class="govuk-label--s" for="how_identified">
             How was this lesson identified?
           </label><br>
           {% if err.how_identified.blank %}
@@ -222,7 +304,7 @@
         <!-- details field -->
         <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="2000">
           <div {% if err.description.blank or err.description.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-            <label class="govuk-label--s" for="with-hint">
+            <label class="govuk-label--s" for="description">
               Lesson learned details
             </label>
             <span id="with-hint-hint" class="govuk-hint">
