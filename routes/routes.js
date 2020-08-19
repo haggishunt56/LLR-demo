@@ -227,7 +227,7 @@ router.post('/create', (req, res) => {
         err.projectTpNum.blank = true;
         err.summarise = true;
       }
-      if (req.body.projectTpNum.length > 6) {
+      else if (req.body.projectTpNum.length > 6) {
         err.projectTpNum.tooLong = true;
         err.summarise = true;
       }
@@ -257,24 +257,38 @@ router.post('/create', (req, res) => {
         err.summarise = true;
       }
 
-      //summarise and send errors
-      if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
-        const reqjson = req.body;
-        return res.render('create/create_project.html', {err, reqjson});
-      }
-      else { //query db
-        queries
-          .createProject(req.body.projectName, req.body.projectTpNum,
-            req.body.dateStartedDay, req.body.dateStartedMonth,
-            req.body.dateStartedYear, req.body.dateClosedDay,
-            req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
-            req.body.SRM, req.body.status)
+      queries
+        .searchProjects
+          .checkProjectExists(req.body.projectTpNum)
           .then(
-            createProject => {
-              return res.render('create/create_project_success.html', {createProject}); //display success page
+            checkProjectExists => {
+              if (checkProjectExists[0].count !== '0') {
+                err.projectTpNum.exists = true;
+                err.summarise = true;
+              }
+
+              //summarise and send errors
+              if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
+                const reqjson = req.body;
+                return res.render('create/create_project.html', {err, reqjson});
+              }
+              else { //query db
+                queries
+                  .createProject(req.body.projectName, req.body.projectTpNum,
+                    req.body.dateStartedDay, req.body.dateStartedMonth,
+                    req.body.dateStartedYear, req.body.dateClosedDay,
+                    req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
+                    req.body.SRM, req.body.status)
+                  .then(
+                    createProject => {
+                      return res.render('create/create_project_success.html', {createProject}); //display success page
+                    }
+                  );
+              }
+
             }
           );
-      }
+
     };
   });
 
@@ -473,7 +487,6 @@ router.post('/update/:project_tp_num', (req, res) => { //
 
   if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
     const project_details = [{}];
-    console.log(err)
     project_details[0] = req.body;
     project_details[0].project_tp_num = req.params.project_tp_num;
     return res.render('update/update_project.html', {err, project_details});

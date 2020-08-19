@@ -125,6 +125,11 @@ module.exports = {
 
       return query;
     },
+    checkProjectExists: function(project) {
+      return knex.count('project_tp_num').from('project_details')
+          .where('project_tp_num', project)
+      ;
+    },
     getByTpNum: function(project) {
 
       return knex.select(
