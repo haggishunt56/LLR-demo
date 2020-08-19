@@ -60,6 +60,11 @@
               <a href="#projectTpNum">TP number cannot be longer than 6 characters</a>
             </li>
             {% endif %}
+            {% if err.projectTpNum.exists %}
+            <li>
+              <a href="#projectTpNum">TP number already exists. Enter a unique number, or amend the existing project instead</a>
+            </li>
+            {% endif %}
             {% if err.dateStarted.blank %}
             <li>
               <a href="#dateStartedDay">Enter the date the project started</a>
@@ -115,7 +120,7 @@
         </div>
 
         <!-- Project TP number field -->
-        <div {% if err.projectTpNum.blank or err.projectTpNum.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.projectTpNum.blank or err.projectTpNum.tooLong or err.projectTpNum.exists%} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="projectTpNum">
             Project TP number
           </label><br>
@@ -130,6 +135,11 @@
           {% if err.projectTpNum.tooLong %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> TP number cannot be longer than 6 characters
+          </span>
+          {% endif %}
+          {% if err.projectTpNum.exists %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> TP number already exists. Enter a unique number, or amend the existing project instead
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value={{ reqjson.projectTpNum }}>

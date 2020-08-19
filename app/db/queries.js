@@ -11,7 +11,8 @@ module.exports = {
       dateToYear) {
       //SELECT * FROM lesson_details WHERE lesson_name = lessonName, project_name = projectName etc...;
 
-      let query = knex.select().table('lesson_details') //SELECT * FROM lesson_details;
+      let query = knex.select()
+        .table('lesson_details') //SELECT * FROM lesson_details;
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
         .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
@@ -123,6 +124,11 @@ module.exports = {
       }
 
       return query;
+    },
+    checkProjectExists: function(project) {
+      return knex.count('project_tp_num').from('project_details')
+          .where('project_tp_num', project)
+      ;
     },
     getByTpNum: function(project) {
 
