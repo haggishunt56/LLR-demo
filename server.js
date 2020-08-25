@@ -136,6 +136,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 
+var router = express.Router()
+routes(router)
+app.use('/', router)
+
 // Set up v6 app for backwards compatibility
 if (useV6) {
   var v6Views = [
@@ -325,13 +329,6 @@ app.use(function (err, req, res, next) {
   console.error(err.message)
   res.status(err.status || 500)
   res.send(err.message)
-})
-
-// dbtest
-app.use('/todos', function(req, res) {
-  knex.raw('select = from todos'), then(function(todos) {
-    res.send(todos)
-  })
 })
 
 console.log('\nGOV.UK Prototype Kit v' + releaseVersion)
