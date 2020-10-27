@@ -1,0 +1,25 @@
+<aside class="app-related-items" role="complementary">
+  <h2 class="govuk-heading-m" id="subsection-title">
+    Trending categories
+  </h2>
+  <nav role="navigation" aria-labelledby="subsection-title">
+    <ul class="govuk-list govuk-!-font-size-16">
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Category</th>
+            <th scope="col" class="govuk-table__header">Volume</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% asyncEach category in trending.rows %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><a href="/category/{{category.category}}">{{category.category}}</a></td>
+              <td class="govuk-table__cell">{{category.volume}}</td>
+            </tr>
+          {% endeach %}
+        </tbody>
+      </table>
+    </ul>
+  </nav>
+</aside>

@@ -45,7 +45,7 @@ module.exports = {
         query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
       } //include search param only if field is not blank
 
-      if(category !== "") { //include only if field is not blank
+      if(category !== "none") { //include only if field is not blank
         query.where('lesson_details.category', 'ilike', `%${category}%`);
       }
 
@@ -77,7 +77,7 @@ module.exports = {
       return query;
 
     },
-    getByProjectLesson: function(project,lesson) {
+    getByProjectLesson: function(project, lesson) {
       return knex.select(
           knex.raw('lesson_details.lesson_id, lesson_details.project_tp_num, lesson_details.date_added, lesson_details.category, lesson_details.www_ebi, lesson_details.identified_by, lesson_details.identifiers_area, lesson_details.how_identified, user_details.username, lesson_details.summary, lesson_details.description, lesson_details.deleted, project_details.project_name, portfolio_details.portfolio_name'),
           knex.raw('EXTRACT(YEAR FROM date_added) as year_added'),
@@ -95,6 +95,17 @@ module.exports = {
         .where('lesson_id', lesson)
         .orderBy('lesson_id', 'asc');
       ;
+    },
+    getByCategory: function(category, dateFrom) {
+      let query = knex.select()
+        .table('lesson_details') //SELECT * FROM lesson_details;
+        .where('lesson_details.category', 'ilike', `%${category}%`)
+        .where('lesson_details.date_added', '>', dateFrom)
+        .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
+        .orderBy('lesson_id', 'asc');
+      return query
     }
   },
   searchProjects: {
@@ -490,4 +501,7 @@ module.exports = {
       .update('deleted', 'f');
     return query;
   },
+  getTrendingCategories: function() {
+    return knex.raw("SELECT category, COUNT(category) volume FROM lesson_details WHERE date_added > now() - interval '1 year' GROUP BY category ORDER BY volume DESC LIMIT 4;")
+  }
 }

@@ -1,6 +1,8 @@
 var routes = [
   require('./index.js'),
-  require ('./home.js'),
+
+  // home
+  require('./home/home.js'),
 
   // search
   require('./search/search.js'),
@@ -8,6 +10,7 @@ var routes = [
   require('./search/search_projects.js'),
   require('./search/search_campaigns.js'),
   require('./search/search_conferences.js'),
+  require('./search/search_trending_category.js'),
 
   // create
   require('./create/create.js'),

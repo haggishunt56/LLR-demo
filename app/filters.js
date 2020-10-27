@@ -63,6 +63,9 @@ module.exports = function (env) {
       return str
     }
   }
+  filters.toLowerCase = function(str) {
+    return str.toLowerCase()
+  }
 
   /* ------------------------------------------------------------------
     keep the following line to return your filters to the app

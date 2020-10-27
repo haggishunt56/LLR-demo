@@ -36,7 +36,7 @@
 
       <h1 class="govuk-heading-xl">Search for a lesson</h1>
 
-      <form class="form" action="search_lessons" method="post" enctype='application/json'>
+      <form class="form" action="/search_lessons" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Lesson name field -->
           <label class="govuk-label--s" for="Lesson name">
@@ -73,22 +73,9 @@
           </label><br>
           <select class="govuk-select" id="portfolio" name="portfolio">
             <option value=""></option>
-            <option value="azure" {% if reqjson.portfolio=="azure" %} selected {% endif %}>Azure</option>
-            <option value="blue" {% if reqjson.portfolio=="blue" %} selected {% endif %}>Blue</option>
-            <option value="chrome" {% if reqjson.portfolio=="chrome" %} selected {% endif %}>Chrome</option>
-            <option value="coral" {% if reqjson.portfolio=="coral" %} selected {% endif %}>Coral</option>
-            <option value="enablers" {% if reqjson.portfolio=="enablers" %} selected {% endif %}>Enablers</option>
-            <option value="indigo" {% if reqjson.portfolio=="indigo" %} selected {% endif %}>Indigo</option>
-            <option value="platinum" {% if reqjson.portfolio=="platinum" %} selected {% endif %}>Platinum</option>
-            <option value="sapphire" {% if reqjson.portfolio=="sapphire" %} selected {% endif %}>Sapphire</option>
-            <option value="teal" {% if reqjson.portfolio=="teal" %} selected {% endif %}>Teal</option>
-            <option value="tom" {% if reqjson.portfolio=="tom" %} selected {% endif %}>TOM</option>
-            <option value="pre-portfolio" {% if reqjson.portfolio=="pre-portfolio" %} selected {% endif %}>Pre-portfolio</option>
-            <option value="tbtc" {% if reqjson.portfolio=="tbtc" %} selected {% endif %}>TBCT</option>
-            <option value="bau" {% if reqjson.portfolio=="bau" %} selected {% endif %}>BAU</option>
-            <option value="bcm" {% if reqjson.portfolio=="bcm" %} selected {% endif %}>BCM</option>
-            <option value="pm" {% if reqjson.portfolio=="pm" %} selected {% endif %}>PM</option>
-            <option value="cat" {% if reqjson.portfolio=="cat" %} selected {% endif %}>CAT</option>
+            {% asyncEach portfolio in activePortfolios %}
+            <option value={{portfolio.portfolio_name}}{% if reqjson.portfolio==portfolio.portfolio_name %} selected {% endif %}>{{portfolio.portfolio_name}}</option>
+            {% endeach %}
           </select>
         </div>
 
@@ -97,30 +84,11 @@
             Lesson Category
           </label><br>
           <select class="govuk-select" id="category" name="category">
-
-            <option value=""></option>
-            <option value="assurance" {% if reqjson.category=="assurance" %} selected {% endif %}>Assurance</option>
-            <option value="bau" {% if reqjson.category=="bau" %} selected {% endif %}>BAU</option>
-            <option value="commercial" {% if reqjson.category=="commercial" %} selected {% endif %}>Commercial</option>
-            <option value="communications" {% if reqjson.category=="communications" %} selected {% endif %}>Communications</option>
-            <option value="deployment" {% if reqjson.category=="deployment" %} selected {% endif %}>Deployment</option>
-            <option value="design" {% if reqjson.category=="design" %} selected {% endif %}>Design</option>
-            <option value="development" {% if reqjson.category=="development" %} selected {% endif %}>Development</option>
-            <option value="estates" {% if reqjson.category=="estates" %} selected {% endif %}>Estates</option>
-            <option value="financial" {% if reqjson.category=="financial" %} selected {% endif %}>Financial</option>
-            <option value="governance" {% if reqjson.category=="governance" %} selected {% endif %}>Governance</option>
-            <option value="management" {% if reqjson.category=="management" %} selected {% endif %}>Management</option>
-            <option value="regulatory" {% if reqjson.category=="regulatory" %} selected {% endif %}>Regulatory</option>
-            <option value="resources" {% if reqjson.category=="resources" %} selected {% endif %}>Resources</option>
-            <option value="scoperequirements" {% if reqjson.category=="scoperequirements" %} selected {% endif %}>Scope/Requirements</option>
-            <option value="schedule" {% if reqjson.category=="schedule" %} selected {% endif %}>Schedule</option>
-            <option value="security" {% if reqjson.category=="security" %} selected {% endif %}>Security</option>
-            <option value="stakeholdes" {% if reqjson.category=="stakeholdes" %} selected {% endif %}>Stakeholders</option>
-            <option value="strategy" {% if reqjson.category=="strategy" %} selected {% endif %}>Strategy</option>
-            <option value="technology" {% if reqjson.category=="technology" %} selected {% endif %}>Technology</option>
-            <option value="testing" {% if reqjson.category=="testing" %} selected {% endif %}>Testing</option>
-            <option value="training" {% if reqjson.category=="training" %} selected {% endif %}>Training</option>
-
+            <option value="none"></option>
+            {% asyncEach category in categories %}
+            {% set catName = category.category_name | toLowerCase %}
+            <option value={{category.category_name | toLowerCase }}{% if reqjson.category==catName %} selected {% endif %}>{{category.category_name}}</option>
+            {% endeach %}
           </select>
         </div>
 
@@ -241,7 +209,7 @@
 
       <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-      <div class="govuk-grid-row">
+      <div class="govuk-grid-row" id="results">
         <div class="govuk-grid-column-one-third">
           <p></p>
         </div>
