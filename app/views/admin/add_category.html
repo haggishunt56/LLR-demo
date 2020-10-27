@@ -39,13 +39,45 @@
 
       <h1 class="govuk-heading-xl">Add Category</h1>
 
+      {% if err.summarise %}
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            {% if err.categoryName.blank %}
+            <li>
+              <a href="#category_name">Enter the name of the category</a>
+            </li>
+            {% endif %}
+            {% if err.categoryName.tooLong %}
+            <li>
+              <a href="#category_name">Category name cannot be longer than 45 characters</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
       <form class="form" action="/admin/add_category" method="post">
 
         <!-- Portfolio name field -->
-        <div class='govuk-form-group'>
+        <div {% if err.categoryName.blank or err.categoryName.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="category_name">
             Category Name
           </label><br>
+          {% if err.categoryName.blank %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the category
+          </span>
+          {% endif %}
+          {% if err.categoryName.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Category name cannot be longer than 45 characters
+          </span>
+          {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="category_name" name="category_name" type="text" value="{{portfolio[0].portfolio_name}}">
         </div>
 
