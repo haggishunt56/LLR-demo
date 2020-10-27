@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Lesson details
+  LLR - Update Lesson
 {% endblock %}
 
 {% block beforeContent %}
@@ -41,7 +41,7 @@
           Success
         </h1>
         <div class="govuk-panel__body">
-          {{lesson_details[0].project_tp_num}}-{{lesson_details[0].lesson_id}} updated successfully
+          {{lessonDetails[0].project_tp_num}}-{{lessonDetails[0].lesson_id}} updated successfully
         </div>
       </div>
 
@@ -55,68 +55,68 @@
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Project TP number</th>
-            <td class="govuk-table__cell">{{lesson_details[0].project_tp_num}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].project_tp_num}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Project name</th>
-            <td class="govuk-table__cell">{{lesson_details[0].project_name}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].project_name}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Date added</th>
-            <td class="govuk-table__cell">{{lesson_details[0].date_added | date}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].date_added | date}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Category</th>
-            <td class="govuk-table__cell">{{lesson_details[0].category}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].category}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">WWW/EBI</th>
-            <td class="govuk-table__cell">{{lesson_details[0].www_ebi}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].www_ebi}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Portfolio</th>
-            <td class="govuk-table__cell">{{lesson_details[0].portfolio_name}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].portfolio_name}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Lesson Summary</th>
-            <td class="govuk-table__cell">{{lesson_details[0].summary}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].summary}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Identified by</th>
-            <td class="govuk-table__cell">{{lesson_details[0].identified_by}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].identified_by}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Area</th>
-            <td class="govuk-table__cell">{{lesson_details[0].identifiers_area}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].identifiers_area}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">How was the lesson identified?</th>
-            <td class="govuk-table__cell">{{lesson_details[0].how_identified}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].how_identified}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Uploaded by</th>
-            <td class="govuk-table__cell">{{lesson_details[0].username}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].username}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Target date</th>
-            <td class="govuk-table__cell">{{lesson_details[0].target_date | date}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].target_date | date}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Completed date</th>
-            <td class="govuk-table__cell">{{lesson_details[0].completion_date | date}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].completion_date | date}}</td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Lesson details</th>
-            <td class="govuk-table__cell">{{lesson_details[0].description}}</td>
+            <td class="govuk-table__cell">{{lessonDetails[0].description}}</td>
           </tr>
         </tbody>
       </table>
 
-      <a href="/update/{{lesson_details[0].project_tp_num}}-{{lesson_details[0].lesson_id}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+      <a href="/update/{{lessonDetails[0].project_tp_num}}-{{lessonDetails[0].lesson_id}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
         Update entry
       </a>
 
-      <a href="/delete/{{lesson_details[0].project_tp_num}}-{{lesson_details[0].lesson_id}}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+      <a href="/delete/{{lessonDetails[0].project_tp_num}}-{{lessonDetails[0].lesson_id}}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
         Delete lesson
       </a>
 

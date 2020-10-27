@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Update
+  LLR - Update Lesson
 {% endblock %}
 
 {% block beforeContent %}
@@ -20,6 +20,12 @@
   <ol class="govuk-breadcrumbs__list">
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/search}}">Search</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/view/{{lessonDetails[0].project_tp_num}}-{{id.les_id}}">Lesson details</a>
     </li>
     <li class="govuk-breadcrumbs__list-item" aria-current="page">Update</li>
   </ol>
@@ -132,7 +138,7 @@
             <span class="govuk-visually-hidden">Error:</span> The TP number cannot be longer than 6 characters
           </span>
           {% endif %}
-          <input class="govuk-input govuk-!-width-two-thirds" id="project_tp_num" name="project_tp_num" type="text" value="{{ lesson_details[0].project_tp_num }}">
+          <input class="govuk-input govuk-!-width-two-thirds" id="project_tp_num" name="project_tp_num" type="text" value="{{ lessonDetails[0].project_tp_num }}">
         </div>
 
         <!-- date added field --> <!-- TODO validation -->
@@ -152,7 +158,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day_added" name="day_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].day_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day_added" name="day_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].day_added}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -160,7 +166,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month_added" name="month_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].month_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month_added" name="month_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].month_added}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -168,29 +174,29 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year_added" name="year_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].year_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year_added" name="year_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].year_added}}">
                 </div>
               </div>
             </div>
           </fieldset>
         </div>
 
-        <!-- category field --> <!-- TODO change to dropdown -->
+        <!-- category field -->
         <div {% if err.category.blank or err.category.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
-          <label class="govuk-label--s" for="Lesson category">
-            Lesson category
+          <label class="govuk-label--s" for="category">
+            Lesson Category
           </label><br>
           {% if err.category.blank %}
-          <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the category of the project, for example, "Security"
+            <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Select a category
           </span>
           {% endif %}
-          {% if err.category.tooLong %}
-          <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter 45 characters or less
-          </span>
-          {% endif %}
-          <input class="govuk-input govuk-!-width-two-thirds" id="category" name="category" type="text" value="{{lesson_details[0].category}}">
+          <select class="govuk-select" id="category" name="category">
+            <option value="none"></option>
+            {% asyncEach category in categories %}
+            <option value={{category.category_name}}{% if lessonDetails[0].category==category.category_name %} selected {% endif %}>{{category.category_name}}</option>
+            {% endeach %}
+          </select>
         </div>
 
         <!-- type field -->
@@ -208,13 +214,13 @@
             {% endif %}
             <div class="govuk-radios govuk-radios--inline">
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="typeWww" name="www_ebi" type="radio" value="WWW" {% if lesson_details[0].www_ebi=="WWW" or lesson_details[0].www_ebi=="WWW" %} checked {% endif %}>
+                <input class="govuk-radios__input" id="typeWww" name="www_ebi" type="radio" value="WWW" {% if lessonDetails[0].www_ebi=="WWW" or lessonDetails[0].www_ebi=="WWW" %} checked {% endif %}>
                 <label class="govuk-label govuk-radios__label" for="www_ebi">
                   WWW
                 </label>
               </div>
               <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="typeEbi" name="www_ebi" type="radio" value="EBI" {% if lesson_details[0].www_ebi=="EBI" or lesson_details[0].www_ebi=="EBI" %} checked {% endif %}>
+                <input class="govuk-radios__input" id="typeEbi" name="www_ebi" type="radio" value="EBI" {% if lessonDetails[0].www_ebi=="EBI" or lessonDetails[0].www_ebi=="EBI" %} checked {% endif %}>
                 <label class="govuk-label govuk-radios__label" for="www_ebi-2">
                   EBI
                 </label>
@@ -241,13 +247,13 @@
           <span id="date-from" class="govuk-hint">
             Please enter the full name of the person who identified this lesson.
           </span>
-          <input class="govuk-input govuk-!-width-two-thirds" id="identified_by" name="identified_by" type="text" value="{{lesson_details[0].identified_by}}">
+          <input class="govuk-input govuk-!-width-two-thirds" id="identified_by" name="identified_by" type="text" value="{{lessonDetails[0].identified_by}}">
         </div>
 
         <!-- area field -->
         <div {% if err.identifiers_area.blank or err.identifiers_area.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="identifiers_area">
-            Area of staff member who identified lesson
+            Identifier's area of work
           </label>
           {% if err.identifiers_area.blank %}
           <span id="event-name-error" class="govuk-error-message">
@@ -259,7 +265,10 @@
             <span class="govuk-visually-hidden">Error:</span> Enter 45 characters or less
           </span>
           {% endif %}
-          <input class="govuk-input govuk-!-width-two-thirds" id="identifiers_area" name="identifiers_area" type="text" value="{{lesson_details[0].identifiers_area}}">
+          <span id="identifiers-area-hint" class="govuk-hint">
+            Hint text TBC
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="identifiers_area" name="identifiers_area" type="text" value="{{lessonDetails[0].identifiers_area}}">
         </div>
 
         <!-- how identified field -->
@@ -277,7 +286,10 @@
             <span class="govuk-visually-hidden">Error:</span> Enter 128 characters or less
           </span>
           {% endif %}
-          <input class="govuk-input govuk-!-width-two-thirds" id="how_identified" name="how_identified" type="text" value="{{lesson_details[0].how_identified}}">
+          <span id="how-identified-hint" class="govuk-hint">
+            Hint text TBC
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="how_identified" name="how_identified" type="text" value="{{lessonDetails[0].how_identified}}">
         </div>
 
         <!-- lesson summary field -->
@@ -298,7 +310,7 @@
             <span class="govuk-visually-hidden">Error:</span> Enter 128 characters or less
           </span>
           {% endif %}
-          <input class="govuk-input govuk-!-width-two-thirds" id="summary" name="summary" type="text" value="{{lesson_details[0].summary}}">
+          <input class="govuk-input govuk-!-width-two-thirds" id="summary" name="summary" type="text" value="{{lessonDetails[0].summary}}">
         </div>
 
         <!-- details field -->
@@ -307,9 +319,6 @@
             <label class="govuk-label--s" for="description">
               Lesson learned details
             </label>
-            <span id="with-hint-hint" class="govuk-hint">
-              Do not include personal or financial information.
-            </span>
             {% if err.description.blank %}
             <span id="event-name-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Describe the impact or benefit of the lesson
@@ -320,11 +329,14 @@
               <span class="govuk-visually-hidden">Error:</span> Enter 2000 characters or less
             </span>
             {% endif %}
-            <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="description" name="description" rows="5" aria-describedby="with-hint-info with-hint-hint">{{lesson_details[0].description}}</textarea>
+            <span id="details-hint" class="govuk-hint">
+              Describe the impact or benefit
+            </span>
+            <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="description" name="description" rows="5" aria-describedby="with-hint-info with-hint-hint">{{lessonDetails[0].description}}</textarea>
+            <span id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+              You can enter up to 2000 characters
+            </span>
           </div>
-          <span id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
-            You can enter up to 2000 characters
-          </span>
         </div>
 
         <!-- target date field -->
@@ -344,7 +356,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_day" name="target_date_day" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_day}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_day" name="target_date_day" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].target_day}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -352,7 +364,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_month" name="target_date_month" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_month}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_month" name="target_date_month" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].target_month}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -360,7 +372,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="target_date_year" name="target_date_year" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lesson_details[0].target_year}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="target_date_year" name="target_date_year" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].target_year}}">
                 </div>
               </div>
             </div>

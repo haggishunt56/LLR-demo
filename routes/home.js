@@ -1,8 +1,7 @@
 module.exports = function (router) {
-
-  //render home page
+  // render home page
   router.get('/home', (req, res) => {
-    res.render('home.html');
-  });
+    res.render('home.html')
+  })
 
 }

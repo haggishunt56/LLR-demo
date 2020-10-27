@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Create
+  LLR - Create Project
 {% endblock %}
 
 {% block beforeContent %}
@@ -42,7 +42,7 @@
           <ul class="govuk-list govuk-error-summary__list">
             {% if err.projectName.blank %}
             <li>
-              <a href="#projectName">Enter the name of the project or conference</a>
+              <a href="#projectName">Enter the name of the project</a>
             </li>
             {% endif %}
             {% if err.projectName.tooLong %}
@@ -57,7 +57,7 @@
             {% endif %}
             {% if err.projectTpNum.tooLong %}
             <li>
-              <a href="#projectTpNum">TP number cannot be longer than 6 characters</a>
+              <a href="#projectTpNum">TP number cannot be longer than 7 characters</a>
             </li>
             {% endif %}
             {% if err.projectTpNum.exists %}
@@ -96,7 +96,7 @@
       </div>
       {% endif %}
 
-      <form class="form" action="create" method="post" enctype='application/json'>
+      <form class="form" action="create_project" method="post" enctype='application/json'>
 
         <!-- Project name field -->
         <div {% if err.projectName.blank or err.projectName.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
@@ -104,11 +104,11 @@
             Project name
           </label><br>
           <span id="project-name" class="govuk-hint">
-            Please enter the name of the project or conference.
+            Please enter the name of the project, conference or campaign.
           </span>
           {% if err.projectName.blank %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the name of the project or conference
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the project
           </span>
           {% endif %}
           {% if err.projectName.tooLong %}
@@ -134,7 +134,7 @@
           {% endif %}
           {% if err.projectTpNum.tooLong %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> TP number cannot be longer than 6 characters
+            <span class="govuk-visually-hidden">Error:</span> TP number cannot be longer than 7 characters
           </span>
           {% endif %}
           {% if err.projectTpNum.exists %}
@@ -242,22 +242,9 @@
           {% endif %}
           <select class="govuk-select" id="portfolio" name="portfolio">
             <option value=""></option>
-            <option value="Azure" {% if reqjson.portfolio=="Azure" %} selected {% endif %}>Azure</option>
-            <option value="Blue" {% if reqjson.portfolio=="Blue" %} selected {% endif %}>Blue</option>
-            <option value="Chrome" {% if reqjson.portfolio=="Chrome" %} selected {% endif %}>Chrome</option>
-            <option value="Coral" {% if reqjson.portfolio=="Coral" %} selected {% endif %}>Coral</option>
-            <option value="Enablers" {% if reqjson.portfolio=="Enablers" %} selected {% endif %}>Enablers</option>
-            <option value="Indigo" {% if reqjson.portfolio=="Indigo" %} selected {% endif %}>Indigo</option>
-            <option value="Platinum" {% if reqjson.portfolio=="Platinum" %} selected {% endif %}>Platinum</option>
-            <option value="Sapphire" {% if reqjson.portfolio=="Sapphire" %} selected {% endif %}>Sapphire</option>
-            <option value="Teal" {% if reqjson.portfolio=="Teal" %} selected {% endif %}>Teal</option>
-            <option value="TOM" {% if reqjson.portfolio=="TOM" %} selected {% endif %}>TOM</option>
-            <option value="Pre-portfolio" {% if reqjson.portfolio=="Pre-portfolio" %} selected {% endif %}>Pre-portfolio</option>
-            <option value="TBTC" {% if reqjson.portfolio=="TBTC" %} selected {% endif %}>TBCT</option>
-            <option value="BAU" {% if reqjson.portfolio=="BAU" %} selected {% endif %}>BAU</option>
-            <option value="BCM" {% if reqjson.portfolio=="BCM" %} selected {% endif %}>BCM</option>
-            <option value="PM" {% if reqjson.portfolio=="PM" %} selected {% endif %}>PM</option>
-            <option value="CAT" {% if reqjson.portfolio=="CAT" %} selected {% endif %}>CAT</option>
+            {% asyncEach portfolio in activePortfolios %}
+            <option value={{portfolio.portfolio_name}}{% if reqjson.portfolio==portfolio.portfolio_name %} selected {% endif %}>{{portfolio.portfolio_name}}</option>
+            {% endeach %}
           </select>
         </div>
 

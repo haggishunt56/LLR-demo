@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Create
+  LLR - Search
 {% endblock %}
 
 {% block beforeContent %}
@@ -46,7 +46,7 @@
 
           {% if err %} <!-- display only if error returned by Express -->
             <span id="changed-name-error" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span> Select "Lessons" if you wish to search for a lesson, or "Projects" if you wish to search for a project
+              <span class="govuk-visually-hidden">Error:</span> Select an option
             </span>
           {% endif %}
 
@@ -61,6 +61,18 @@
               <input class="govuk-radios__input" id="project_radio" name="lessonproject" type="radio" value="project">
               <label class="govuk-label govuk-radios__label" for="project">
                 Projects
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="project_radio" name="lessonproject" type="radio" value="campaign">
+              <label class="govuk-label govuk-radios__label" for="project">
+                Recruitment Campaign
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="project_radio" name="lessonproject" type="radio" value="conference">
+              <label class="govuk-label govuk-radios__label" for="project">
+                Conference
               </label>
             </div>
           </div>

@@ -54,6 +54,15 @@ module.exports = function (env) {
       return (fullStr);
     }
   }
+  filters.portfolioActive = function (active) {
+    if (active) {
+      const str = 'Yes'
+      return str
+    } else {
+      const str = 'No'
+      return str
+    }
+  }
 
   /* ------------------------------------------------------------------
     keep the following line to return your filters to the app

@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  LLR - Service Administration
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/admin">Service Admin</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Maintain Portfolios</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Maintain Categories</h1>
+
+      {% if changeSuccess %}
+        <div class="govuk-panel govuk-panel--confirmation">
+          <h1 class="govuk-panel__title">
+            Category updated
+          </h1>
+        </div>
+      {% endif %}
+      {% if addedCategory %}
+        <div class="govuk-panel govuk-panel--confirmation">
+          <h1 class="govuk-panel__title">
+            {{addedCategory[0].category_name}} category added
+          </h1>
+        </div>
+      {% endif %}
+
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Category Name</th>
+            <th scope="col" class="govuk-table__header"></th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+
+          {% asyncEach category in categories %}
+
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">{{category.category_name}}</td>
+            <td class="govuk-table__cell"><a href="/admin/edit_category/{{category.category_id}}">edit</a></td>
+          </tr>
+
+          {% endeach %}
+        </tbody>
+      </table>
+
+      <a href="/admin/add_category" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
+        Add new category
+      </a>
+
+    </div>
+  </div>
+
+{% endblock %}

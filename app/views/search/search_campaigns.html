@@ -1,0 +1,232 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  LLR - Search Projects
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/search">Search</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search Campaigns</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Search for a Recruitment Campaign</h1>
+
+      <form class="form" action="search_campaigns" method="post" enctype='application/json'>
+
+        <div class="govuk-form-group"> <!-- Project name field -->
+          <label class="govuk-label--s" for="Project name">
+            Campaign name
+          </label><br>
+          <span id="date-from" class="govuk-hint">
+            You can enter either the name of the campaign or the reference number.
+          </span>
+          <input class="govuk-input govuk-!-width-two-thirds" id="projectName_proj" name="projectName_proj" type="text" value="{{ reqjson.projectName_proj }}">
+        </div>
+
+        <div class="govuk-form-group"> <!-- portfolio field -->
+          <label class="govuk-label--s" for="portfolio">
+            Portfolio
+          </label><br>
+          <select class="govuk-select" id="portfolio" name="portfolio">
+            <option value=""></option>
+            <option value="azure" {% if reqjson.portfolio=="azure" %} selected {% endif %}>Azure</option>
+            <option value="blue" {% if reqjson.portfolio=="blue" %} selected {% endif %}>Blue</option>
+            <option value="chrome" {% if reqjson.portfolio=="chrome" %} selected {% endif %}>Chrome</option>
+            <option value="coral" {% if reqjson.portfolio=="coral" %} selected {% endif %}>Coral</option>
+            <option value="enablers" {% if reqjson.portfolio=="enablers" %} selected {% endif %}>Enablers</option>
+            <option value="indigo" {% if reqjson.portfolio=="indigo" %} selected {% endif %}>Indigo</option>
+            <option value="platinum" {% if reqjson.portfolio=="platinum" %} selected {% endif %}>Platinum</option>
+            <option value="sapphire" {% if reqjson.portfolio=="sapphire" %} selected {% endif %}>Sapphire</option>
+            <option value="teal" {% if reqjson.portfolio=="teal" %} selected {% endif %}>Teal</option>
+            <option value="tom" {% if reqjson.portfolio=="tom" %} selected {% endif %}>TOM</option>
+            <option value="pre-portfolio" {% if reqjson.portfolio=="pre-portfolio" %} selected {% endif %}>Pre-portfolio</option>
+            <option value="tbtc" {% if reqjson.portfolio=="tbtc" %} selected {% endif %}>TBCT</option>
+            <option value="bau" {% if reqjson.portfolio=="bau" %} selected {% endif %}>BAU</option>
+            <option value="bcm" {% if reqjson.portfolio=="bcm" %} selected {% endif %}>BCM</option>
+            <option value="pm" {% if reqjson.portfolio=="pm" %} selected {% endif %}>PM</option>
+            <option value="cat" {% if reqjson.portfolio=="cat" %} selected {% endif %}>CAT</option>
+          </select>
+        </div>
+
+        <div class="govuk-form-group"> <!-- portfolio field -->
+          <label class="govuk-label--s" for="status">
+            Status
+          </label><br>
+          <select class="govuk-select" id="status" name="status">
+            <option value=""></option>
+            <option value="open" {% if reqjson.status=="open" %} selected {% endif %}>Open</option>
+            <option value="closed" {% if reqjson.status=="closed" %} selected {% endif %}>Closed</option>
+          </select>
+        </div>
+
+        <div class="govuk-form-group"> <!-- date from field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-from">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date added from
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-from">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date_from_day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromDay" name="dateFromDay" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.dateFromDay }}>
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date_from_month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromMonth" name="dateFromMonth" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value={{ reqjson.dateFromMonth }}>
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date_from_year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateFromYear" name="dateFromYear" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="4" inputmode="numeric" value={{ reqjson.dateFromYear }}>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="govuk-form-group"> <!-- date to field -->
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-to">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h4 class="govuk-fieldset__heading">
+                Date added to
+              </h4>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 12 2007
+            </span>
+            <div class="govuk-date-input" id="date-from">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date_to_day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToDay" name="dateToDay" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateToDay }}>
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-to-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToMonth" name="dateToMonth" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateToMonth }}>
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date_to_year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateToYear" name="dateToYear" type="text" pattern="[0-9]*" inputmode="numeric" value={{ reqjson.dateToYear }}>
+                </div>
+              </div>
+            </div>
+            </fieldset>
+        </div>
+
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="include-deleted">
+            <div class="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="include_deleted" name="include_deleted" type="checkbox" value="include_deleted">
+                <label class="govuk-label govuk-checkboxes__label" for="include_deleted">
+                  Include deleted campaigns?
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <input type="submit" draggable="false" value="Search" class="govuk-button">
+        <a href="/search_campaigns" value="Reset" class="govuk-button govuk-button--secondary">Reset</a>
+
+      </form>
+
+      {% if project_details %} <!-- display table only if results exist -->
+
+      <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          <p></p>
+        </div>
+        <div class="govuk-grid-column-one-third">
+          <p class="govuk-body govuk-!-font-weight-regular">{{rowsReturned}} results returned</p>
+        </div>
+        <div class="govuk-grid-column-one-third">
+          <p></p>
+        </div>
+      </div>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Reference number</th>
+            <th scope="col" class="govuk-table__header">Conference name</th>
+            <th scope="col" class="govuk-table__header">Status</th>
+            <th scope="col" class="govuk-table__header">Portfolio</th>
+            <th scope="col" class="govuk-table__header">Date added</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+
+        {% asyncEach project_detail in project_details %}
+
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header"><a href="/view/{{project_detail.project_tp_num}}">{{project_detail.project_tp_num}}</a></th>
+          <td class="govuk-table__cell">{{project_detail.project_name | trim}}</td>
+          <td class="govuk-table__cell">{{project_detail.status}}</td>
+          <td class="govuk-table__cell">{{project_detail.portfolio_name}}</td>
+          <td class="govuk-table__cell">{{project_detail.date_added | date }}</td>
+
+        </tr>
+
+        {% endeach %}
+
+      </tbody>
+    </table>
+
+    {% endif %}
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Delete?
+  LLR - Delete Lesson
 {% endblock %}
 
 {% block beforeContent %}
@@ -21,7 +21,13 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/search}}">Search</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/view/{{lesson_details[0].project_tp_num}}-{{lesson_details[0].lesson_id}}">Lesson details</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Delete</li>
   </ol>
 </div>
 {% endblock %}
@@ -37,23 +43,18 @@
             Confirm delete
           </h1>
           <div class="govuk-panel__body">
-            Are you sure you want to delete project {{id}}? <br>
-          </div>
-          <div class="govuk-panel__body--s">
-          <br>This action can <b>not</b> be undone. This will also delete all associated lessons.
+            Are you sure you want to delete lesson {{id.proj_id}}-{{id.les_id}}?<br>
           </div>
         </div>
       </div>
     </div>
-
-    <form class="form" action="{{id}}" method="post" enctype='application/json'>
-      <input type="submit" draggable="false" value="Yes, delete" class="govuk-button govuk-button--warning">
-      <a href="/view/{{id}}" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
-        No, take me back
-      </a>
-    </form>
-
   </main>
 </div>
 
+<form class="form" action="{{id.proj_id}}-{{id.les_id}}" method="post" enctype='application/json'>
+  <input type="submit" draggable="false" value="Yes, delete" class="govuk-button govuk-button--warning">
+  <a href="/view/{{id.proj_id}}-{{id.les_id}}" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
+    No, take me back
+  </a>
+</form>
 {% endblock %}

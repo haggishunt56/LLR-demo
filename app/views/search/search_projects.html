@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Search
+  LLR - Search Projects
 {% endblock %}
 
 {% block beforeContent %}
@@ -21,7 +21,10 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search</li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/search">Search</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search Projects</li>
   </ol>
 </div>
 {% endblock %}
@@ -33,7 +36,7 @@
 
       <h1 class="govuk-heading-xl">Search for a project</h1>
 
-      <form class="form" action="search" method="post" enctype='application/json'>
+      <form class="form" action="search_projects" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Project name field -->
           <label class="govuk-label--s" for="Project name">
@@ -159,8 +162,21 @@
             </fieldset>
         </div>
 
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="include-deleted">
+            <div class="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="include_deleted" name="include_deleted" type="checkbox" value="include_deleted">
+                <label class="govuk-label govuk-checkboxes__label" for="include_deleted">
+                  Include deleted projects?
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
         <input type="submit" draggable="false" value="Search" class="govuk-button">
-        <a href="/search" value="Reset" class="govuk-button govuk-button--secondary">Reset</a>
+        <a href="/search_projects" value="Reset" class="govuk-button govuk-button--secondary">Reset</a>
 
       </form>
 
@@ -168,7 +184,17 @@
 
       <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-      <center><p>Projects returned: {{rowsReturned}}</p><center>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          <p></p>
+        </div>
+        <div class="govuk-grid-column-one-third">
+          <p class="govuk-body govuk-!-font-weight-regular">{{rowsReturned}} results returned</p>
+        </div>
+        <div class="govuk-grid-column-one-third">
+          <p></p>
+        </div>
+      </div>
 
       <table class="govuk-table">
         <thead class="govuk-table__head">

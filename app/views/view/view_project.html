@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Lesson details
+  LLR - Project details
 {% endblock %}
 
 {% block beforeContent %}
@@ -34,7 +34,15 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
+      {% if project_details[0].isProject %}
       <h1 class="govuk-heading-xl">Project details</h1>
+      {% endif %}
+      {% if project_details[0].isCampaign %}
+      <h1 class="govuk-heading-xl">Campaign details</h1>
+      {% endif %}
+      {% if project_details[0].isConference %}
+      <h1 class="govuk-heading-xl">Conference details</h1>
+      {% endif %}
 
       <table class="govuk-table">
         <thead class="govuk-table__head">
@@ -45,11 +53,27 @@
         </thead>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">Project TP number</th>
+            {% if project_details[0].isProject %}
+              <th scope="row" class="govuk-table__header">Project TP number</th>
+            {% endif %}
+            {% if project_details[0].isCampaign %}
+              <th scope="row" class="govuk-table__header">Campaign reference number</th>
+            {% endif %}
+            {% if project_details[0].isConference %}
+              <th scope="row" class="govuk-table__header">Conference reference number</th>
+            {% endif %}
             <td class="govuk-table__cell">{{project_details[0].project_tp_num}}</td>
           </tr>
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">Project name</th>
+            {% if project_details[0].isProject %}
+              <th scope="row" class="govuk-table__header">Project name</th>
+            {% endif %}
+            {% if project_details[0].isCampaign %}
+              <th scope="row" class="govuk-table__header">Campaign name</th>
+            {% endif %}
+            {% if project_details[0].isConference %}
+            <th scope="row" class="govuk-table__header">Conference name</th>
+            {% endif %}
             <td class="govuk-table__cell">{{project_details[0].project_name}}</td>
           </tr>
           <tr class="govuk-table__row">
@@ -75,13 +99,53 @@
         </tbody>
       </table>
 
+      {% if not project_details[0].deleted %}
       <a href="/update/{{project_details[0].project_tp_num}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
-        Update project
+        {% if project_details[0].isProject %}
+          Update project
+        {% endif %}
+        {% if project_details[0].isCampaign %}
+          Update campaign
+        {% endif %}
+        {% if project_details[0].isConference %}
+          Update conference
+        {% endif %}
       </a>
-
       <a href="/delete/{{project_details[0].project_tp_num}}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
-        Delete project
+        {% if project_details[0].isProject %}
+          Delete project
+        {% endif %}
+        {% if project_details[0].isCampaign %}
+          Delete campaign
+        {% endif %}
+        {% if project_details[0].isConference %}
+          Delete conference
+        {% endif %}
       </a>
+      {% else %}
+      <a role="button" draggable="false" class="govuk-button govuk-button--disabled govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+        {% if project_details[0].isProject %}
+          Update project
+        {% endif %}
+        {% if project_details[0].isCampaign %}
+          Update campaign
+        {% endif %}
+        {% if project_details[0].isConference %}
+          Update conference
+        {% endif %}
+      </a>
+      <a href="/reinstate/{{project_details[0].project_tp_num}}" role="button" draggable="false" class="govuk-button govuk-button--secondary govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
+        {% if project_details[0].isProject %}
+          Reinstate project
+        {% endif %}
+        {% if project_details[0].isCampaign %}
+          Reinstate campaign
+        {% endif %}
+        {% if project_details[0].isConference %}
+          Reinstate conference
+        {% endif %}
+      </a>
+      {% endif %}
 
     </div>
   </div>

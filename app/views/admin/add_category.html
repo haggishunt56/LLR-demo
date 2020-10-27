@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  LLR - Service Administration
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/admin">Service Admin</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/admin/maintain_categories">Maintain Categories</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Add Category</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <h1 class="govuk-heading-xl">Add Category</h1>
+
+      <form class="form" action="/admin/add_category" method="post">
+
+        <!-- Portfolio name field -->
+        <div class='govuk-form-group'>
+          <label class="govuk-label--s" for="category_name">
+            Category Name
+          </label><br>
+          <input class="govuk-input govuk-!-width-two-thirds" id="category_name" name="category_name" type="text" value="{{portfolio[0].portfolio_name}}">
+        </div>
+
+        <input type="submit" draggable="false" value="Save" class="govuk-button">
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

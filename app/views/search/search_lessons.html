@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Search
+  LLR - Search Lessons
 {% endblock %}
 
 {% block beforeContent %}
@@ -21,7 +21,10 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search</li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/search">Search</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search Lessons</li>
   </ol>
 </div>
 {% endblock %}
@@ -33,7 +36,7 @@
 
       <h1 class="govuk-heading-xl">Search for a lesson</h1>
 
-      <form class="form" action="search" method="post" enctype='application/json'>
+      <form class="form" action="search_lessons" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Lesson name field -->
           <label class="govuk-label--s" for="Lesson name">
@@ -50,6 +53,18 @@
             You can enter either the name of the project or the TP number.
           </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value="{{reqjson.projectName}}">
+        </div>
+
+        <div class="govuk-form-group"> <!-- Project type field -->
+          <label class="govuk-label--s" for="Project type">
+            Project type
+          </label><br>
+          <select class="govuk-select" id="projectType" name="projectType">
+            <option value=""></option>
+            <option value="project" {% if reqjson.projectType=="project" %} selected {% endif %}>Project</option>
+            <option value="campaign" {% if reqjson.projectType=="campaign" %} selected {% endif %}>Recruitment Campaign</option>
+            <option value="conference" {% if reqjson.projectType=="conference" %} selected {% endif %}>Conference</option>
+          </select>
         </div>
 
         <div class="govuk-form-group"> <!-- portfolio field -->
@@ -200,7 +215,25 @@
             </fieldset>
         </div>
 
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="include-deleted">
+            <div class="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                {% if reqjson.include_deleted %}
+                  <input checked class="govuk-checkboxes__input" id="include_deleted" name="include_deleted" type="checkbox" value="include_deleted">
+                {% else %}
+                  <input class="govuk-checkboxes__input" id="include_deleted" name="include_deleted" type="checkbox" value="include_deleted">
+                {% endif %}
+                <label class="govuk-label govuk-checkboxes__label" for="include_deleted">
+                  Include deleted lessons?
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
         <input type="submit" draggable="false" value="Search" class="govuk-button">
+        <a href="/search_lessons" value="Reset" class="govuk-button govuk-button--secondary">Reset</a>
 
       </form>
 
@@ -208,7 +241,17 @@
 
       <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-      <center><p>Lessons returned: {{rowsReturned}}</p><center>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          <p></p>
+        </div>
+        <div class="govuk-grid-column-one-third">
+          <p class="govuk-body govuk-!-font-weight-regular">{{rowsReturned}} results returned</p>
+        </div>
+        <div class="govuk-grid-column-one-third">
+          <p></p>
+        </div>
+      </div>
 
       <table class="govuk-table">
         <thead class="govuk-table__head">

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Create
+  LLR - Create Project
 {% endblock %}
 
 {% block beforeContent %}
@@ -37,7 +37,7 @@
             Project added
           </h1>
           <div class="govuk-panel__body">
-            Your reference number<br><strong>{{createProject[0].project_tp_num}}</strong>
+            Your reference number<br><strong>{{projectTpNum}}</strong>
           </div>
         </div>
       </div>
@@ -45,17 +45,12 @@
   </main>
 </div>
 
-        <a href="/create" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
-          Add a lesson
-        </a>
+<a href="/create_lesson" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
+  Add a lesson
+</a>
 
-        <a href="/home" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
-          Return home
-        </a>
-
-      </form>
-
-    </div>
-  </div>
+<a href="/home" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
+  Return home
+</a>
 
 {% endblock %}

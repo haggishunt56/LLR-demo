@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Delete?
+  LLR - Create Project
 {% endblock %}
 
 {% block beforeContent %}
@@ -21,7 +21,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Delete</li> <!-- TODO check breadcrumbs -->
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
   </ol>
 </div>
 {% endblock %}
@@ -34,13 +34,10 @@
       <div class="govuk-grid-column-full">
         <div class="govuk-panel govuk-panel--confirmation">
           <h1 class="govuk-panel__title">
-            Confirm delete
+            Campaign added
           </h1>
           <div class="govuk-panel__body">
-            Are you sure you want to delete lesson {{id.proj_id}}-{{id.les_id}}?<br>
-          </div>
-          <div class="govuk-panel__body--s">
-          <br>This action can <b>not</b> be undone.
+            Your reference number<br><strong>{{projectTpNum}}</strong>
           </div>
         </div>
       </div>
@@ -48,10 +45,17 @@
   </main>
 </div>
 
-<form class="form" action="{{id.proj_id}}-{{id.les_id}}" method="post" enctype='application/json'>
-  <input type="submit" draggable="false" value="Yes, delete" class="govuk-button govuk-button--warning">
-  <a href="/view/{{id.proj_id}}-{{id.les_id}}" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
-    No, take me back
-  </a>
-</form>
+        <a href="/create_lesson" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
+          Add a lesson
+        </a>
+
+        <a href="/home" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
+          Return home
+        </a>
+
+      </form>
+
+    </div>
+  </div>
+
 {% endblock %}

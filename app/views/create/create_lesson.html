@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Create
+  LLR - Create Lesson
 {% endblock %}
 
 {% block beforeContent %}
@@ -21,7 +21,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create a lesson</li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
   </ol>
 </div>
 {% endblock %}
@@ -47,7 +47,12 @@
             {% endif %}
             {% if err.projectTpNum.tooLong %}
             <li>
-              <a href="#projectTpNum">Enter the TP number of the project, for example, "TP081"</a>
+              <a href="#projectTpNum">The TP number cannot be longer than 7 characters</a>
+            </li>
+            {% endif %}
+            {% if err.projectTpNum.notExists and not err.projectTpNum.blank %}
+            <li>
+              <a href="#projectTpNum">This is not a valid project. Please enter the number of an existing project, or create the project first.</a>
             </li>
             {% endif %}
             {% if err.category.blank %}
@@ -115,16 +120,13 @@
       </div>
       {% endif %}
 
-      <form class="form" action="create" method="post" enctype='application/json'>
+      <form class="form" action="create_lesson" method="post" enctype='application/json'>
 
         <!-- Project tp_num field -->
-        <div {% if err.projectTpNum.blank or err.projectTpNum.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.projectTpNum.blank or err.projectTpNum.tooLong or err.projectTpNum.notExists %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="projectTpNum">
-            Project TP number
+            Project TP number, or campaign or conference reference
           </label>
-          <span id="project-tp-num-hint" class="govuk-hint">
-            Please enter the TP number of the project <!-- TODO Change to drop down with all projects? -->
-          </span>
           {% if err.projectTpNum.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the TP number of the project, for example, "TP081"
@@ -132,13 +134,59 @@
           {% endif %}
           {% if err.projectTpNum.tooLong %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> The TP number cannot be longer than 6 characters
+            <span class="govuk-visually-hidden">Error:</span> The TP number cannot be longer than 7 characters
           </span>
           {% endif %}
+          {% if err.projectTpNum.notExists and not err.projectTpNum.blank %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span>This is not a valid project. Please enter the number of an existing project, or create the project first.
+          </span>
+          {% endif %}
+          <span id="project-tp-num-hint" class="govuk-hint">
+            Enter the TP number of the project <!-- TODO Change to drop down with all projects? -->
+          </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value = {{ reqjson.projectTpNum }}>
         </div>
 
-        <!-- TODO automatically calculate date -->
+        <!-- date added field --> <!-- TODO validation -->
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+              <h1 class="govuk-fieldset__heading">
+                Date added
+              </h1>
+            </legend>
+            <span id="date-from" class="govuk-hint">
+              For example, 12 11 2007
+            </span>
+            <div class="govuk-date-input" id="date-added">
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-day">
+                    Day
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day_added" name="day_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.day_added}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-month">
+                    Month
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month_added" name="month_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.month_added}}">
+                </div>
+              </div>
+              <div class="govuk-date-input__item">
+                <div class="govuk-form-group">
+                  <label class="govuk-label govuk-date-input__label" for="date-added-year">
+                    Year
+                  </label>
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year_added" name="year_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.year_added}}">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
 
         <!-- category field -->
         <div {% if err.category.blank or err.category.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
@@ -151,29 +199,10 @@
           </span>
           {% endif %}
           <select class="govuk-select" id="category" name="category">
-            <option value=""></option>
-            <option value="assurance" {% if reqjson.category=="assurance" %} selected {% endif %}>Assurance</option>
-            <option value="bau" {% if reqjson.category=="bau" %} selected {% endif %}>BAU</option>
-            <option value="commercial" {% if reqjson.category=="commercial" %} selected {% endif %}>Commercial</option>
-            <option value="communications" {% if reqjson.category=="communications" %} selected {% endif %}>Communications</option>
-            <option value="deployment" {% if reqjson.category=="deployment" %} selected {% endif %}>Deployment</option>
-            <option value="design" {% if reqjson.category=="design" %} selected {% endif %}>Design</option>
-            <option value="development" {% if reqjson.category=="development" %} selected {% endif %}>Development</option>
-            <option value="estates" {% if reqjson.category=="estates" %} selected {% endif %}>Estates</option>
-            <option value="financial" {% if reqjson.category=="financial" %} selected {% endif %}>Financial</option>
-            <option value="governance" {% if reqjson.category=="governance" %} selected {% endif %}>Governance</option>
-            <option value="management" {% if reqjson.category=="management" %} selected {% endif %}>Management</option>
-            <option value="regulatory" {% if reqjson.category=="regulatory" %} selected {% endif %}>Regulatory</option>
-            <option value="resources" {% if reqjson.category=="resources" %} selected {% endif %}>Resources</option>
-            <option value="scoperequirements" {% if reqjson.category=="scoperequirements" %} selected {% endif %}>Scope/Requirements</option>
-            <option value="schedule" {% if reqjson.category=="schedule" %} selected {% endif %}>Schedule</option>
-            <option value="security" {% if reqjson.category=="security" %} selected {% endif %}>Security</option>
-            <option value="stakeholdes" {% if reqjson.category=="stakeholdes" %} selected {% endif %}>Stakeholders</option>
-            <option value="strategy" {% if reqjson.category=="strategy" %} selected {% endif %}>Strategy</option>
-            <option value="technology" {% if reqjson.category=="technology" %} selected {% endif %}>Technology</option>
-            <option value="testing" {% if reqjson.category=="testing" %} selected {% endif %}>Testing</option>
-            <option value="training" {% if reqjson.category=="training" %} selected {% endif %}>Training</option>
-
+            <option value="none"></option>
+            {% asyncEach category in categories %}
+            <option value={{category.category_name}}{% if reqjson.category==category.category_name %} selected {% endif %}>{{category.category_name}}</option>
+            {% endeach %}
           </select>
         </div>
 
@@ -214,9 +243,6 @@
           <label class="govuk-label--s" for="identifiedBy">
             Identified by
           </label>
-          <span id="identified-by-hint" class="govuk-hint">
-            Please enter the full name of the person who identified this lesson.
-          </span>
           {% if err.identifiedBy.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Enter the name of the person who identified this lesson
@@ -227,13 +253,16 @@
             <span class="govuk-visually-hidden">Error:</span> Enter 45 characters or fewer
           </span>
           {% endif %}
+          <span id="identified-by-hint" class="govuk-hint">
+            Please enter the full name of the person who identified this lesson.
+          </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="identifiedBy" name="identifiedBy" type="text" value = {{ reqjson.identifiedBy }}>
         </div>
 
         <!-- area field -->
         <div {% if err.identifiedByArea.blank or err.identifiedByArea.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="identifiedByArea">
-            Area of staff member who identified lesson
+            Identifier's area of work
           </label>
           {% if err.identifiedByArea.blank %}
           <span id="event-name-error" class="govuk-error-message">
@@ -245,6 +274,9 @@
             <span class="govuk-visually-hidden">Error:</span> Enter 45 characters or fewer
           </span>
           {% endif %}
+          <span id="identifiers-area-hint" class="govuk-hint">
+            Hint text TBC
+          </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="identifiedByArea" name="identifiedByArea" type="text" value = {{ reqjson.identifiedByArea }}>
         </div>
 
@@ -263,6 +295,9 @@
             <span class="govuk-visually-hidden">Error:</span> Enter 128 characters or fewer
           </span>
           {% endif %}
+          <span id="how-identified-hint" class="govuk-hint">
+            Hint text TBC
+          </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="howIdentified" name="howIdentified" type="text" value = {{ reqjson.howIdentified }}>
         </div>
 
@@ -273,9 +308,6 @@
           <label class="govuk-label--s" for="summary">
             Summary
           </label>
-          <span id="summary-hint" class="govuk-hint">
-            Please enter a brief summary of the lesson.
-          </span>
           {% if err.summary.blank %}
           <span id="event-name-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> Provide a summary of the lesson learned
@@ -286,6 +318,9 @@
             <span class="govuk-visually-hidden">Error:</span> Enter 128 characters or fewer
           </span>
           {% endif %}
+          <span id="summary-hint" class="govuk-hint">
+            Please enter a brief summary of the lesson.
+          </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="summary" name="summary" type="text" value = {{ reqjson.summary }}>
         </div>
 
@@ -304,55 +339,18 @@
             <span class="govuk-visually-hidden">Error:</span> Enter 2000 characters or fewer
           </span>
           {% endif %}
+          <span id="summary-hint" class="govuk-hint">
+            Describe the impact or benefit.
+          </span>
           <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="details" name="details" rows="5" aria-describedby="with-hint-info with-hint-hint">{{ reqjson.details }}</textarea>
           <span id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
             You can enter up to 2000 characters
           </span>
         </div>
 
-        <!-- target date field -->
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" role="group" aria-describedby="target-date">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-              <h1 class="govuk-fieldset__heading">
-                Target date
-              </h1>
-            </legend>
-            <span id="target-date-hint" class="govuk-hint">
-              Date all actions should be completed by. For example, 12 11 2007
-            </span>
-            <div class="govuk-date-input" id="target-date">
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="target-date-day">
-                    Day
-                  </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="targetDateDay" name="targetDateDay" type="text" pattern="[0-9]*" inputmode="numeric">
-                </div>
-              </div>
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="target-date-month">
-                    Month
-                  </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="targetDateMonth" name="targetDateMonth" type="text" pattern="[0-9]*" inputmode="numeric">
-                </div>
-              </div>
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="target-date-year">
-                    Year
-                  </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="targetDateYear" name="targetDateYear" type="text" pattern="[0-9]*" inputmode="numeric">
-                </div>
-              </div>
-            </div>
-          </fieldset>
-        </div>
-
         <br>
 
-        <input type="submit" draggable="false" value="Create" class="govuk-button">
+        <input type="submit" draggable="false" value="Create Lesson" class="govuk-button">
 
       </form>
 

@@ -1,61 +1,61 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  Lessons Learned Repository - LLR - Create
+  LLR - Create Lesson
 {% endblock %}
 
 {% block beforeContent %}
-<div class="govuk-phase-banner">
-  <p class="govuk-phase-banner__content">
-    <strong class="govuk-tag govuk-phase-banner__content__tag">
-      alpha
-    </strong>
-    <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
-    </span>
-  </p>
-</div>
+  <div class="govuk-phase-banner">
+    <p class="govuk-phase-banner__content">
+      <strong class="govuk-tag govuk-phase-banner__content__tag">
+        alpha
+      </strong>
+      <span class="govuk-phase-banner__text">
+        This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+      </span>
+    </p>
+  </div>
 
-<div class="govuk-breadcrumbs">
-  <ol class="govuk-breadcrumbs__list">
-    <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
-    </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
-  </ol>
-</div>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
+    </ol>
+  </div>
 {% endblock %}
 
 {% block content %}
 
-<div class="govuk-width-container">
-  <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <div class="govuk-panel govuk-panel--confirmation">
-          <h1 class="govuk-panel__title">
-            Lesson added
-          </h1>
-          <div class="govuk-panel__body">
-            Your reference number<br><strong>{{createLesson[0].project_tp_num}}-{{createLesson[0].lesson_id}}</strong>
+  <div class="govuk-width-container">
+    <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+          <div class="govuk-panel govuk-panel--confirmation">
+            <h1 class="govuk-panel__title">
+              Lesson added
+            </h1>
+            <div class="govuk-panel__body">
+              Your reference number<br><strong>{{createLesson[0].project_tp_num}}-{{createLesson[0].lesson_id}}</strong>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-</div>
-
-        <a href="/create" role="button" draggable="false" class="govuk-button"  data-module="govuk-button">
-          Add another lesson
-        </a>
-
-        <a href="/home" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
-          Return home
-        </a>
-
-      </form>
-
-    </div>
+    </main>
   </div>
+
+  <form class="form" action="create_new_lesson" method="post" enctype='application/json'>
+    <input type="hidden" id="projectTpNum" name="projectTpNum" value={{createLesson[0].project_tp_num}}>
+    <input type="hidden" id="howIdentified" name="howIdentified" value={{createLesson[0].how_identified}}>
+    <input type="hidden" id="identifiedBy" name="identifiedBy" value={{createLesson[0].identified_by}}>
+    <input type="hidden" id="identifiedByArea" name="identifiedByArea" value={{createLesson[0].identifiers_area}}>
+    <input type="submit" draggable="false" value="Add another lesson" class="govuk-button">
+    <a href="/home" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
+      Return home
+    </a>
+  </form>
+
+
 
 {% endblock %}
