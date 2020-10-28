@@ -278,8 +278,9 @@ module.exports = {
   },
   searchCategories: {
     getAll: function() {
-      return knex('category_details')
-      .orderBy([{ column: 'category_name', order: 'asc' }]);
+      let query = knex.select().from('category_details')
+        .orderBy([{ column: 'category_name', order: 'asc' }]);
+      return query
     },
     getById: function(id) {
       return knex('category_details').where('category_id', `${id}`);

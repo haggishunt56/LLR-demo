@@ -7,13 +7,13 @@ module.exports = function (router) {
   // handle input on search forms
   router.post('/search', (req, res) => {
     if (req.body.lessonproject === 'lesson') {
-      res.render('search/search_lessons.html')
+      res.redirect('/search_lessons')
     } else if (req.body.lessonproject === 'project') {
-      res.render('search/search_projects.html')
+      res.redirect('search_projects')
     } else if (req.body.lessonproject === 'campaign') {
-      res.render('search/search_campaigns.html')
+      res.redirect('search_campaigns')
     } else if (req.body.lessonproject === 'conference') {
-      res.render('search/search_conferences.html')
+      res.redirect('search_conferences')
     } else if (JSON.stringify(req.body) === '{}') {
       var err = '{ "error" : "noSelection" }'
       res.render('search/searchwhat.html', { err })

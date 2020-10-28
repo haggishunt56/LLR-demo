@@ -75,7 +75,6 @@ module.exports = function (router) {
       const projectDetails = [{}]
       projectDetails[0] = req.body
       projectDetails[0].project_tp_num = req.params.project_tp_num
-      console.log(projectDetails)
       queries
         .searchPortfolios
         .getActive()

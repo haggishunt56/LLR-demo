@@ -20,8 +20,6 @@ module.exports = function (router) {
         reqjson.dateFromMonth = mm
         reqjson.dateFromYear = yyyy - 1
 
-        console.log(reqjson.category)
-
         queries.searchCategories.getAll()
           .then(categories => {
             queries.searchPortfolios.getActive()
