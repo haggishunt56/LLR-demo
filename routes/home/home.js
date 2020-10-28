@@ -6,7 +6,12 @@ module.exports = function (router) {
     queries
       .getTrendingCategories()
       .then(trending => {
-        res.render('home.html', { trending })
+        queries
+          .searchLessons
+          .getRecentlyAdded()
+          .then(recent => {
+            res.render('home.html', { trending, recent })
+          })
       })
   })
 }

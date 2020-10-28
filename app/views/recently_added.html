@@ -1,0 +1,20 @@
+<h3 class="govuk-heading-m">Recently added lessons learned</h3>
+
+<table class="govuk-table govuk-!-width-full">
+<thead class="govuk-table__head">
+  <tr class="govuk-table__row">
+    <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date</th>
+    <th scope="col" class="govuk-table__header govuk-!-width-half">Lesson summary </th>
+    <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Uploaded by</th>
+  </tr>
+</thead>
+<tbody class="govuk-table__body">
+  {% asyncEach lesson in recent %}
+  <tr class="govuk-table__row">
+    <th scope="row" class="govuk-table__header">{{lesson.date_added | date}}</th>
+    <td class="govuk-table__cell">{{lesson.summary}}</td>
+    <td class="govuk-table__cell">{{lesson.username}}</td>
+  </tr>
+  {% endeach %}
+</tbody>
+</table>

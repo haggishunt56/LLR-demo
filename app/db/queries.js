@@ -106,6 +106,14 @@ module.exports = {
         .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
         .orderBy('lesson_id', 'asc');
       return query
+    },
+    getRecentlyAdded: function() {
+      let query = knex.select()
+        .table('lesson_details')
+        .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
+        .orderBy('date_added', 'desc')
+        .limit(5);
+      return query
     }
   },
   searchProjects: {
