@@ -116,23 +116,21 @@ module.exports = function (router) {
           err.projectTpNum.notExists = true
           err.summarise = true
         }
+        const reqjson = req.body
 
         // summarise and send errors
         if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
-          const reqjson = req.body
           queries.searchCategories.getAll()
-            .then(
-              categories => {
-                res.render('create/create_lesson.html', { err, reqjson, categories })
-              }
-            )
+            .then(categories => {
+              res.render('create/create_lesson.html', { err, reqjson, categories })
+            })
         } else { // query database if no errors
           queries
             .createLesson(req.body.projectTpNum, req.body.category,
               req.body.lessonType, req.body.identifiedBy, req.body.identifiedByArea,
               req.body.howIdentified, req.body.summary, req.body.details)
             .then(createLesson => {
-              return res.render('create/create_lesson_success.html', { createLesson }) // display success page
+              res.render('create/create_action.html', { createLesson, reqjson }) // display success page
             })
         }
       })

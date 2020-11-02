@@ -9,11 +9,11 @@ module.exports = function (router) {
     if (req.body.lessonproject === 'lesson') {
       res.redirect('/search_lessons')
     } else if (req.body.lessonproject === 'project') {
-      res.redirect('search_projects')
+      res.redirect('/search_projects')
     } else if (req.body.lessonproject === 'campaign') {
-      res.redirect('search_campaigns')
+      res.redirect('/search_campaigns')
     } else if (req.body.lessonproject === 'conference') {
-      res.redirect('search_conferences')
+      res.redirect('/search_conferences')
     } else if (JSON.stringify(req.body) === '{}') {
       var err = '{ "error" : "noSelection" }'
       res.render('search/searchwhat.html', { err })

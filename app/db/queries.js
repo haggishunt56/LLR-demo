@@ -296,10 +296,19 @@ module.exports = {
       how_identified: `${how_identified}`, identified_by: `${identified_by}`,
       identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
       summary: `${summary}`, uploaded_by: '1', www_ebi: `${type}`},
-      ['lesson_id', 'project_tp_num', 'how_identified', 'identified_by', 'identifiers_area'])
+      ['lesson_id', 'project_tp_num', 'how_identified', 'identified_by', 'identifiers_area', 'date_added'])
       .into('lesson_details')
     ;
 
+  },
+  createAction: function(lessonId, actionDetails, actionOwner, dayAdded, monthAdded, yearAdded) {
+    let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
+
+    let query = knex.insert({lesson_id: `${lessonId}`, action_details: `${actionDetails}`,
+      action_owner: `${actionOwner}`, target_date: dateAdded}) // target date uses current system time. Needs fixed
+      .into('action_details')
+      ;
+    return query
   },
   createProject: function(projectName, projectTpNum, dateStartedDay,
     dateStartedMonth, dateStartedYear, dateClosedDay, dateClosedMonth,
