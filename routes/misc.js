@@ -6,8 +6,8 @@ module.exports = function (router) {
     queries
       .Lessons
       .getAll()
-      .then(lesson_details => {
-        res.json(lesson_details)
+      .then(lessonDetails => {
+        res.json(lessonDetails)
       })
   })
 

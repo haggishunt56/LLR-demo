@@ -2,11 +2,11 @@ const queries = require('../../app/db/queries')
 
 module.exports = function (router) {
   router.get('/category/:cat', (req, res) => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-    searchFrom = yyyy-1 + '-' + mm + '-' + dd;
+    var today = new Date()
+    var dd = String(today.getDate()).padStart(2, '0')
+    var mm = String(today.getMonth() + 1).padStart(2, '0') // January is 0!
+    var yyyy = today.getFullYear()
+    var searchFrom = yyyy - 1 + '-' + mm + '-' + dd
 
     queries
       .searchLessons

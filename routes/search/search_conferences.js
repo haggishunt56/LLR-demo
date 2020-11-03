@@ -7,7 +7,7 @@ module.exports = function (router) {
 
   router.post('/search_conferences', (req, res) => {
     const reqjson = req.body
-    if (reqjson.include_deleted === "_unchecked") {
+    if (reqjson.include_deleted === '_unchecked') {
       reqjson.include_deleted = false
     } else {
       reqjson.include_deleted = true

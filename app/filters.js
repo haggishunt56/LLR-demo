@@ -39,19 +39,18 @@ module.exports = function (env) {
     documentation.
 
   ------------------------------------------------------------------ */
-  filters.date = function(dateStr) {
+  filters.date = function (dateStr) {
     if (!(dateStr === undefined) && !(dateStr === null)) {
-      return (dateStr.toString().slice(4,15));
+      return (dateStr.toString().slice(4, 15))
     }
   }
-  filters.trim = function(fullStr) {
+  filters.trim = function (fullStr) {
     if (fullStr.length > 25) {
-      var trimStr = fullStr.substring(0, 25);
-      var newStr = trimStr.concat("...");
-      return (newStr);
-    }
-    else {
-      return (fullStr);
+      var trimStr = fullStr.substring(0, 25)
+      var newStr = trimStr.concat('...')
+      return (newStr)
+    } else {
+      return (fullStr)
     }
   }
   filters.portfolioActive = function (active) {
@@ -63,7 +62,7 @@ module.exports = function (env) {
       return str
     }
   }
-  filters.toLowerCase = function(str) {
+  filters.toLowerCase = function (str) {
     return str.toLowerCase()
   }
 

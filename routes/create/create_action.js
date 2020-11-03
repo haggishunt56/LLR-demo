@@ -97,17 +97,17 @@ module.exports = function (router) {
 
     queries
       .createAction(req.body.lessonId, req.body.actionDetails, req.body.actionOwner,
-          req.body.day_added, req.body.month_added, req.body.year_added)
-      .then(action_created => {
+        req.body.day_added, req.body.month_added, req.body.year_added)
+      .then(actionCreated => {
         if (req.body.new_action !== undefined) { // new action
           const reqjson = req.body
           queries.searchCategories.getAll()
             .then(categories => {
-              const createLesson = [{'project_tp_num': req.body.projectTpNum,
+              const createLesson = [{ 'project_tp_num': req.body.projectTpNum,
                 'lesson_id': req.body.lessonId,
                 'how_identified': req.body.howIdentified,
                 'identified_by': req.body.identifiedBy,
-                'identifiers_area': req.body.identifiedByArea}]
+                'identifiers_area': req.body.identifiedByArea }]
               res.render('create/create_action.html', { reqjson, categories, createLesson })
             })
         } else if (req.body.new_lesson !== undefined) { // new lesson
@@ -121,11 +121,10 @@ module.exports = function (router) {
             .then(categories => {
               res.render('create/create_lesson.html', { reqjson, categories })
             })
-
         } else if (req.body.go_home !== undefined) { // return home
           res.redirect('/home')
         } else {
-          console.log("something went wrong")
+          console.log('something went wrong')
         }
       })
 

@@ -9,12 +9,11 @@ module.exports = function (router) {
             res.render('search/search_lessons.html', { categories, activePortfolios })
           })
       })
-
   })
 
   router.post('/search_lessons', (req, res) => {
     const reqjson = req.body
-    if (reqjson.include_deleted === "_unchecked") {
+    if (reqjson.include_deleted === '_unchecked') {
       reqjson.include_deleted = false
     } else {
       reqjson.include_deleted = true

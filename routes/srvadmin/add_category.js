@@ -22,13 +22,13 @@ module.exports = function (router) {
       const reqjson = req.body
       res.render('admin/add_category.html', { err, reqjson })
     } else {
-    queries.createCategory(req.body.category_name)
-      .then(addedCategory => {
-        queries.searchCategories.getAll()
-          .then(categories => {
-            res.render('admin/maintain_categories.html', { categories, addedCategory })
-          })
-      })
+      queries.createCategory(req.body.category_name)
+        .then(addedCategory => {
+          queries.searchCategories.getAll()
+            .then(categories => {
+              res.render('admin/maintain_categories.html', { categories, addedCategory })
+            })
+        })
     }
   })
 }
