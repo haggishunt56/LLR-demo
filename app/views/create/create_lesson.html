@@ -266,7 +266,7 @@
           </label>
           {% if err.identifiedByArea.blank %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the work area of the person who identified this lesson, for example, TEaL portfolio
+            <span class="govuk-visually-hidden">Error:</span> Enter the work area of the person who identified this lesson
           </span>
           {% endif %}
           {% if err.identifiedByArea.tooLong %}
@@ -275,7 +275,7 @@
           </span>
           {% endif %}
           <span id="identifiers-area-hint" class="govuk-hint">
-            Hint text TBC
+            Enter the person's work area, for example, TEaL portfolio
           </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="identifiedByArea" name="identifiedByArea" type="text" value = {{ reqjson.identifiedByArea }}>
         </div>
@@ -287,7 +287,7 @@
           </label>
           {% if err.howIdentified.blank %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Briefly explain how or when this lesson was identified, for example, at a sprint retrospective
+            <span class="govuk-visually-hidden">Error:</span> Briefly explain how or when this lesson was identified
           </span>
           {% endif %}
           {% if err.howIdentified.tooLong %}
@@ -296,7 +296,8 @@
           </span>
           {% endif %}
           <span id="how-identified-hint" class="govuk-hint">
-            Hint text TBC
+            Please enter the meeting, forum or other circumstance where the lesson was identified.<br>
+            For example, at a sprint retrospective or post go-live lessons learned meeting.
           </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="howIdentified" name="howIdentified" type="text" value = {{ reqjson.howIdentified }}>
         </div>
