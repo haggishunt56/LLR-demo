@@ -31,7 +31,22 @@
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">Upload</h1>
 
-    <form class="form" action="fileuploaddisk" method="post" enctype='multipart/form-data'>
+{% if rowsAdded %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <div class="govuk-panel govuk-panel--confirmation">
+          <h1 class="govuk-panel__title">
+            Upload successful
+          </h1>
+          <div class="govuk-panel__body">
+            {{rowsAdded}} lessons added
+          </div>
+        </div>
+      </div>
+    </div>
+{% endif %}
+
+    <form class="form" action="bulkupload" method="post" enctype='multipart/form-data'>
 
       <div class="govuk-form-group">
         <label class="govuk-label" for="file_upload">

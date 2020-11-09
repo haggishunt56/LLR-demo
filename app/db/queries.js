@@ -306,9 +306,11 @@ module.exports = {
     let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
 
     for(var i = 0; i < obj.length; i++) {
+      obj[i].dateAdded = dateAdded
+      obj[i].uploadedBy = 1
       console.log(obj[i])
       console.log('---------------------------')
-      query.insert({project_tp_num:obj[i].ProjectID,  date_added: dateAdded, uploaded_by: '1',
+      query.insert({project_tp_num:obj[i].ProjectID,  date_added: obj[i].dateAdded, uploaded_by: obj[i].uploadedBy,
         category:obj[i].Category, www_ebi:obj[i].WWW_EBI_ID, identified_by:obj[i].LessonIdentifiedBy,
         identifiers_area:obj[i].LessonIdentifiersArea, how_identified:obj[i].LessonHowIdentifed,
         summary:obj[i].Summary, description:obj[i].LessonDescription})
@@ -320,8 +322,6 @@ module.exports = {
     let query = knex('lesson_details')
     let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
 
-      console.log(obj)
-      console.log('---------------------------')
       query.insert({project_tp_num:obj.ProjectID,  date_added: dateAdded, uploaded_by: '1',
         category:obj.Category, www_ebi:obj.WWW_EBI_ID, identified_by:obj.LessonIdentifiedBy,
         identifiers_area:obj.LessonIdentifiersArea, how_identified:obj.LessonHowIdentifed,
