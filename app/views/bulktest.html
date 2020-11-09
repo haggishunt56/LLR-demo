@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  LLR - Bulk Upload
+{% endblock %}
+
+{% block beforeContent %}
+<div class="govuk-phase-banner">
+  <p class="govuk-phase-banner__content">
+    <strong class="govuk-tag govuk-phase-banner__content__tag">
+      alpha
+    </strong>
+    <span class="govuk-phase-banner__text">
+      This is a new service – your <a class="govuk-link" href="mailto:douglas.pollock@hmpo.gov.uk">feedback</a> will help us to improve it.
+    </span>
+  </p>
+</div>
+
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/home">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Bulk Upload</li>
+  </ol>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">Upload</h1>
+
+    <form class="form" action="fileuploaddisk" method="post" enctype='multipart/form-data'>
+
+      <div class="govuk-form-group">
+        <label class="govuk-label" for="file_upload">
+          Upload a file
+        </label>
+        <input class="govuk-file-upload" id="file_upload" name="file" type="file">
+      </div>
+
+      <!--<div class="govuk-form-group">
+        <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="event-name">
+            Test
+          </label>
+        </h1>
+        <input class="govuk-input" id="testTextInput" name="testTextInput" type="text">
+      </div>-->
+
+      <div class="govuk-form-group">
+        <input type="submit" draggable="false" value="Upload" class="govuk-button">
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}

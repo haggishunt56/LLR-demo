@@ -45,6 +45,10 @@ if (useV6) {
   v6App = express()
 }
 
+// bulk upload function
+const upload = require('express-fileupload')
+app.use(upload())
+
 // Set cookies for use in cookie banner.
 app.use(cookieParser())
 documentationApp.use(cookieParser())
@@ -123,6 +127,7 @@ if (useDocumentation) {
 
   nunjucksConfig.express = documentationApp
   var nunjucksDocumentationEnv = nunjucks.configure(documentationViews, nunjucksConfig)
+
   // Nunjucks filters
   utils.addNunjucksFilters(nunjucksDocumentationEnv)
 

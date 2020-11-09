@@ -1,0 +1,7 @@
+﻿ProjectID,LessonDateAdded,Category,WWW_EBI_ID,LessonIdentifiedBy,LessonIdentifiersArea,LessonHowIdentifed,LessonUploadedByID,Summary,LessonDescription
+EUSS,04/11/2020,Deployment,WWW,Dougie Pollock,SPDS,Sprint Retro,1,test summary,test description
+EUSS,05/11/2020,Assurance,WWW,Cindy Pollock,SPDS,Sprint Retro,3,1,1
+EUSS,06/11/2020,Commercial,EBI,Norah Pollock,SPDS,Sprint Retro,5,2,2
+TP081,07/11/2020,Design,WWW,Lily Pollock,Ops,lessons learned review,8,3,3
+TP081,08/11/2020,Resources,EBI,Jeff Golbum,TEaL,Sprint Retro,4,4,4
+TP081,09/11/2020,Strategy,WWW,Robert Downey Jr,Sapphire,Sprint Retro,16,5,5

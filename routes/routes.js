@@ -20,6 +20,9 @@ var routes = [
   require('./create/create_campaign.js'),
   require('./create/create_conference.js'),
 
+  // bulk upload
+  require('./bulk_upload.js'),
+
   // view
   require('./view_lesson.js'),
   require('./view_project.js'),
