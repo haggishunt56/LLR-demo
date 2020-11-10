@@ -13,7 +13,7 @@ module.exports = function (router) {
   router.get('/formhelpdownload', (req, res) => {
     res.download('./app/docs/LLRbulkuploadformhelp.csv')
   })
-  
+
   router.post('/bulkupload', function (req, res) {
     if (req.files) {
       var file = req.files.file

@@ -62,7 +62,7 @@
     </div>
 
     <form class="form" action="{{id}}" method="post" enctype='application/json'>
-      <input type="submit" draggable="false" value="Yes, delete" class="govuk-button govuk-button--warning">
+      <input data-prevent-double-click="true" type="submit" draggable="false" value="Yes, delete" class="govuk-button govuk-button--warning">
       <a href="/view/{{id}}" role="button" draggable="false" class="govuk-button govuk-button--secondary"  data-module="govuk-button--secondary">
         No, take me back
       </a>
