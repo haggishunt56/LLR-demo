@@ -31,6 +31,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
+      {% if not actionCreated %}
       <div class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title">
           Lesson added
@@ -39,6 +40,7 @@
           Your reference number<br><strong>{{createLesson[0].project_tp_num}}-{{createLesson[0].lesson_id}}</strong>
         </div>
       </div>
+      {% endif %}
 
       <h1 class="govuk-heading-xl">Add an action</h1>
 
@@ -50,92 +52,32 @@
         <input type="submit" draggable="false" value="Skip this step" class="govuk-button govuk-button--secondary">
       </form>
 
-      <!--{% if err.summary %}
+      {% if err.summarise %}
       <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
         <h2 class="govuk-error-summary__title" id="error-summary-title">
           There is a problem
         </h2>
         <div class="govuk-error-summary__body">
           <ul class="govuk-list govuk-error-summary__list">
-            {% if err.projectTpNum.blank %}
+            {% if err.actionDetails.blank %}
             <li>
-              <a href="#projectTpNum">Enter the TP number of the project</a>
+              <a href="#actionDetails">Detail the action to be taken</a>
             </li>
             {% endif %}
-            {% if err.projectTpNum.tooLong %}
+            {% if err.actionOwner.blank %}
             <li>
-              <a href="#projectTpNum">The TP number cannot be longer than 7 characters</a>
+              <a href="#actionOwner">Enter the name of the action owner</a>
             </li>
             {% endif %}
-            {% if err.projectTpNum.notExists and not err.projectTpNum.blank %}
+            {% if err.actionOwner.tooLong %}
             <li>
-              <a href="#projectTpNum">This is not a valid project. Please enter the number of an existing project, or create the project first.</a>
-            </li>
-            {% endif %}
-            {% if err.category.blank %}
-            <li>
-              <a href="#category">Select a category</a>
-            </li>
-            {% endif %}
-            {% if err.lessonType.blank %}
-            <li>
-              <a href="#lessonType">Select a lesson type</a>
-            </li>
-            {% endif %}
-            {% if err.identifiedBy.blank %}
-            <li>
-              <a href="#identifiedBy">Enter the name of the person who identified this lesson</a>
-            </li>
-            {% endif %}
-            {% if err.identifiedBy.tooLong %}
-            <li>
-              <a href="#identifiedBy">Identified By field cannot contain more than 45 characters</a>
-            </li>
-            {% endif %}
-            {% if err.identifiedByArea.blank %}
-            <li>
-              <a href="#identifiedByArea">Enter the work area of the person who identified this lesson</a>
-            </li>
-            {% endif %}
-            {% if err.identifiedByArea.tooLong %}
-            <li>
-              <a href="#identifiedByArea">Identifier's area field cannot contain more than 45 characters</a>
-            </li>
-            {% endif %}
-            {% if err.howIdentified.blank %}
-            <li>
-              <a href="#howIdentified">Briefly explain how or when this lesson was identified</a>
-            </li>
-            {% endif %}
-            {% if err.howIdentified.tooLong %}
-            <li>
-              <a href="#howIdentified">How Identified field cannot contain more than 128 characters</a>
-            </li>
-            {% endif %}
-            {% if err.summary.blank %}
-            <li>
-              <a href="#summary">Enter a summary of the lesson learned</a>
-            </li>
-            {% endif %}
-            {% if err.summary.tooLong %}
-            <li>
-              <a href="#summary">Summary field cannot contain more than 128 characters</a>
-            </li>
-            {% endif %}
-            {% if err.details.blank %}
-            <li>
-              <a href="#details">Explain the impact or benefit of this lesson learned</a>
-            </li>
-            {% endif %}
-            {% if err.details.tooLong %}
-            <li>
-              <a href="#details">Details field cannot contain more than 2000 characters</a>
+              <a href="#actionOwner">Action owner cannot be longer than 45 characters</a>
             </li>
             {% endif %}
           </ul>
         </div>
       </div>
-      {% endif %}-->
+      {% endif %}
 
       <form class="form" action="create_action" method="post" enctype='application/json'>
 
@@ -154,29 +96,34 @@
         </div>
 
         <!-- action details field -->
-        <div class='govuk-form-group'>
+        <div {% if err.actionDetails.blank %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="category">
             Action or recommendation details
           </label><br>
-          <!--{% if err.category.blank %}
+          {% if err.actionDetails.blank %}
             <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Select a category
+            <span class="govuk-visually-hidden">Error:</span> Detail the action to be taken
           </span>
-          {% endif %}-->
-          <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="actionDetails" name="actionDetails" rows="5" aria-describedby="with-hint-info with-hint-hint"></textarea>
+          {% endif %}
+          <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="actionDetails" name="actionDetails" rows="5" aria-describedby="with-hint-info with-hint-hint">{{createLesson[0].action_details}}</textarea>
         </div>
 
         <!-- action owner field -->
-        <div class='govuk-form-group'>
+        <div {% if err.actionOwner.blank or err.actionOwner.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
           <label class="govuk-label--s" for="category">
             Action or recommendation owner
           </label><br>
-          <!--{% if err.category.blank %}
+          {% if err.actionOwner.blank %}
             <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Select a category
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the action owner
           </span>
-          {% endif %}-->
-          <input class="govuk-input govuk-!-width-two-thirds" id="actionOwner" name="actionOwner" type="text">
+          {% endif %}
+          {% if err.actionOwner.tooLong %}
+            <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Action owner cannot be longer than 45 characters
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="actionOwner" name="actionOwner" type="text" value="{{createLesson[0].action_owner}}">
         </div>
 
         <!-- target date field -->
