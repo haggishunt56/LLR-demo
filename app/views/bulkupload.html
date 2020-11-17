@@ -29,22 +29,66 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+
     <h1 class="govuk-heading-xl">Upload</h1>
 
-{% if rowsAdded %}
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-full">
-        <div class="govuk-panel govuk-panel--confirmation">
-          <h1 class="govuk-panel__title">
-            Upload successful
-          </h1>
-          <div class="govuk-panel__body">
-            {{rowsAdded}} lessons added
+    {% if rowsAdded %}
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-full">
+            <div class="govuk-panel govuk-panel--confirmation">
+              <h1 class="govuk-panel__title">
+                Upload successful
+              </h1>
+              <div class="govuk-panel__body">
+                {{rowsAdded}} lessons added
+              </div>
+            </div>
           </div>
         </div>
+    {% endif %}
+
+    {% if err.summary %}
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          {% if err.projectId.blank %}
+          <li>
+            <a href="#file_upload">One or more of your lessons does not have an associated Project TP Number</a>
+          </li>
+          {% endif %}
+          {% if err.projectId.tooLong or err.projectId.notExists %}
+          <li>
+            <a href="#file_upload">One or more of your lessons does not have a valid Project TP Number</a>
+          </li>
+          {% endif %}
+          {% if err.category.blank %}
+          <li>
+            <a href="#file_upload">One or more of your lessons does not have an associated category</a>
+          </li>
+          {% endif %}
+          {% if err.category.tooLong or err.category.notExists %}
+          <li>
+            <a href="#file_upload">One or more of your lessons does not have a valid category</a>
+          </li>
+          {% endif %}
+          {% if err.lessonType.invalidEntry %}
+          <li>
+            <a href="#file_upload">One or more of your lessons does not have a valid lesson type</a>
+          </li>
+          {% endif %}
+        </ul>
       </div>
     </div>
-{% endif %}
+    {% endif %}
+
+    <!--identifiedBy: {},
+    identifiersArea: {},
+    howIdentifed: {},
+    summary: {},
+    description: {}-->
 
     <form class="form" action="bulkupload" method="post" enctype='multipart/form-data'>
 
@@ -54,14 +98,6 @@
         </label>
         <input class="govuk-file-upload" id="file_upload" name="file" type="file">
       </div>
-
-      <!--<div class="govuk-form-group">
-        <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="event-name">
-            Test
-          </label>
-        </h1>
-        <input class="govuk-input" id="testTextInput" name="testTextInput" type="text">
-      </div>-->
 
       <div class="govuk-form-group">
         <input data-prevent-double-click="true" type="submit" draggable="false" value="Upload" class="govuk-button">
@@ -78,10 +114,7 @@
       </div>
 
     </form>
-
-
   </div>
-
 </div>
 
 {% endblock %}

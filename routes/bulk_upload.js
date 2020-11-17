@@ -3,7 +3,6 @@ const queries = require('../app/db/queries')
 module.exports = function (router) {
   router.get('/bulkupload', (req, res) => {
     res.render('./bulkupload.html')
-    // res.download('./app/views/LLR_upload_form_v0.0.xls')
   })
 
   router.get('/bulkformdownload', (req, res) => {
@@ -31,32 +30,64 @@ module.exports = function (router) {
             .fromFile(csvFilePath)
             .then((jsonObj) => {
               let rowsAdded = 0
-              /*
+
               // TODO data validation
-              let err = {}
-              for (var i = 0; i < jsonObj.length; i++) {
-                test jsonObj[i].ProjectID
-                test jsonObj[i].Category
-                test jsonObj[i].WWW_EBI_ID
-                test jsonObj[i].LessonIdentifiedBy
-                test jsonObj[i].LessonIdentifiersArea
-                test jsonObj[i].LessonHowIdentifed
-                test jsonObj[i].Summary
-                test jsonObj[i].LessonDescription
+              const err = {
+                projectId: {},
+                category: {},
+                lessonType: {},
+                identifiedBy: {},
+                identifiersArea: {},
+                howIdentifed: {},
+                summary: {},
+                description: {}
               }
-              if not err then loop query
-              else display error (tell users which rows are the problem)
-              */
               for (var i = 0; i < jsonObj.length; i++) {
-                queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].Category,
-                  jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
-                  jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
-                  jsonObj[i].Summary, jsonObj[i].LessonDescription)
-                  .then()
-                rowsAdded = i
+                if (jsonObj[i].ProjectID === '') {
+                  err.projectId.blank = true
+                  err.summarise = true
+                }
+                if (jsonObj[i].ProjectID.length > 7) {
+                  err.projectId.tooLong = true
+                  err.summarise = true
+                }
+                // TODO checkProjectExists
+
+                if (jsonObj[i].Category === '') {
+                  err.category.blank = true
+                  err.summarise = true
+                }
+                if (jsonObj[i].Category.length > 45) {
+                  err.category.tooLong = true
+                  err.summarise = true
+                }
+
+                if (!(jsonObj[i].WWW_EBI_ID === 'www' || jsonObj[i].WWW_EBI_ID === 'ebi' || jsonObj[i].WWW_EBI_ID === 'WWW' || jsonObj[i].WWW_EBI_ID === 'EBI')) {
+                  err.lessonType.invalidEntry = true
+                  err.summarise = true
+                }
+
+                // test jsonObj[i].LessonIdentifiedBy
+                // test jsonObj[i].LessonIdentifiersArea
+                // test jsonObj[i].LessonHowIdentifed
+                // test jsonObj[i].Summary
+                // test jsonObj[i].LessonDescription
               }
-              rowsAdded++
-              res.render('./bulkupload.html', { rowsAdded })
+
+              if (!err.summarise) {
+                for (i = 0; i < jsonObj.length; i++) {
+                  queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].Category,
+                    jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
+                    jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
+                    jsonObj[i].Summary, jsonObj[i].LessonDescription)
+                    .then()
+                  rowsAdded = i
+                }
+                rowsAdded++
+                res.render('./bulkupload.html', { rowsAdded })
+              } else {
+                res.render('./bulkupload.html', { err })
+              }
             })
         }
       })
