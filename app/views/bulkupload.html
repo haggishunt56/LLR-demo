@@ -50,28 +50,44 @@
     {% if err.summary %}
     <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
       <h2 class="govuk-error-summary__title" id="error-summary-title">
-        There is a problem
+        There was a problem. Your lessons have not been added
       </h2>
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
-          {% if err.projectId.blank %}
+          {% if err.projectId.blank or err.projectId.tooLong or err.projectId.notExists %}
           <li>
-            <a href="#file_upload">One or more of your lessons does not have an associated Project TP Number</a>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your Project TP Numbers is invalid
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.projectId.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
           </li>
           {% endif %}
-          {% if err.projectId.tooLong or err.projectId.notExists %}
+          {% if err.category.blank or err.category.tooLong %}
           <li>
-            <a href="#file_upload">One or more of your lessons does not have a valid Project TP Number</a>
-          </li>
-          {% endif %}
-          {% if err.category.blank %}
-          <li>
-            <a href="#file_upload">One or more of your lessons does not have an associated category</a>
-          </li>
-          {% endif %}
-          {% if err.category.tooLong or err.category.notExists %}
-          <li>
-            <a href="#file_upload">One or more of your lessons does not have a valid category</a>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your categories has an error
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.category.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
           </li>
           {% endif %}
           {% if err.lessonType.invalidEntry %}
