@@ -8,6 +8,9 @@ This document provides guidance on launching and using the LLR application.
 
 A video of the application being downloaded and run can be found here: https://youtu.be/35hdOXb94To
 
+By default, the application uses PostgreSQL as the DBMS. The connection details can be found and customised in the knexfile.js document. These will need to be set to whatever PSQL is configured to on your PC.
+The database can be set up by calling the psqlpopulatetable.sql script, found in the ./app/db/ directory
+
 Functionality provided by LLR:
 1. View information related to lessons, projects, campaigns and conferences
 2. Create new projects, recruitment campaigns and conferences
@@ -15,6 +18,5 @@ Functionality provided by LLR:
 4. Create actions (must be associated with a lesson)
 5. Bulk upload lessons
 6. Update existing lessons, projects, campaigns and conferences
-7. Delete lessons, projects, campaigns and conferences
-    This is a soft-delete, meaning these entries still exist in the database but are not viewable by some users
+7. Delete lessons, projects, campaigns and conferences. This is a soft-delete, meaning these entries still exist in the database but are not viewable by some users
 8. Reinstate deleted lessons, projects, campaigns and conferences
