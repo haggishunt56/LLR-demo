@@ -1,7 +1,7 @@
 This document provides guidance on launching and using the LLR application.
 
 1. Download the code to your machine and save it in an accessible location
-2. Open up a command prompt and navigate to the project folder with 'cd :/[file path]'
+2. Open up a command prompt and navigate to the project folder with 'cd C:/[file path]'
 3. Use the command 'npm install' to install the required modules to allow the application to run
 3. Use the command 'npm start' to start the NodeJS server (you must have Node installed)
 4. Open a browser and go to 'localhost:80'
