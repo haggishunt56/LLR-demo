@@ -92,13 +92,28 @@
           {% endif %}
           {% if err.lessonType.invalidEntry %}
           <li>
-            <a href="#file_upload">One or more of your lessons does not have a valid lesson type</a>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your lesson types is invalid
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.lessonType.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
           </li>
           {% endif %}
         </ul>
       </div>
     </div>
     {% endif %}
+
+    {{ err.lessonType.row | dump }}
 
     <!--identifiedBy: {},
     identifiersArea: {},

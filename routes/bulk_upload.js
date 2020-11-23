@@ -33,14 +33,14 @@ module.exports = function (router) {
 
               // TODO data validation
               const err = {
-                projectId: {row: [{}]},
-                category: {row: [{}]},
-                lessonType: {row: [{}]},
-                identifiedBy: {row: [{}]},
-                identifiersArea: {row: [{}]},
-                howIdentifed: {row: [{}]},
-                summary: {row: [{}]},
-                description: {row: [{}]}
+                projectId: {row: []},
+                category: {row: []},
+                lessonType: {row: []},
+                identifiedBy: {row: []},
+                identifiersArea: {row: []},
+                howIdentifed: {row: []},
+                summary: {row: []},
+                description: {row: []}
               }
 
               for (var i = 0; i < jsonObj.length; i++) {
@@ -69,62 +69,62 @@ module.exports = function (router) {
 
                 if (!(jsonObj[i].WWW_EBI_ID === 'www' || jsonObj[i].WWW_EBI_ID === 'ebi' || jsonObj[i].WWW_EBI_ID === 'WWW' || jsonObj[i].WWW_EBI_ID === 'EBI')) {
                   err.lessonType.invalidEntry = true
-                  err.lessonType.row = i + 2
+                  err.lessonType.row[i] = i + 2
                   err.summarise = true
                 }
 
                 if (jsonObj[i].LessonIdentifiedBy === '') {
                   err.identifiedBy.blank = true
-                  err.identifiedBy.row = i + 2
+                  err.identifiedBy.row[i] = i + 2
                   err.summarise = true
                 }
                 if (jsonObj[i].LessonIdentifiedBy.length > 45) {
                   err.identifiedBy.tooLong = true
-                  err.identifiedBy.row = i + 2
+                  err.identifiedBy.row[i] = i + 2
                   err.summarise = true
                 }
 
                 if (jsonObj[i].LessonIdentifiersArea === '') {
                   err.identifiersArea.blank = true
-                  err.identifiersArea.row = i + 2
+                  err.identifiersArea.row[i] = i + 2
                   err.summarise = true
                 }
                 if (jsonObj[i].LessonIdentifiersArea.length > 45) {
                   err.identifiersArea.tooLong = true
-                  err.identifiersArea.row = i + 2
+                  err.identifiersArea.row[i] = i + 2
                   err.summarise = true
                 }
 
                 if (jsonObj[i].LessonHowIdentifed === '') {
                   err.howIdentifed.blank = true
-                  err.howIdentifed.row = i + 2
+                  err.howIdentifed.row[i] = i + 2
                   err.summarise = true
                 }
                 if (jsonObj[i].LessonHowIdentifed.length > 128) {
                   err.howIdentifed.tooLong = true
-                  err.howIdentifed.row = i + 2
+                  err.howIdentifed.row[i] = i + 2
                   err.summarise = true
                 }
 
                 if (jsonObj[i].Summary === '') {
                   err.summary.blank = true
-                  err.summary.row = i + 2
+                  err.summary.row[i] = i + 2
                   err.summarise = true
                 }
                 if (jsonObj[i].Summary.length > 128) {
                   err.summary.tooLong = true
-                  err.summary.row = i + 2
+                  err.summary.row[i] = i + 2
                   err.summarise = true
                 }
 
                 if (jsonObj[i].LessonDescription === '') {
                   err.description.blank = true
-                  err.description.row = i + 2
+                  err.description.row[i] = i + 2
                   err.summarise = true
                 }
                 if (jsonObj[i].LessonDescription.length > 2000) {
                   err.description.tooLong = true
-                  err.description.row = i + 2
+                  err.description.row[i] = i + 2
                   err.summarise = true
                 }
               }
