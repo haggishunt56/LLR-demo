@@ -10,7 +10,7 @@ module.exports = function (router) {
   })
 
   router.get('/formhelpdownload', (req, res) => {
-    res.download('./app/docs/LLRbulkuploadformhelp.csv')
+    res.download('./app/docs/LLRbulkuploadformhelp.xlsx')
   })
 
   router.post('/bulkupload', function (req, res) {
