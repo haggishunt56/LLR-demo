@@ -108,18 +108,100 @@
             </details>
           </li>
           {% endif %}
+          {% if err.identifiedBy.blank or err.identifiedBy.tooLong %}
+          <li>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your 'Identified By' fields is invalid
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.identifiedBy.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
+          </li>
+          {% endif %}
+          {% if err.identifiersArea.blank or err.identifiersArea.tooLong %}
+          <li>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your 'Identifier's Area' fields is invalid
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.identifiersArea.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
+          </li>
+          {% endif %}
+          {% if err.howIdentifed.blank or err.howIdentifed.tooLong %}
+          <li>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your 'How Identified' fields is invalid
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.howIdentifed.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
+          </li>
+          {% endif %}
+          {% if err.summary.blank or err.summary.tooLong %}
+          <li>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your summaries is invalid
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.summary.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
+          </li>
+          {% endif %}
+          {% if err.description.blank or err.description.tooLong %}
+          <li>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your descriptions is invalid
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.description.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>
     {% endif %}
-
-    {{ err.lessonType.row | dump }}
-
-    <!--identifiedBy: {},
-    identifiersArea: {},
-    howIdentifed: {},
-    summary: {},
-    description: {}-->
 
     <form class="form" action="bulkupload" method="post" enctype='multipart/form-data'>
 

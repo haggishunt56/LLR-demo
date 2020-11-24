@@ -33,14 +33,14 @@ module.exports = function (router) {
 
               // TODO data validation
               const err = {
-                projectId: {row: []},
-                category: {row: []},
-                lessonType: {row: []},
-                identifiedBy: {row: []},
-                identifiersArea: {row: []},
-                howIdentifed: {row: []},
-                summary: {row: []},
-                description: {row: []}
+                projectId: { row: [] },
+                category: { row: [] },
+                lessonType: { row: [] },
+                identifiedBy: { row: [] },
+                identifiersArea: { row: [] },
+                howIdentifed: { row: [] },
+                summary: { row: [] },
+                description: { row: [] }
               }
 
               for (var i = 0; i < jsonObj.length; i++) {
