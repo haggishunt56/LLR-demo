@@ -23,8 +23,10 @@
         text: "Search"
       }
     ]
+
   }) }}
 {% endblock %}
+
 {% block footer %}
   {{ super() }}
 {% endblock %}
@@ -42,6 +44,13 @@
 </div>
 
 <a class="govuk-back-link" href="/start">Log out</a>
+
+<!--
+<div class="app-site-search" data-module="app-search" data-search-index="/search-index-4867296eb8d91bf97a2f6bf1dbce8a04.json">
+      <label class="govuk-visually-hidden" for="app-site-search__input">Search Design system</label>
+      <a class="app-site-search__link govuk-link" href="/sitemap">Sitemap</a>
+    <div class="app-site-search__wrapper"><div style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"><div id="app-site-search__input__status--A" role="status" aria-atomic="true" aria-live="polite"></div><div id="app-site-search__input__status--B" role="status" aria-atomic="true" aria-live="polite"></div></div><input aria-expanded="false" aria-owns="app-site-search__input__listbox" aria-autocomplete="both" aria-describedby="app-site-search__input__assistiveHint" autocomplete="off" class="app-site-search__input app-site-search__input--default" id="app-site-search__input" name="input-autocomplete" placeholder="Search Design System" type="text" role="combobox"><ul class="app-site-search__menu app-site-search__menu--overlay app-site-search__menu--hidden" id="app-site-search__input__listbox" role="listbox"></ul><span id="app-site-search__input__assistiveHint" style="display: none;">When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.</span></div></div>
+-->
 {% endblock %}
 
 {% block content %}

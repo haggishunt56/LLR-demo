@@ -14,6 +14,9 @@ module.exports = function (router) {
         } else if (project_details[0].project_type === 'conference') {
           project_details[0].isConference = true
         }
+
+        // query database for Lessons
+
         res.render('view/view_project.html', { project_details })
       })
   })
