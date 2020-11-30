@@ -199,11 +199,11 @@
       <table class="govuk-table">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Reference number</th>
-            <th scope="col" class="govuk-table__header">Conference name</th>
-            <th scope="col" class="govuk-table__header">Status</th>
-            <th scope="col" class="govuk-table__header">Portfolio</th>
-            <th scope="col" class="govuk-table__header">Date added</th>
+            <th onclick="sortTable(0)" style="cursor:pointer" scope="col" class="govuk-table__header">Reference number ⇅</th>
+            <th onclick="sortTable(0)" style="cursor:pointer" scope="col" class="govuk-table__header">Conference name ⇅</th>
+            <th onclick="sortTable(0)" style="cursor:pointer" scope="col" class="govuk-table__header">Status ⇅</th>
+            <th onclick="sortTable(0)" style="cursor:pointer" scope="col" class="govuk-table__header">Portfolio ⇅</th>
+            <th onclick="sortTable(0)" style="cursor:pointer" scope="col" class="govuk-table__header">Date added ⇅</th>
           </tr>
         </thead>
         <tbody class="govuk-table__body">
@@ -211,7 +211,7 @@
         {% asyncEach project_detail in project_details %}
 
         <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header"><a href="/view/{{project_detail.project_tp_num}}">{{project_detail.project_tp_num}}</a></th>
+          <td scope="row" class="govuk-table__header"><a href="/view/{{project_detail.project_tp_num}}">{{project_detail.project_tp_num}}</a></th>
           <td class="govuk-table__cell">{{project_detail.project_name | trim}}</td>
           <td class="govuk-table__cell">{{project_detail.status}}</td>
           <td class="govuk-table__cell">{{project_detail.portfolio_name}}</td>
@@ -225,6 +225,50 @@
     </table>
 
     {% endif %}
+
+    <script>
+      // function copied from W3schools
+      function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("resultsTable");
+        dir = "asc";
+        switching = true;
+        while (switching) {
+          switching = false;
+          rows = table.rows;
+          for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            if (dir == "asc") {
+              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                // mark as a switch and break the loop:
+                shouldSwitch = true;
+                break;
+              }
+            } else if (dir == "desc") {
+              if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                // mark as a switch and break the loop:
+                shouldSwitch = true;
+                break;
+              }
+            }
+          }
+          if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount ++;
+          } else {
+            /* If no switching has been done AND the direction is "asc",
+            set the direction to "desc" and run the while loop again. */
+            if (switchcount == 0 && dir == "asc") {
+              dir = "desc";
+              switching = true;
+            }
+          }
+        }
+      }
+    </script>
 
     </div>
   </div>
