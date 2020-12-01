@@ -15,9 +15,13 @@ module.exports = function (router) {
           project_details[0].isConference = true
         }
 
-        // query database for Lessons
+        queries
+          .searchLessons
+          .getByProject(req.params.proj_id)
+          .then(lesson_details => {
+            res.render('view/view_project.html', { project_details, lesson_details })
+          })
 
-        res.render('view/view_project.html', { project_details })
       })
   })
 }

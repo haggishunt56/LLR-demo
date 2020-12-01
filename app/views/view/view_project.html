@@ -147,8 +147,6 @@
       </a>
       {% endif %}
 
-      <!-- TABLE GOES HERE -->
-
       <table class="govuk-table">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
@@ -156,42 +154,37 @@
             <th scope="col" class="govuk-table__header">Project name</th>
             <th scope="col" class="govuk-table__header">Type</th>
             <th scope="col" class="govuk-table__header">Category</th>
-            <th scope="col" class="govuk-table__header">Portfolio</th>
             <th scope="col" class="govuk-table__header">Date added</th>
           </tr>
         </thead>
         <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">test</th>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
+            <td scope="row" class="govuk-table__header">{{lesson_details[0].lesson_id}}</td>
+            <td class="govuk-table__cell">{{lesson_details[0].project_tp_num}}</td>
+            <td class="govuk-table__cell">{{lesson_details[0].www_ebi}}</td>
+            <td class="govuk-table__cell">{{lesson_details[0].category}}</td>
+            <td class="govuk-table__cell">{{lesson_details[0].date_added | date}}</td>
           </tr>
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">test</th>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
+            <th scope="row" class="govuk-table__header">{{lesson_details[1].lesson_id}}</th>
+            <td class="govuk-table__cell">{{lesson_details[1].project_tp_num}}</td>
+            <td class="govuk-table__cell">{{lesson_details[1].www_ebi}}</td>
+            <td class="govuk-table__cell">{{lesson_details[1].category}}</td>
+            <td class="govuk-table__cell">{{lesson_details[1].date_added | date}}</td>
           </tr>
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">test</th>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
+            <th scope="row" class="govuk-table__header">{{lesson_details[2].lesson_id}}</th>
+            <td class="govuk-table__cell">{{lesson_details[2].project_tp_num}}</td>
+            <td class="govuk-table__cell">{{lesson_details[2].www_ebi}}</td>
+            <td class="govuk-table__cell">{{lesson_details[2].category}}</td>
+            <td class="govuk-table__cell">{{lesson_details[2].date_added | date}}</td>
           </tr>
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">test</th>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
-            <td class="govuk-table__cell">test</td>
+            <th scope="row" class="govuk-table__header">{{lesson_details[3].lesson_id}}</th>
+            <td class="govuk-table__cell">{{lesson_details[3].project_tp_num}}</td>
+            <td class="govuk-table__cell">{{lesson_details[3].www_ebi}}</td>
+            <td class="govuk-table__cell">{{lesson_details[3].category}}</td>
+            <td class="govuk-table__cell">{{lesson_details[3].date_added | date}}</td>
           </tr>
         </tbody>
       </table>
