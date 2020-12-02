@@ -6,6 +6,28 @@ module.exports = {
       //SELECT * FROM lesson_details;
       return knex('lesson_details');
     },
+    searchForParam: function(arg) {
+      let query = knex.select()
+        .table('lesson_details')
+        .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
+        // .where('lesson_details.lesson_id', 'ilike', `%${arg}%`)
+        .where('lesson_details.project_tp_num', 'ilike', `%${arg}%`)
+        .orWhere('project_details.project_name', 'ilike', `%${arg}%`)
+        // .orWhere('lesson_details.date_added', 'ilike', `%${arg}%`)
+        .orWhere('lesson_details.category', 'ilike',`%${arg}%`)
+        .orWhere('lesson_details.www_ebi', 'ilike', `%${arg}%`)
+        .orWhere('lesson_details.identified_by', 'ilike', `%${arg}%`)
+        .orWhere('lesson_details.identifiers_area', 'ilike', `%${arg}%`)
+        .orWhere('lesson_details.how_identified', 'ilike', `%${arg}%`)
+        // .orWhere('lesson_details.uploaded_by', 'ilike', `%${arg}%`)
+        // .orWhere('lesson_details.completion_date', 'ilike', `%${arg}%`)
+        .orWhere('lesson_details.summary', 'ilike', `%${arg}%`)
+        .orWhere('lesson_details.description', 'ilike', `%${arg}%`)
+        .orderBy('lesson_id', 'asc');
+      return query
+    },
     getBySearchFields: function(lessonName, projectName, projectType, portfolio, category,
       type, dateFromDay, dateFromMonth, dateFromYear, dateToDay, dateToMonth,
       dateToYear, includeDeleted) {

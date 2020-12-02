@@ -6,6 +6,7 @@ var routes = [
 
   // search
   require('./search/search.js'),
+  require('./search/home_search.js'),
   require('./search/search_lessons.js'),
   require('./search/search_projects.js'),
   require('./search/search_campaigns.js'),

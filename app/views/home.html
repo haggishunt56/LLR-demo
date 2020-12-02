@@ -5,26 +5,9 @@
 {% endblock %}
 
 {% block header %}
-  {{ govukHeader({
-    homepageUrl: "/home",
-    serviceName: "Lessons Learned Repository",
-    serviceUrl: "/home",
-    navigation: [
-      {
-        href: "/bulkupload",
-        text: "Upload"
-      },
-      {
-        href: "/create",
-        text: "Create"
-      },
-      {
-        href: "/search",
-        text: "Search"
-      }
-    ]
-  }) }}
+  {% include "homeheader.html" %}
 {% endblock %}
+
 {% block footer %}
   {{ super() }}
 {% endblock %}
