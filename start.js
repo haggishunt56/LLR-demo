@@ -53,6 +53,9 @@ function checkFiles () {
   }
 }
 
+// populate database
+// TODO
+
 // Create template session data defaults file if it doesn't exist
 const dataDirectory = path.join(__dirname, '/app/data')
 const sessionDataDefaultsFile = path.join(dataDirectory, '/session-data-defaults.js')
