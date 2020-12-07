@@ -1,20 +1,30 @@
 //update with your config settings
 
 module.exports = {
-  development: { // development environment
+  // development environment
+  development: {
     client: 'sqlite3',
     connection: {
-      filename: "./mydb.sqlite"
+      filename: "./app/db/sqlite.db"
     }
   },
-  integration: { // for use on Heroku
 
+  // for use on Heroku
+  integration: {
+    client: 'sqlite3',
+    connection: {
+      filename: "./app/db/sqlite.db"
+    }
   }
-  //sit
-  //pre-prod
-  // production: { // for use in prod
+
+  // sit
+
+  // pre-prod
+
+  // for use in prod env
+  // production: {
   //   client: 'postgres',
-  //   connection: 'postgres://postgres:a@localhost:5432/postgres', //THIS IS NOT SECURE. Password is in plain text.
+  //   connection: 'postgres://postgres:a@localhost:5432/postgres', // TODO use environment variables to secure db access
   //   searchPath: ['knex', 'public']
   // }
 };

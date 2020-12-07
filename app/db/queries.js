@@ -542,6 +542,17 @@ module.exports = {
     return query;
   },
   getTrendingCategories: function() {
-    return knex.raw("SELECT category, COUNT(category) volume FROM lesson_details WHERE date_added > now() - interval '1 year' GROUP BY category ORDER BY volume DESC LIMIT 4;")
+    // PSQL
+    // return knex.raw("SELECT category, COUNT(category) volume FROM lesson_details WHERE date_added > now() - interval '1 year' GROUP BY category ORDER BY volume DESC LIMIT 4;")
+
+    // sqlite3
+    let query = knex.raw('SELECT category_details.category_name, COUNT(lesson_details.category) AS volume\
+      FROM lesson_details\
+      LEFT OUTER JOIN category_details ON category_details.category_id = lesson_details.category\
+      WHERE date_added > date("now","-24 months")\
+      GROUP BY category\
+      ORDER BY volume DESC;')
+
+    return query
   }
 }

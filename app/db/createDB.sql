@@ -6,19 +6,19 @@ DROP TABLE IF EXISTS category_details;
 DROP TABLE IF EXISTS user_details;
 
 CREATE TABLE portfolio_details (
-portfolio_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+portfolio_id INTEGER PRIMARY KEY AUTOINCREMENT,
 portfolio_name VARCHAR(45),
 director_name VARCHAR(45),
 active BOOL NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE category_details (
-category_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+category_id INTEGER PRIMARY KEY AUTOINCREMENT,
 category_name VARCHAR(45)
 );
 
 CREATE TABLE project_details (
-project_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+project_id INTEGER PRIMARY KEY AUTOINCREMENT,
 project_tp_num VARCHAR(7) NOT NULL UNIQUE,
 project_name VARCHAR(100) NOT NULL,
 project_type VARCHAR(10) NOT NULL,
@@ -29,13 +29,13 @@ status VARCHAR(6) NOT NULL,
 portfolio INT NOT NULL,
 deleted BOOLEAN NOT NULL DEFAULT FALSE,
 CONSTRAINT fk_portfolio
-   FOREIGN KEY(portfolio) 
+   FOREIGN KEY(portfolio)
    REFERENCES portfolio_details(portfolio_id)
    ON DELETE CASCADE
 );
 
 CREATE TABLE lesson_details (
-lesson_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+lesson_id INTEGER PRIMARY KEY AUTOINCREMENT,
 project_tp_num VARCHAR(7) NOT NULL,
 date_added DATE NOT NULL,
 category INT,
@@ -59,7 +59,7 @@ CONSTRAINT fk_category
 );
 
 CREATE TABLE action_details (
-action_id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+action_id INTEGER PRIMARY KEY AUTOINCREMENT,
 lesson_id INT NOT NULL,
 action_details TEXT,
 action_owner VARCHAR(45),
@@ -72,7 +72,7 @@ CONSTRAINT fk_lesson
 );
 
 CREATE TABLE user_details (
-UserID INT PRIMARY KEY NOT NULL UNIQUE,
+UserID INTEGER PRIMARY KEY AUTOINCREMENT,
 UserName VARCHAR(45) NOT NULL,
 UserAlias  VARCHAR(45) NOT NULL,
 UserActive BOOLEAN NOT NULL DEFAULT FALSE,
