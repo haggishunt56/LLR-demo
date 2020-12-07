@@ -123,8 +123,8 @@
             Active
           </label><br>
           <select class="govuk-select" id="active" name="active">
-            <option value="true" {% if portfolio[0].active %} selected {% endif %}>Yes</option>
-            <option value="false" {% if not portfolio[0].active %} selected {% endif %}>No</option>
+            <option value="true" {% if portfolio[0].active=='true' %} selected {% endif %}>Yes</option>
+            <option value="false" {% if portfolio[0].active=='false' %} selected {% endif %}>No</option>
           </select>
         </div>
 

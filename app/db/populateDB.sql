@@ -1,23 +1,21 @@
-INSERT INTO portfolio_details (portfolio_name, director_name)
+INSERT INTO portfolio_details (portfolio_name, director_name, active)
 VALUES
-	('Azure', 'Neil Carne'),
-	('Blue', ''),
-	('Chrome', 'Chris Hider'),
-	('Coral', 'Andrew Park'),
-	('Enablers', 'Lynette Williams'),
-	('Indigo', 'Patrick Owens'),
-	('Platinum', 'Jonathan Vaughan'),
-	('Sapphire', 'Jim Cosgrove'),
-	('Teal', 'Graham Roberts'),
-	('TOM', 'Graham Roberts'),
-	('Pre-portfolio', 'Colin Foley'),
-	('TBCT', 'Michelle Wilson'),
-	('BAU', 'TBC'),
-	('BCM', 'Michelle Wilson'),
-	('PM', 'Andrew Park'),
-	('CAT', 'Tim Green');
-
-UPDATE portfolio_details SET active = false WHERE portfolio_name = 'Blue';
+	('Azure', 'Neil Carne', 'true'),
+	('Blue', '', 'false'),
+	('Chrome', 'Chris Hider', 'true'),
+	('Coral', 'Andrew Park', 'true'),
+	('Enablers', 'Lynette Williams', 'true'),
+	('Indigo', 'Patrick Owens', 'true'),
+	('Platinum', 'Jonathan Vaughan', 'true'),
+	('Sapphire', 'Jim Cosgrove', 'true'),
+	('Teal', 'Graham Roberts', 'true'),
+	('TOM', 'Graham Roberts', 'true'),
+	('Pre-portfolio', 'Colin Foley', 'true'),
+	('TBCT', 'Michelle Wilson', 'true'),
+	('BAU', 'TBC', 'true'),
+	('BCM', 'Michelle Wilson', 'true'),
+	('PM', 'Andrew Park', 'true'),
+	('CAT', 'Tim Green', 'true');
 
 INSERT INTO category_details (category_name)
 VALUES
