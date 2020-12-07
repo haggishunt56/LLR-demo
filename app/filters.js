@@ -41,7 +41,17 @@ module.exports = function (env) {
   ------------------------------------------------------------------ */
   filters.date = function (dateStr) {
     if (!(dateStr === undefined) && !(dateStr === null)) {
-      return (dateStr.toString().slice(4, 15))
+      // return (dateStr.toString().slice(4, 15)) // for use with PSQL
+      var date = new Date(dateStr)
+      var mnthArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      var dayArray=['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      var day = dayArray[date.getDay()]
+      var d = date.getDate()
+      var m = mnthArray[date.getMonth()]
+      var y = date.getFullYear()
+      var retStr = '' + day + ' ' + d + ' ' + m + ' ' + y
+      return retStr
+
     }
   }
   filters.trim = function (fullStr) {

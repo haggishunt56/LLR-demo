@@ -11,9 +11,9 @@
 <tbody class="govuk-table__body">
   {% asyncEach lesson in recent %}
   <tr class="govuk-table__row">
-    <th scope="row" class="govuk-table__header">{{lesson.date_added | date}}</th>
-    <td class="govuk-table__cell">{{lesson.summary}}</td>
-    <td class="govuk-table__cell">{{lesson.username}}</td>
+    <th scope="row" class="govuk-table__header govuk-!-width-one-third">{{lesson.date_added | date}}</th>
+    <td class="govuk-table__cell govuk-!-width-one-third">{{lesson.summary}}</td>
+    <td class="govuk-table__cell govuk-!-width-one-third">{{lesson.username}}</td>
   </tr>
   {% endeach %}
 </tbody>

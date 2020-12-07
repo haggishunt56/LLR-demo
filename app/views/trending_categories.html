@@ -12,9 +12,9 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          {% asyncEach category in trending.rows %}
+          {% asyncEach category in trending %}
             <tr class="govuk-table__row">
-              <td class="govuk-table__cell"><a href="/category/{{category.category}}">{{category.category}}</a></td>
+              <td class="govuk-table__cell"><a href="/category/{{category.category_name}}">{{category.category_name}}</a></td>
               <td class="govuk-table__cell">{{category.volume}}</td>
             </tr>
           {% endeach %}
