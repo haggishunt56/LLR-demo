@@ -54,22 +54,9 @@
           </label><br>
           <select class="govuk-select" id="portfolio" name="portfolio">
             <option value=""></option>
-            <option value="azure" {% if reqjson.portfolio=="azure" %} selected {% endif %}>Azure</option>
-            <option value="blue" {% if reqjson.portfolio=="blue" %} selected {% endif %}>Blue</option>
-            <option value="chrome" {% if reqjson.portfolio=="chrome" %} selected {% endif %}>Chrome</option>
-            <option value="coral" {% if reqjson.portfolio=="coral" %} selected {% endif %}>Coral</option>
-            <option value="enablers" {% if reqjson.portfolio=="enablers" %} selected {% endif %}>Enablers</option>
-            <option value="indigo" {% if reqjson.portfolio=="indigo" %} selected {% endif %}>Indigo</option>
-            <option value="platinum" {% if reqjson.portfolio=="platinum" %} selected {% endif %}>Platinum</option>
-            <option value="sapphire" {% if reqjson.portfolio=="sapphire" %} selected {% endif %}>Sapphire</option>
-            <option value="teal" {% if reqjson.portfolio=="teal" %} selected {% endif %}>Teal</option>
-            <option value="tom" {% if reqjson.portfolio=="tom" %} selected {% endif %}>TOM</option>
-            <option value="pre-portfolio" {% if reqjson.portfolio=="pre-portfolio" %} selected {% endif %}>Pre-portfolio</option>
-            <option value="tbtc" {% if reqjson.portfolio=="tbtc" %} selected {% endif %}>TBCT</option>
-            <option value="bau" {% if reqjson.portfolio=="bau" %} selected {% endif %}>BAU</option>
-            <option value="bcm" {% if reqjson.portfolio=="bcm" %} selected {% endif %}>BCM</option>
-            <option value="pm" {% if reqjson.portfolio=="pm" %} selected {% endif %}>PM</option>
-            <option value="cat" {% if reqjson.portfolio=="cat" %} selected {% endif %}>CAT</option>
+            {% asyncEach portfolio in activePortfolios %}
+            <option value={{portfolio.portfolio_name}}{% if reqjson.portfolio==portfolio.portfolio_name %} selected {% endif %}>{{portfolio.portfolio_name}}</option>
+            {% endeach %}
           </select>
         </div>
 
@@ -166,7 +153,11 @@
           <fieldset class="govuk-fieldset" aria-describedby="include-deleted">
             <div class="govuk-checkboxes">
               <div class="govuk-checkboxes__item">
-                <input class="govuk-checkboxes__input" id="include_deleted" name="include_deleted" type="checkbox" value="include_deleted">
+                {% if reqjson.include_deleted %}
+                  <input checked class="govuk-checkboxes__input" id="include_deleted" name="include_deleted" type="checkbox" value="include_deleted">
+                {% else %}
+                  <input class="govuk-checkboxes__input" id="include_deleted" name="include_deleted" type="checkbox" value="include_deleted">
+                {% endif %}
                 <label class="govuk-label govuk-checkboxes__label" for="include_deleted">
                   Include deleted projects?
                 </label>
@@ -203,7 +194,7 @@
             <th onclick="sortTable(1)" style="cursor:pointer" scope="col" class="govuk-table__header">Project name ⇅</th>
             <th onclick="sortTable(2)" style="cursor:pointer" scope="col" class="govuk-table__header">Status ⇅</th>
             <th onclick="sortTable(3)" style="cursor:pointer" scope="col" class="govuk-table__header">Portfolio ⇅</th>
-            <th onclick="sortTable(4)" style="cursor:pointer" scope="col" class="govuk-table__header">Date added ⇅</th>
+            <th onclick="sortTable(4)" style="cursor:pointer" scope="col" class="govuk-table__header">Date started ⇅</th>
           </tr>
         </thead>
         <tbody class="govuk-table__body">
@@ -215,7 +206,7 @@
           <td class="govuk-table__cell">{{project_detail.project_name | trim}}</td>
           <td class="govuk-table__cell">{{project_detail.status}}</td>
           <td class="govuk-table__cell">{{project_detail.portfolio_name}}</td>
-          <td class="govuk-table__cell">{{project_detail.date_added | date }}</td>
+          <td class="govuk-table__cell">{{project_detail.start_date | date }}</td>
 
         </tr>
 

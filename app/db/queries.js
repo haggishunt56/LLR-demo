@@ -1,5 +1,7 @@
 const knex = require('./knex');
 
+  // TODO - replace 'like' with 'ilike' for PSQL
+
 module.exports = {
   searchLessons: {
     getAll: function() {
@@ -12,19 +14,20 @@ module.exports = {
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
         .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
-        // .where('lesson_details.lesson_id', 'ilike', `%${arg}%`)
-        .where('lesson_details.project_tp_num', 'ilike', `%${arg}%`)
-        .orWhere('project_details.project_name', 'ilike', `%${arg}%`)
-        // .orWhere('lesson_details.date_added', 'ilike', `%${arg}%`)
-        .orWhere('lesson_details.category', 'ilike',`%${arg}%`)
-        .orWhere('lesson_details.www_ebi', 'ilike', `%${arg}%`)
-        .orWhere('lesson_details.identified_by', 'ilike', `%${arg}%`)
-        .orWhere('lesson_details.identifiers_area', 'ilike', `%${arg}%`)
-        .orWhere('lesson_details.how_identified', 'ilike', `%${arg}%`)
-        // .orWhere('lesson_details.uploaded_by', 'ilike', `%${arg}%`)
-        // .orWhere('lesson_details.completion_date', 'ilike', `%${arg}%`)
-        .orWhere('lesson_details.summary', 'ilike', `%${arg}%`)
-        .orWhere('lesson_details.description', 'ilike', `%${arg}%`)
+        // .where('lesson_details.lesson_id', 'like', `%${arg}%`)
+        .where('lesson_details.project_tp_num', 'like', `%${arg}%`)
+        .orWhere('project_details.project_name', 'like', `%${arg}%`)
+        // .orWhere('lesson_details.date_added', 'like', `%${arg}%`)
+        .orWhere('lesson_details.category', 'like',`%${arg}%`)
+        .orWhere('lesson_details.www_ebi', 'like', `%${arg}%`)
+        .orWhere('lesson_details.identified_by', 'like', `%${arg}%`)
+        .orWhere('lesson_details.identifiers_area', 'like', `%${arg}%`)
+        .orWhere('lesson_details.how_identified', 'like', `%${arg}%`)
+        .orWhere('portfolio_details.portfolio_name', 'like', `%${arg}%`)
+        // .orWhere('lesson_details.uploaded_by', 'like', `%${arg}%`)
+        // .orWhere('lesson_details.completion_date', 'like', `%${arg}%`)
+        .orWhere('lesson_details.summary', 'like', `%${arg}%`)
+        .orWhere('lesson_details.description', 'like', `%${arg}%`)
         .orderBy('lesson_id', 'asc');
       return query
     },
@@ -37,6 +40,7 @@ module.exports = {
         .table('lesson_details') //SELECT * FROM lesson_details;
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        .leftOuterJoin('category_details', 'category_details.category_id', 'lesson_details.category')
         .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
         .orderBy('lesson_id', 'asc');
 
@@ -54,21 +58,21 @@ module.exports = {
         var newStr = initStr.replace(/\*/g, '%'); //use * as wildcard (% also works)
 
         query.where(function() {
-          this.where('lesson_details.project_tp_num', 'ilike', newStr)
-          .orWhere('project_details.project_name', 'ilike', newStr)
+          this.where('lesson_details.project_tp_num', 'like', newStr)
+          .orWhere('project_details.project_name', 'like', newStr)
         });
       }
 
       if(projectType !== "") { //include search param only if field is not blank
-        query.where('project_details.project_type', 'ilike', `%${projectType}%`);
+        query.where('project_details.project_type', 'like', `%${projectType}%`);
       }
 
-      if(portfolio !== "") {
-        query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
-      } //include search param only if field is not blank
+      if(portfolio !== "") { // include search param only if field is not blank
+        query.where('portfolio_details.portfolio_name', 'like', `%${portfolio}%`);
+      }
 
       if(category !== "none") { //include only if field is not blank
-        query.where('lesson_details.category', 'ilike', `%${category}%`);
+        query.where('category_details.category_name', 'like', `%${category}%`);
       }
 
       if(type !== "") { //include only if field is not blank
@@ -78,22 +82,24 @@ module.exports = {
         else if(type === "Even better if") {
           type = "EBI";
         }
-        query.where('lesson_details.www_ebi', 'ilike', `%${type}%`);
+        query.where('lesson_details.www_ebi', 'like', `%${type}%`);
       }
 
       if(dateFromDay !== "") { //include only if field is not blank
-        //console.log(`${dateFromYear}`, `${dateFromMonth}`, `${dateFromDay}`);
-        dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0);
+        // dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0); // PSQL
+        dateFrom = '' + `${dateFromYear}` + '-' + `${dateFromMonth}` + '-' + `${dateFromDay}` // sqlite3
         query.where('lesson_details.date_added', '>', dateFrom);
       }
+      console.log(dateFrom)
 
       if(dateToDay !== "") { //include only if field is not blank
-        dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00);
-        query.where('lesson_details.date_added', '<', dateTo);
+        // dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00); // PSQL
+        dateTo = '' + `${dateToYear}` + '-' + `${dateToMonth}` + '-' + `${dateToDay}` // sqlite3
+        query.where('lesson_details.date_added', '>', dateTo);
       }
 
       if(!includeDeleted) {
-        query.where('lesson_details.deleted', 'f')
+        query.where('lesson_details.deleted', 0)
       }
 
       return query;
@@ -120,8 +126,9 @@ module.exports = {
     },
     getByCategory: function(category, dateFrom) {
       let query = knex.select()
-        .table('lesson_details') //SELECT * FROM lesson_details;
-        .where('lesson_details.category', 'ilike', `%${category}%`)
+        .table('lesson_details')
+        .leftOuterJoin('category_details', 'lesson_details.category', 'category_details.category_id')
+        .where('category_details.category_name', 'like', `%${category}%`)
         .where('lesson_details.date_added', '>', dateFrom)
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
@@ -142,37 +149,38 @@ module.exports = {
     getBySearchFields: function(projectName, portfolio, status, dateFromDay,
       dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear, includeDeleted) {
 
-      let query = knex.select().table('project_details') //SELECT * FROM lesson_details;
-        // .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+      let query = knex.select().table('project_details') //SELECT * FROM project_details
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
-        // .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
 
       if (projectName !== "") { //include only if search field is not blank
-        query.where('project_details.project_name', 'ilike', `%${projectName}%`)
-          .orWhere('project_details.project_tp_num', 'ilike', `%${projectName}%`)
+        query.where(function() {
+          this.where('project_details.project_name', 'like', `%${projectName}%`)
+            .orWhere('project_details.project_tp_num', 'like', `%${projectName}%`)
+          })
       }
 
       if(portfolio !== "") { //include search param only if field is not blank
-        query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
+        query.where('portfolio_details.portfolio_name', 'like', `%${portfolio}%`);
       }
 
       if (status !== "") { //include only if field is not blank
-        query.where('project_details.status', 'ilike', `%${status}%`);
+        query.where('project_details.status', 'like', `%${status}%`);
       }
 
       if(dateFromDay !== "") { //include only if field is not blank
-        //console.log(`${dateFromYear}`, `${dateFromMonth}`, `${dateFromDay}`);
-        dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0);
+        // dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0); // PSQL
+        dateFrom = '' + `${dateFromYear}` + '-' + `${dateFromMonth}` + '-' + `${dateFromDay}` // sqlite3
         query.where('project_details.start_date', '>', dateFrom);
       }
 
       if(dateToDay !== "") { //include only if field is not blank
-        dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00);
+        // dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0); // PSQL
+        dateTo = '' + `${dateToYear}` + '-' + `${dateToMonth}` + '-' + `${dateToDay}` // sqlite3
         query.where('project_details.start_date', '<', dateTo);
       }
 
-      if(includeDeleted == undefined) {
-        query.where('project_details.deleted', 'f')
+      if(!includeDeleted) {
+        query.where('project_details.deleted', 0)
       }
 
       query.where('project_details.project_type', 'project');
@@ -210,16 +218,18 @@ module.exports = {
         // .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
 
       if (projectName !== "") { //include only if search field is not blank
-        query.where('project_details.project_name', 'ilike', `%${projectName}%`)
-          .orWhere('project_details.project_tp_num', 'ilike', `%${projectName}%`)
+        query.where(function() {
+          this.where('project_details.project_name', 'like', `%${projectName}%`)
+            .orWhere('project_details.project_tp_num', 'like', `%${projectName}%`)
+        })
       }
 
       if(portfolio !== "") { //include search param only if field is not blank
-        query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
+        query.where('portfolio_details.portfolio_name', 'like', `%${portfolio}%`);
       }
 
       if (status !== "") { //include only if field is not blank
-        query.where('project_details.status', 'ilike', `%${status}%`);
+        query.where('project_details.status', 'like', `%${status}%`);
       }
 
       if(dateFromDay !== "") { //include only if field is not blank
@@ -252,16 +262,18 @@ module.exports = {
         // .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by');
 
       if (projectName !== "") { //include only if search field is not blank
-        query.where('project_details.project_name', 'ilike', `%${projectName}%`)
-          .orWhere('project_details.project_tp_num', 'ilike', `%${projectName}%`)
+        query.where(function() {
+          this.where('project_details.project_name', 'like', `%${projectName}%`)
+            .orWhere('project_details.project_tp_num', 'like', `%${projectName}%`)
+        })
       }
 
       if(portfolio !== "") { //include search param only if field is not blank
-        query.where('portfolio_details.portfolio_name', 'ilike', `%${portfolio}%`);
+        query.where('portfolio_details.portfolio_name', 'like', `%${portfolio}%`);
       }
 
       if (status !== "") { //include only if field is not blank
-        query.where('project_details.status', 'ilike', `%${status}%`);
+        query.where('project_details.status', 'like', `%${status}%`);
       }
 
       if(dateFromDay !== "") { //include only if field is not blank
@@ -291,7 +303,7 @@ module.exports = {
     },
     getActive: function() {
       return knex('portfolio_details')
-      .where('active', true)
+      .where('active', 'true')
       .orderBy([{ column: 'active', order: 'desc' }, { column: 'portfolio_name', order: 'asc' }]);
     },
     getById: function(id) {

@@ -6,19 +6,23 @@ module.exports = function (router) {
     var dd = String(today.getDate()).padStart(2, '0')
     var mm = String(today.getMonth() + 1).padStart(2, '0') // January is 0!
     var yyyy = today.getFullYear()
-    var searchFrom = yyyy - 1 + '-' + mm + '-' + dd
+    var offset = 2
+    var searchFrom = '' + yyyy - offset + '-' + mm + '-' + dd
+
+    console.log(req.params.cat, searchFrom)
 
     queries
       .searchLessons
       .getByCategory(req.params.cat, searchFrom)
       .then(lesson_details => {
+        console.log(lesson_details)
         const rowsReturned = Object.keys(lesson_details).length
         const reqjson = {}
 
         reqjson.category = req.params.cat.toLowerCase()
         reqjson.dateFromDay = dd
         reqjson.dateFromMonth = mm
-        reqjson.dateFromYear = yyyy - 1
+        reqjson.dateFromYear = yyyy - offset
 
         queries.searchCategories.getAll()
           .then(categories => {
