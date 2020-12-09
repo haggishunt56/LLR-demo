@@ -158,34 +158,15 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
+          {% for lesson in lesson_details %}
           <tr class="govuk-table__row">
-            <td scope="row" class="govuk-table__header">{{lesson_details[0].lesson_id}}</td>
-            <td class="govuk-table__cell">{{lesson_details[0].project_tp_num}}</td>
-            <td class="govuk-table__cell">{{lesson_details[0].www_ebi}}</td>
-            <td class="govuk-table__cell">{{lesson_details[0].category}}</td>
-            <td class="govuk-table__cell">{{lesson_details[0].date_added | date}}</td>
+            <td scope="row" class="govuk-table__header"><a href='/view/{{lesson.project_tp_num}}-{{lesson.lesson_id}}'>{{lesson.project_tp_num}}-{{lesson.lesson_id}}</a></td>
+            <td class="govuk-table__cell">{{lesson.project_tp_num}}</td>
+            <td class="govuk-table__cell">{{lesson.www_ebi}}</td>
+            <td class="govuk-table__cell">{{lesson.category}}</td>
+            <td class="govuk-table__cell">{{lesson.date_added | date}}</td>
           </tr>
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">{{lesson_details[1].lesson_id}}</th>
-            <td class="govuk-table__cell">{{lesson_details[1].project_tp_num}}</td>
-            <td class="govuk-table__cell">{{lesson_details[1].www_ebi}}</td>
-            <td class="govuk-table__cell">{{lesson_details[1].category}}</td>
-            <td class="govuk-table__cell">{{lesson_details[1].date_added | date}}</td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">{{lesson_details[2].lesson_id}}</th>
-            <td class="govuk-table__cell">{{lesson_details[2].project_tp_num}}</td>
-            <td class="govuk-table__cell">{{lesson_details[2].www_ebi}}</td>
-            <td class="govuk-table__cell">{{lesson_details[2].category}}</td>
-            <td class="govuk-table__cell">{{lesson_details[2].date_added | date}}</td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">{{lesson_details[3].lesson_id}}</th>
-            <td class="govuk-table__cell">{{lesson_details[3].project_tp_num}}</td>
-            <td class="govuk-table__cell">{{lesson_details[3].www_ebi}}</td>
-            <td class="govuk-table__cell">{{lesson_details[3].category}}</td>
-            <td class="govuk-table__cell">{{lesson_details[3].date_added | date}}</td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
 
