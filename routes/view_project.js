@@ -14,7 +14,14 @@ module.exports = function (router) {
         } else if (project_details[0].project_type === 'conference') {
           project_details[0].isConference = true
         }
-        res.render('view/view_project.html', { project_details })
+
+        queries
+          .searchLessons
+          .getByProject(req.params.proj_id)
+          .then(lesson_details => {
+            res.render('view/view_project.html', { project_details, lesson_details })
+          })
+
       })
   })
 }

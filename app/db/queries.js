@@ -90,7 +90,6 @@ module.exports = {
         dateFrom = '' + `${dateFromYear}` + '-' + `${dateFromMonth}` + '-' + `${dateFromDay}` // sqlite3
         query.where('lesson_details.date_added', '>', dateFrom);
       }
-      console.log(dateFrom)
 
       if(dateToDay !== "") { //include only if field is not blank
         // dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00); // PSQL
@@ -107,20 +106,33 @@ module.exports = {
     },
     getByProjectLesson: function(project, lesson) {
       return knex.select(
-          knex.raw('lesson_details.lesson_id, lesson_details.project_tp_num, lesson_details.date_added, lesson_details.category, lesson_details.www_ebi, lesson_details.identified_by, lesson_details.identifiers_area, lesson_details.how_identified, user_details.username, lesson_details.summary, lesson_details.description, lesson_details.deleted, project_details.project_name, portfolio_details.portfolio_name'),
-          knex.raw('EXTRACT(YEAR FROM date_added) as year_added'),
-          knex.raw('EXTRACT(MONTH FROM date_added) as month_added'),
-          knex.raw('EXTRACT(DAY FROM date_added) as day_added')
+          // knex.raw('lesson_details.lesson_id, lesson_details.project_tp_num, lesson_details.date_added, lesson_details.category, lesson_details.www_ebi, lesson_details.identified_by, lesson_details.identifiers_area, lesson_details.how_identified, user_details.username, lesson_details.summary, lesson_details.description, lesson_details.deleted, project_details.project_name, portfolio_details.portfolio_name'),
+          // knex.raw('EXTRACT(YEAR FROM date_added) as year_added'),
+          // knex.raw('EXTRACT(MONTH FROM date_added) as month_added'),
+          // knex.raw('EXTRACT(DAY FROM date_added) as day_added')
           // knex.raw('EXTRACT(YEAR FROM target_date) as target_year'),
           // knex.raw('EXTRACT(MONTH FROM target_date) as target_month'),
           // knex.raw('EXTRACT(DAY FROM target_date) as target_day')
         )
         .from('lesson_details')
-        .rightOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
-        .rightOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
-        .rightOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
+        .join('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .join('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        // .join('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
         .where('lesson_details.project_tp_num', project)
         .where('lesson_id', lesson)
+        .orderBy('lesson_id', 'asc');
+      ;
+    },
+    getByProject: function(project) {
+      return knex.select(
+        // knex.raw('lesson_details.lesson_id, lesson_details.project_tp_num, lesson_details.date_added, lesson_details.category, lesson_details.www_ebi, lesson_details.identified_by, lesson_details.identifiers_area, lesson_details.how_identified, user_details.username, lesson_details.summary, lesson_details.description, lesson_details.deleted')
+        // knex.raw('EXTRACT(YEAR FROM date_added) as year_added'),
+        // knex.raw('EXTRACT(MONTH FROM date_added) as month_added'),
+        // knex.raw('EXTRACT(DAY FROM date_added) as day_added')
+      )
+        .from('lesson_details')
+        .join('category_details', 'category_details.category_id', 'lesson_details.category')
+        .where('lesson_details.project_tp_num', project)
         .orderBy('lesson_id', 'asc');
       ;
     },
@@ -195,15 +207,15 @@ module.exports = {
     getByTpNum: function(project) {
 
       return knex.select(
-        '*',
-        knex.raw('EXTRACT(YEAR FROM start_date) as start_year'),
-        knex.raw('EXTRACT(MONTH FROM start_date) as start_month'),
-        knex.raw('EXTRACT(DAY FROM start_date) as start_day'),
-        knex.raw('EXTRACT(YEAR FROM closure_date) as closure_year'),
-        knex.raw('EXTRACT(MONTH FROM closure_date) as closure_month'),
-        knex.raw('EXTRACT(DAY FROM closure_date) as closure_day')
+        // '*',
+        // knex.raw('EXTRACT(YEAR FROM start_date) as start_year'),
+        // knex.raw('EXTRACT(MONTH FROM start_date) as start_month'),
+        // knex.raw('EXTRACT(DAY FROM start_date) as start_day'),
+        // knex.raw('EXTRACT(YEAR FROM closure_date) as closure_year'),
+        // knex.raw('EXTRACT(MONTH FROM closure_date) as closure_month'),
+        // knex.raw('EXTRACT(DAY FROM closure_date) as closure_day')
       )
-      .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+      .join('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
       .from('project_details')
       .where('project_tp_num', project);
     }

@@ -147,6 +147,29 @@
       </a>
       {% endif %}
 
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Lesson number</th>
+            <th scope="col" class="govuk-table__header">Project name</th>
+            <th scope="col" class="govuk-table__header">Type</th>
+            <th scope="col" class="govuk-table__header">Category</th>
+            <th scope="col" class="govuk-table__header">Date added</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% asyncEach lesson in lesson_details %}
+          <tr class="govuk-table__row">
+            <td scope="row" class="govuk-table__header"><a href='/view/{{lesson.project_tp_num}}-{{lesson.lesson_id}}'>{{lesson.project_tp_num}}-{{lesson.lesson_id}}</a></td>
+            <td class="govuk-table__cell">{{lesson.project_tp_num}}</td>
+            <td class="govuk-table__cell">{{lesson.www_ebi}}</td>
+            <td class="govuk-table__cell">{{lesson.category_name}}</td>
+            <td class="govuk-table__cell">{{lesson.date_added | date}}</td>
+          </tr>
+          {% endeach %}
+        </tbody>
+      </table>
+
     </div>
   </div>
 
