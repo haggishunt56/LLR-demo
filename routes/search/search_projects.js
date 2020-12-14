@@ -2,7 +2,10 @@ const queries = require('../../app/db/queries')
 
 module.exports = function (router) {
   router.get('/search_projects', (req, res) => {
-    res.render('search/search_projects.html')
+    queries.searchPortfolios.getActive()
+      .then(activePortfolios => {
+        res.render('search/search_projects.html', { activePortfolios })
+      })
   })
 
   router.post('/search_projects', (req, res) => {
@@ -12,16 +15,18 @@ module.exports = function (router) {
     } else {
       reqjson.include_deleted = true
     }
+
     queries
       .searchProjects
       .getBySearchFields(reqjson.projectName_proj, reqjson.portfolio, reqjson.status,
         reqjson.dateFromDay, reqjson.dateFromMonth, reqjson.dateFromYear,
         reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear, reqjson.include_deleted)
-      .then(
-        project_details => {
+      .then(project_details => {
           const rowsReturned = Object.keys(project_details).length
-          res.render('search/search_projects.html', { project_details, reqjson, rowsReturned })
-        }
-      )
+          queries.searchPortfolios.getActive()
+            .then(activePortfolios => {
+              res.render('search/search_projects.html', { project_details, reqjson, rowsReturned, activePortfolios })
+            })
+      })
   })
 }

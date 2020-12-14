@@ -42,6 +42,8 @@ module.exports = function (env) {
   filters.date = function (dateStr) {
     if (!(dateStr === undefined) && !(dateStr === null)) {
       // return (dateStr.toString().slice(4, 15)) // for use with PSQL
+
+      // for sqlite3
       var date = new Date(dateStr)
       var mnthArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       var dayArray=['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -51,7 +53,6 @@ module.exports = function (env) {
       var y = date.getFullYear()
       var retStr = '' + day + ' ' + d + ' ' + m + ' ' + y
       return retStr
-
     }
   }
   filters.trim = function (fullStr) {
@@ -64,13 +65,15 @@ module.exports = function (env) {
     }
   }
   filters.portfolioActive = function (active) {
-    if (active) {
-      const str = 'Yes'
-      return str
+    var retStr = ''
+
+    if (active == 'true') {
+      retStr = 'Yes'
     } else {
-      const str = 'No'
-      return str
+      retStr = 'No'
     }
+
+    return retStr
   }
   filters.toLowerCase = function (str) {
     return str.toLowerCase()
