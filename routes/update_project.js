@@ -9,6 +9,12 @@ module.exports = function (router) {
       .then(projectDetails => {
         queries.searchPortfolios.getActive()
           .then(activePortfolios => {
+
+            const dateNow = new Date(projectDetails[0].start_date)
+            projectDetails[0].start_day = dateNow.getDate()
+            projectDetails[0].start_month = dateNow.getMonth() + 1
+            projectDetails[0].start_year = dateNow.getFullYear()
+
             res.render('../views/update/update_project.html', { projectDetails, activePortfolios })
           })
       })
@@ -53,11 +59,11 @@ module.exports = function (router) {
       err.summarise = true
     }
 
-    if (req.body.portfolio === '') {
+    if (req.body.portfolio_name === '') {
       err.portfolio.blank = true
       err.summarise = true
     }
-    if (req.body.portfolio.length > 6) {
+    if (req.body.portfolio_name.length > 45) {
       err.portfolio.tooLong = true
       err.summarise = true
     }
@@ -82,17 +88,20 @@ module.exports = function (router) {
           return res.render('../views/update/update_project.html', { err, projectDetails, activePortfolios })
         })
     } else {
-      queries
-        .updateProject(req.params.project_tp_num, req.body.project_name, req.body.srm,
-          req.body.status, req.body.portfolio, req.body.start_day, req.body.start_month,
-          req.body.start_year, req.body.closure_day, req.body.closure_month,
-          req.body.closure_year)
-        .then(projectDetails => {
+      queries.getPortfolioNum(req.body.portfolio_name)
+        .then(portfolio => {
           queries
-            .searchProjects
-            .getByTpNum(req.params.project_tp_num)
+            .updateProject(req.params.project_tp_num, req.body.project_name, req.body.srm,
+              req.body.status, portfolio[0].portfolio_id, req.body.start_day, req.body.start_month,
+              req.body.start_year, req.body.closure_day, req.body.closure_month,
+              req.body.closure_year)
             .then(projectDetails => {
-              res.render('../views/update/update_project_success.html', { projectDetails })
+              queries
+                .searchProjects
+                .getByTpNum(req.params.project_tp_num)
+                .then(projectDetails => {
+                  res.render('../views/update/update_project_success.html', { projectDetails })
+                })
             })
         })
     }
