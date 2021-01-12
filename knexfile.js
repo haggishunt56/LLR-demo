@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: "./app/db/sqlite.db"
+      filename: "/Users/douglaspollock/Documents/projects/LLR-demo/app/db/sqlite.db"
     }
   },
 
@@ -13,7 +13,7 @@ module.exports = {
   integration: {
     client: 'sqlite3',
     connection: {
-      filename: "./app/db/sqlite.db"
+      filename: "/Users/douglaspollock/Documents/projects/LLR-demo/app/db/sqlite.db"
     }
   }
 

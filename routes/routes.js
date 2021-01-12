@@ -1,6 +1,7 @@
 var routes = [
   require('./index.js'),
-
+  require('./deletetest.js'),
+  
   // home
   require('./home/home.js'),
 

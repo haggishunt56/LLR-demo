@@ -13,8 +13,6 @@ module.exports = function (router) {
     const lessonId = req.params.les_id
 
     queries.deleteLesson(tpNum, lessonId)
-      .then(rowsDeleted => {
-        res.render('delete/delete_lesson_success.html', { tpNum, lessonId })
-      })
+      .then(res.render('delete/delete_lesson_success.html', { tpNum, lessonId }))
   })
 }

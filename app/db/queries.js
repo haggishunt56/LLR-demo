@@ -98,7 +98,7 @@ module.exports = {
       }
 
       if(!includeDeleted) {
-        query.where('lesson_details.deleted', 0)
+        query.where('lesson_details.deleted', "false")
       }
 
       return query;
@@ -193,10 +193,14 @@ module.exports = {
       }
 
       if(!includeDeleted) {
-        query.where('project_details.deleted', 0)
+        query.where('project_details.deleted', 'false')
       }
 
       query.where('project_details.project_type', 'project');
+
+      if(!includeDeleted) {
+        query.where('project_details.deleted', 'false')
+      }
 
       return query;
     },
@@ -262,6 +266,10 @@ module.exports = {
 
       query.where('project_details.project_type', 'campaign');
 
+      if(!includeDeleted) {
+        query.where('project_details.deleted', 'false')
+      }
+
       return query;
     }
   },
@@ -302,6 +310,10 @@ module.exports = {
 
       if(includeDeleted == undefined) {
         query.where('project_details.deleted', 'f')
+      }
+
+      if(!includeDeleted) {
+        query.where('project_details.deleted', 'false')
       }
 
       query.where('project_details.project_type', 'conference');
@@ -529,42 +541,46 @@ module.exports = {
 
     return query;
   },
-  deleteLesson: function(projectTpNum, lessonId) {
+  deleteLesson: function(tpNum, lessonId) {
     let query = knex('lesson_details')
-      .where({project_tp_num:projectTpNum, lesson_id:lessonId})
-      .update('deleted', 't');
-
+      .update({deleted:'yes'})
+      .where({lesson_id:lessonId})
+      ;
     return query;
   },
   deleteAllProjectLessons: function(projectTpNum) {
     let query = knex('lesson_details')
+      .update({deleted:'yes'})
       .where({project_tp_num:projectTpNum})
-      .update('deleted', 't');
+      ;
     return query;
   },
   deleteProject: function(projectTpNum) {
     let query = knex('project_details')
+      .update({deleted:'yes'})
       .where({project_tp_num:projectTpNum})
-      .update('deleted', 't');
+      ;
     return query;
   },
   reinstateLesson: function(projectTpNum, lessonId) {
     let query = knex('lesson_details')
-      .where({project_tp_num:projectTpNum, lesson_id:lessonId})
-      .update('deleted', 'f');
-
+      .update({deleted:'no'})
+      .where({lesson_id:lessonId})
+      ;
     return query;
   },
   reinstateAllProjectLessons: function(projectTpNum) {
     let query = knex('lesson_details')
+      .update({deleted:'no'})
       .where({project_tp_num:projectTpNum})
-      .update('deleted', 'f');
+      ;
     return query;
   },
   reinstateProject: function(projectTpNum) {
     let query = knex('project_details')
+      .update({deleted:'no'})
       .where({project_tp_num:projectTpNum})
-      .update('deleted', 'f');
+      ;
     return query;
   },
   getTrendingCategories: function() {

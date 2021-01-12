@@ -31,7 +31,8 @@ module.exports = function (router) {
             queries.searchPortfolios.getActive()
               .then(activePortfolios => {
                 const rowsReturned = Object.keys(lesson_details).length
-                res.render('search/search_lessons.html', { lesson_details, rowsReturned, reqjson, categories, activePortfolios })
+                res.json(lesson_details)
+                //res.render('search/search_lessons.html', { lesson_details, rowsReturned, reqjson, categories, activePortfolios })
               })
           })
       })

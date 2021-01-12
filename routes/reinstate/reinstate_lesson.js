@@ -6,6 +6,7 @@ module.exports = function (router) {
     const tpNum = req.params.proj_id
     const lessonId = req.params.les_id
 
+    console.log(tpNum+'-'+lessonId)
     queries.reinstateLesson(tpNum, lessonId)
       .then(rowsReinstated => {
         res.redirect('../view/' + tpNum + '-' + lessonId)

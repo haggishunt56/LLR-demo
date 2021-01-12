@@ -9,7 +9,7 @@ CREATE TABLE portfolio_details (
 portfolio_id INTEGER PRIMARY KEY AUTOINCREMENT,
 portfolio_name VARCHAR(45),
 director_name VARCHAR(45),
-active BOOL NOT NULL DEFAULT TRUE
+active VARCHAR(5) NOT NULL DEFAULT "yes"
 );
 
 CREATE TABLE category_details (
@@ -27,7 +27,7 @@ closure_date DATE,
 srm VARCHAR(45) NOT NULL,
 status VARCHAR(6) NOT NULL,
 portfolio INT NOT NULL,
-deleted BOOLEAN NOT NULL DEFAULT FALSE,
+deleted VARCHAR(5) NOT NULL DEFAULT "no",
 CONSTRAINT fk_portfolio
    FOREIGN KEY(portfolio)
    REFERENCES portfolio_details(portfolio_id)
@@ -47,7 +47,7 @@ uploaded_by INT NOT NULL,
 completion_date DATE,
 summary VARCHAR(128),
 description TEXT,
-deleted BOOLEAN NOT NULL DEFAULT FALSE,
+deleted VARCHAR(5) NOT NULL DEFAULT "no",
 CONSTRAINT fk_project
    FOREIGN KEY(project_tp_num)
    REFERENCES project_details(project_tp_num)
