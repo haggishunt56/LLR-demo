@@ -45,8 +45,8 @@ module.exports = function (env) {
 
       // for sqlite3
       var date = new Date(dateStr)
-      var mnthArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      var dayArray=['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      var mnthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      var dayArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
       var day = dayArray[date.getDay()]
       var d = date.getDate()
       var m = mnthArray[date.getMonth()]
@@ -67,7 +67,7 @@ module.exports = function (env) {
   filters.portfolioActive = function (active) {
     var retStr = ''
 
-    if (active == 'true') {
+    if (active === true) {
       retStr = 'Yes'
     } else {
       retStr = 'No'

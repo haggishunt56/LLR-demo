@@ -47,7 +47,7 @@ var routes = [
   require('./srvadmin/add_portfolio.js'),
   require('./srvadmin/maintain_categories.js'),
   require('./srvadmin/edit_category.js'),
-  require('./srvadmin/add_category.js'),
+  require('./srvadmin/add_category.js')
 
   // user admin
 

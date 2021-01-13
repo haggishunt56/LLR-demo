@@ -9,7 +9,6 @@ module.exports = function (router) {
       .then(projectDetails => {
         queries.searchPortfolios.getActive()
           .then(activePortfolios => {
-
             const dateNow = new Date(projectDetails[0].start_date)
             projectDetails[0].start_day = dateNow.getDate()
             projectDetails[0].start_month = dateNow.getMonth() + 1
@@ -100,7 +99,19 @@ module.exports = function (router) {
                 .searchProjects
                 .getByTpNum(req.params.project_tp_num)
                 .then(projectDetails => {
-                  res.render('../views/update/update_project_success.html', { projectDetails })
+                  if (projectDetails[0].project_type === 'project') {
+                    projectDetails[0].isProject = true
+                  } else if (projectDetails[0].project_type === 'campaign') {
+                    projectDetails[0].isCampaign = true
+                  } else if (projectDetails[0].project_type === 'conference') {
+                    projectDetails[0].isConference = true
+                  }
+                  queries
+                    .searchLessons
+                    .getByProject(req.params.project_tp_num)
+                    .then(lesson_details => {
+                      res.render('../views/update/update_project_success.html', { projectDetails, lesson_details })
+                    })
                 })
             })
         })

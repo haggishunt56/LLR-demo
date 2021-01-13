@@ -24,7 +24,30 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/search">Search</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Project details</li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/view/{{projectDetails[0].project_tp_num}}">
+        {% if projectDetails[0].isProject %}
+          Project details
+        {% endif %}
+        {% if projectDetails[0].isCampaign %}
+          Campaign details
+        {% endif %}
+        {% if projectDetails[0].isConference %}
+          Conference details
+        {% endif %}
+      </a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">
+      {% if projectDetails[0].isProject %}
+        Update project
+      {% endif %}
+      {% if projectDetails[0].isCampaign %}
+        Update campaign
+      {% endif %}
+      {% if projectDetails[0].isConference %}
+        Update conference
+      {% endif %}
+    </li>
   </ol>
 </div>
 {% endblock %}
@@ -34,7 +57,15 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
+      {% if projectDetails[0].isProject %}
       <h1 class="govuk-heading-xl">Project details</h1>
+      {% endif %}
+      {% if projectDetails[0].isCampaign %}
+      <h1 class="govuk-heading-xl">Campaign details</h1>
+      {% endif %}
+      {% if projectDetails[0].isConference %}
+      <h1 class="govuk-heading-xl">Conference details</h1>
+      {% endif %}
 
       <div class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title">
@@ -85,12 +116,51 @@
       </table>
 
       <a href="/update/{{projectDetails[0].project_tp_num}}" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
-        Update project
+        {% if projectDetails[0].isProject %}
+          Update project
+        {% endif %}
+        {% if projectDetails[0].isCampaign %}
+          Update campaign
+        {% endif %}
+        {% if projectDetails[0].isConference %}
+          Update conference
+        {% endif %}
       </a>
 
       <a href="/delete/{{projectDetails[0].project_tp_num}}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-top-2 govuk-!-margin-bottom-8"  data-module="govuk-button">
-        Delete project
+        {% if projectDetails[0].isProject %}
+          Delete project
+        {% endif %}
+        {% if projectDetails[0].isCampaign %}
+          Delete campaign
+        {% endif %}
+        {% if projectDetails[0].isConference %}
+          Delete conference
+        {% endif %}
       </a>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Lesson number</th>
+            <th scope="col" class="govuk-table__header">Project name</th>
+            <th scope="col" class="govuk-table__header">Type</th>
+            <th scope="col" class="govuk-table__header">Category</th>
+            <th scope="col" class="govuk-table__header">Date added</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% asyncEach lesson in lesson_details %}
+          <tr class="govuk-table__row">
+            <td scope="row" class="govuk-table__header"><a href='/view/{{lesson.project_tp_num}}-{{lesson.lesson_id}}'>{{lesson.project_tp_num}}-{{lesson.lesson_id}}</a></td>
+            <td class="govuk-table__cell">{{lesson.project_tp_num}}</td>
+            <td class="govuk-table__cell">{{lesson.www_ebi}}</td>
+            <td class="govuk-table__cell">{{lesson.category_name}}</td>
+            <td class="govuk-table__cell">{{lesson.date_added | date}}</td>
+          </tr>
+          {% endeach %}
+        </tbody>
+      </table>
 
     </div>
   </div>

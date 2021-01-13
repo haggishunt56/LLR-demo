@@ -25,7 +25,17 @@
       <a class="govuk-breadcrumbs__link" href="/search}}">Search</a>
     </li>
     <li class="govuk-breadcrumbs__list-item">
-      <a class="govuk-breadcrumbs__link" href="/view/{{projectDetails[0].project_tp_num}}">Project details</a>
+      <a class="govuk-breadcrumbs__link" href="/view/{{projectDetails[0].project_tp_num}}">
+        {% if projectDetails[0].isProject %}
+          Project details
+        {% endif %}
+        {% if projectDetails[0].isCampaign %}
+          Campaign details
+        {% endif %}
+        {% if projectDetails[0].isConference %}
+          Conference details
+        {% endif %}
+      </a>
     </li>
     <li class="govuk-breadcrumbs__list-item" aria-current="page">Delete</li>
   </ol>

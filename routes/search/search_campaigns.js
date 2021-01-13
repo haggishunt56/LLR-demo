@@ -22,11 +22,11 @@ module.exports = function (router) {
         reqjson.dateFromDay, reqjson.dateFromMonth, reqjson.dateFromYear,
         reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear, reqjson.include_deleted)
       .then(project_details => {
-          const rowsReturned = Object.keys(project_details).length
-          queries.searchPortfolios.getActive()
-            .then(activePortfolios => {
-              res.render('search/search_campaigns.html', { activePortfolios, project_details, reqjson, rowsReturned })
-            })
+        const rowsReturned = Object.keys(project_details).length
+        queries.searchPortfolios.getActive()
+          .then(activePortfolios => {
+            res.render('search/search_campaigns.html', { activePortfolios, project_details, reqjson, rowsReturned })
+          })
       })
   })
 }
