@@ -4,12 +4,18 @@ module.exports = function (router) {
   // display update lesson page
   router.get('/update/:proj_id-:les_id', (req, res) => {
     const id = req.params
+
     queries
       .searchLessons
       .getByProjectLesson(req.params.proj_id, req.params.les_id)
       .then(lessonDetails => {
         queries.searchCategories.getAll()
           .then(categories => {
+            const dateNow = new Date(lessonDetails[0].date_added)
+            lessonDetails[0].day_added = dateNow.getDate()
+            lessonDetails[0].month_added = dateNow.getMonth() + 1
+            lessonDetails[0].year_added = dateNow.getFullYear()
+
             res.render('update/update_lesson.html', { lessonDetails, id, categories })
           })
       })
@@ -57,11 +63,11 @@ module.exports = function (router) {
       err.summarise = true
     }
 
-    if (req.body.category === 'none') {
+    if (req.body.category_name === 'none') {
       err.category.blank = true
       err.summarise = true
     }
-    if (req.body.category.length > 45) {
+    if (req.body.category_name.length > 45) {
       err.category.tooLong = true
       err.summarise = true
     }
@@ -128,14 +134,14 @@ module.exports = function (router) {
         )
     } else { // update lesson
       queries
-        .updateLesson(req.params.proj_id, req.params.les_id, req.body.day_added,
-          req.body.month_added, req.body.year_added, req.body.category, req.body.www_ebi,
-          req.body.identified_by, req.body.identifiers_area, req.body.how_identified,
-          req.body.username, req.body.summary, req.body.description)
+        .updateLesson(req.params.proj_id, req.params.les_id, req.body.project_tp_num,
+          req.body.day_added, req.body.month_added, req.body.year_added, req.body.category,
+          req.body.www_ebi, req.body.identified_by, req.body.identifiers_area,
+          req.body.how_identified, req.body.username, req.body.summary, req.body.description)
         .then(lessonDetails => {
           queries
             .searchLessons
-            .getByProjectLesson(req.params.proj_id, req.params.les_id)
+            .getByProjectLesson(req.body.project_tp_num, req.params.les_id)
             .then(lessonDetails => {
               res.render('update/update_lesson_success.html', { lessonDetails })
             })

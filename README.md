@@ -8,8 +8,7 @@ This document provides guidance on launching and using the LLR application.
 
 A video of the application being downloaded and run can be found here: https://youtu.be/35hdOXb94To
 
-By default, the application uses PostgreSQL as the DBMS. The connection details can be found and customised in the knexfile.js document. These will need to be set to whatever PSQL is configured to on your PC.
-The database can be set up by calling the psqlpopulatetable.sql script, found in the ./app/db/ directory
+By default, the application uses SQLite3 as the DBMS. The connection details can be found and customised in the knexfile.js document. The database file, and any related scripts can be found in the ./app/db/ directory
 
 Functionality provided by LLR:
 1. View information related to lessons, projects, campaigns and conferences

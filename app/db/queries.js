@@ -117,6 +117,7 @@ module.exports = {
         .from('lesson_details')
         .join('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .join('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        .join('category_details', 'lesson_details.category', 'category_details.category_id')
         // .join('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
         .where('lesson_details.project_tp_num', project)
         .where('lesson_id', lesson)
@@ -449,15 +450,17 @@ module.exports = {
       .into('category_details')
     ;
   },
-  updateLesson: function(projectId, lessonId, startDay, startMonth, startYear,
+  updateLesson: function(projectId, lessonId, newTpNum, startDay, startMonth, startYear,
     category, type, identifiedBy, identifiersArea, howIdentified, uploadedBy,
     summary, details) {
 
     let startDate = new Date(startYear, startMonth, startDay)
-
+    console.log(projectId, '-', lessonId)
     return knex('lesson_details')
       .where('lesson_id', '=', lessonId)
       .update({
+        project_tp_num: newTpNum,
+        date_added: startYear + '-' + startMonth + '-' + startDay,
         category: category,
         www_ebi: type,
         identified_by: identifiedBy,
@@ -465,6 +468,7 @@ module.exports = {
         how_identified: howIdentified,
         summary: summary,
         description: details
+        //target date
       })
       .returning('*');
   },
@@ -483,9 +487,8 @@ module.exports = {
           closure_date = \'' + closedDateString + '\',\
           srm = \'' + `${srm}` + '\',\
           status = \'' + `${status}` + '\',\
-          portfolio = portfolio_details.portfolio_id\
-        FROM portfolio_details\
-        WHERE portfolio_details.portfolio_name = \'' + `${portfolio}` + '\' AND project_details.project_tp_num = \'' + `${projectTpNum}` + '\';'
+          portfolio = \'' + `${portfolio}` + '\'\
+        WHERE project_details.project_tp_num = \'' + `${projectTpNum}` + '\';'
       )
 
     } //only include value of closed date if data entered
@@ -496,9 +499,8 @@ module.exports = {
           start_date = \'' + startDateString + '\',\
           srm = \'' + `${srm}` + '\',\
           status = \'' + `${status}` + '\',\
-          portfolio = portfolio_details.portfolio_id\
-        FROM portfolio_details\
-        WHERE portfolio_details.portfolio_name = \'' + `${portfolio}` + '\' AND project_details.project_tp_num = \'' + `${projectTpNum}` + '\';'
+          portfolio = \'' + `${portfolio}` + '\'\
+        WHERE project_details.project_tp_num = \'' + `${projectTpNum}` + '\';'
       )
 
     }
@@ -577,6 +579,12 @@ module.exports = {
       GROUP BY category\
       ORDER BY volume DESC;')
 
+    return query
+  },
+  getPortfolioNum: function(portfolioName) {
+    let query = knex.select('portfolio_id')
+      .from('portfolio_details')
+      .where({portfolio_name:portfolioName});
     return query
   }
 }

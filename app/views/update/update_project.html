@@ -188,10 +188,15 @@
             <span class="govuk-visually-hidden">Error:</span> Select the portfolio to which the project belongs
           </span>
           {% endif %}
-          <select class="govuk-select" id="portfolio" name="portfolio">
+          {% if err.portfolio.tooLong %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Error with portfolio name. Please select a different portfolio and report this issue
+          </span>
+          {% endif %}
+          <select class="govuk-select" id="portfolio_name" name="portfolio_name">
             <option value=""></option>
             {% asyncEach portfolio in activePortfolios %}
-            <option value={{portfolio.portfolio_name}}{% if projectDetails[0].portfolio==portfolio.portfolio_name %} selected {% endif %}>{{portfolio.portfolio_name}}</option>
+            <option value={{portfolio.portfolio_name}}{% if projectDetails[0].portfolio_name==portfolio.portfolio_name %} selected {% endif %}>{{portfolio.portfolio_name}}</option>
             {% endeach %}
           </select>
         </div>
