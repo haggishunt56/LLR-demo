@@ -51,9 +51,6 @@ var routes = [
 
   // user admin
 
-  // misc
-  require('./misc.js') // this file contains routes which are not currently used
-  // such as bulk upload and view all lessons as raw JSON.
 ]
 
 module.exports = function (router) {
