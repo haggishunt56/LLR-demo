@@ -65,7 +65,7 @@ module.exports = function (router) {
       .searchProjects
       .checkProjectExists(req.body.projectTpNum)
       .then(checkProjectExists => {
-        if (checkProjectExists[0].count !== '0') {
+        if (checkProjectExists[0].count !== 0) {
           err.projectTpNum.exists = true
           err.summarise = true
         }
@@ -85,7 +85,7 @@ module.exports = function (router) {
               req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
               req.body.srm, req.body.status)
             .then(createConference => {
-              const projectTpNum = createConference.rows[0].project_tp_num
+              const projectTpNum = req.body.projectTpNum
               return res.render('create/create_conference_success.html', { projectTpNum }) // display success page
             })
         }

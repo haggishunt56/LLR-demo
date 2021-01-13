@@ -38,9 +38,9 @@ module.exports = {
 
       let query = knex.select()
         .table('lesson_details') //SELECT * FROM lesson_details;
-        .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .leftOuterJoin('project_details', 'lesson_details.project_tp_num', 'project_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
-        .leftOuterJoin('category_details', 'category_details.category_id', 'lesson_details.category')
+        .leftOuterJoin('category_details', 'lesson_details.category', 'category_details.category_id')
         .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
         .orderBy('lesson_id', 'asc');
 
@@ -54,13 +54,10 @@ module.exports = {
       }
 
       if(projectName !== "") { //include only if field is not blank
-        var initStr = `${projectName}`;
-        var newStr = initStr.replace(/\*/g, '%'); //use * as wildcard (% also works)
-
         query.where(function() {
-          this.where('lesson_details.project_tp_num', 'like', newStr)
-          .orWhere('project_details.project_name', 'like', newStr)
-        });
+          this.where('project_details.project_name', 'like', `%${projectName}%`)
+          .orWhere('lesson_details.project_tp_num', 'like', `%${projectName}%`);
+        })
       }
 
       if(projectType !== "") { //include search param only if field is not blank
@@ -201,9 +198,10 @@ module.exports = {
       return query;
     },
     checkProjectExists: function(project) {
-      return knex.count('project_tp_num').from('project_details')
+      return knex.count('project_tp_num as count')
+        .from('project_details')
         .where('project_tp_num', project)
-      ;
+        ;//.as('count');
     },
     getByTpNum: function(project) {
 
@@ -342,8 +340,8 @@ module.exports = {
     return knex.insert({category: `${category}`, date_added: dateAdded, description: `${details}`,
       how_identified: `${how_identified}`, identified_by: `${identified_by}`,
       identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
-      summary: `${summary}`, uploaded_by: '1', www_ebi: `${type}`},
-      ['lesson_id', 'project_tp_num', 'how_identified', 'identified_by', 'identifiers_area', 'date_added'])
+      summary: `${summary}`, uploaded_by: '1', www_ebi: `${type}`})
+      //['lesson_id', 'project_tp_num', 'how_identified', 'identified_by', 'identifiers_area', 'date_added']) //returning doesnt work with sqlite
       .into('lesson_details')
     ;
 
@@ -371,14 +369,14 @@ module.exports = {
       query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, closure_date, srm, status, portfolio)\
         SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + startDateString + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
         FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
-        RETURNING project_details.project_tp_num;'
+        ;'
       )
     } //only include value of closed date if data entered
     else {
       query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, srm, status, portfolio)\
         SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + startDateString + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
         FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
-        RETURNING project_details.project_tp_num;'
+        ;'
       )
     }
 
@@ -399,14 +397,14 @@ module.exports = {
         query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, closure_date, srm, status, portfolio)\
           SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'campaign\', \'' + startDateString + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
           FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
-          RETURNING project_details.project_tp_num;'
+          ;'
         )
       } //only include value of closed date if data entered
       else {
         query = knex.raw('INSERT INTO project_details (project_name, project_tp_num, project_type, start_date, srm, status, portfolio)\
           SELECT \'' + `${projectName}` + '\',\'' + `${projectTpNum}` + '\', \'campaign\', \'' + startDateString + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
           FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
-          RETURNING project_details.project_tp_num;'
+          ;'
         )
       }
 
@@ -426,14 +424,14 @@ module.exports = {
         query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, closure_date, srm, status, portfolio)\
           SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'conference\', \'' + startDateString + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
           FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
-          RETURNING project_details.project_tp_num;'
+          ;'
         )
       } //only include value of closed date if data entered
       else {
         query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, srm, status, portfolio)\
           SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'conference\', \'' + startDateString + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
           FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
-          RETURNING project_details.project_tp_num;'
+          ;'
         )
       }
 
