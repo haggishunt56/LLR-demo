@@ -528,43 +528,35 @@ module.exports = {
     return query;
   },
   deleteLesson: function(projectTpNum, lessonId) {
-    let query = knex('lesson_details')
+    return knex('lesson_details')
       .where({project_tp_num:projectTpNum, lesson_id:lessonId})
-      .update('deleted', 't');
-
-    return query;
+      .del();
   },
   deleteAllProjectLessons: function(projectTpNum) {
-    let query = knex('lesson_details')
+    return knex('lesson_details')
       .where({project_tp_num:projectTpNum})
-      .update('deleted', 't');
-    return query;
+      .del();
   },
   deleteProject: function(projectTpNum) {
-    let query = knex('project_details')
+    return knex('project_details')
       .where({project_tp_num:projectTpNum})
-      .update('deleted', 't');
-    return query;
+      .del();
   },
-  reinstateLesson: function(projectTpNum, lessonId) {
-    let query = knex('lesson_details')
-      .where({project_tp_num:projectTpNum, lesson_id:lessonId})
-      .update('deleted', 'f');
-
-    return query;
-  },
-  reinstateAllProjectLessons: function(projectTpNum) {
-    let query = knex('lesson_details')
-      .where({project_tp_num:projectTpNum})
-      .update('deleted', 'f');
-    return query;
-  },
-  reinstateProject: function(projectTpNum) {
-    let query = knex('project_details')
-      .where({project_tp_num:projectTpNum})
-      .update('deleted', 'f');
-    return query;
-  },
+  // reinstateLesson: function(projectTpNum, lessonId) {
+  //   return = knex('lesson_details')
+  //     .where({project_tp_num:projectTpNum, lesson_id:lessonId})
+  //     .update('deleted', 'f');
+  // },
+  // reinstateAllProjectLessons: function(projectTpNum) {
+  //   return = knex('lesson_details')
+  //     .where({project_tp_num:projectTpNum})
+  //     .update('deleted', 'f');
+  // },
+  // reinstateProject: function(projectTpNum) {
+  //   return = knex('project_details')
+  //     .where({project_tp_num:projectTpNum})
+  //     .update('deleted', 'f');
+  // },
   getTrendingCategories: function() {
     // PSQL
     // return knex.raw("SELECT category, COUNT(category) volume FROM lesson_details WHERE date_added > now() - interval '1 year' GROUP BY category ORDER BY volume DESC LIMIT 4;")
