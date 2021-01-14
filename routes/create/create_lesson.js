@@ -129,14 +129,15 @@ module.exports = function (router) {
             .searchCategories
             .getByName(req.body.category)
             .then(cat => {
-              console.log(cat)
-              req.body.category = cat[0].category_id;
+              req.body.category = cat[0].category_id
               queries
                 .createLesson(req.body.projectTpNum, req.body.category,
                   req.body.lessonType, req.body.identifiedBy, req.body.identifiedByArea,
                   req.body.howIdentified, req.body.summary, req.body.details)
-                .then(createLesson => {
-                  res.render('create/create_action.html', { createLesson, reqjson }) // display success page
+                .then(lessonId => {
+                  const createLesson = req.body
+                  createLesson.lesson_id = lessonId
+                  res.render('create/create_action.html', { createLesson }) // display success page
                 })
             })
         }

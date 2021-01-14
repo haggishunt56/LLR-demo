@@ -37,7 +37,7 @@
           Lesson added
         </h1>
         <div class="govuk-panel__body">
-          Your reference number<br><strong>{{createLesson[0].project_tp_num}}-{{createLesson[0].lesson_id}}</strong>
+          Your reference number<br><strong>{{createLesson.projectTpNum}}-{{createLesson.lesson_id}}</strong>
         </div>
       </div>
       {% endif %}
@@ -45,10 +45,10 @@
       <h1 class="govuk-heading-xl">Add an action</h1>
 
       <form class="form" action="create_new_lesson" method="post" enctype='application/json'>
-        <input type="hidden" id="projectTpNum" name="projectTpNum" value={{createLesson[0].project_tp_num}}>
-        <input type="hidden" id="howIdentified" name="howIdentified" value={{createLesson[0].how_identified}}>
-        <input type="hidden" id="identifiedBy" name="identifiedBy" value={{createLesson[0].identified_by}}>
-        <input type="hidden" id="identifiedByArea" name="identifiedByArea" value={{createLesson[0].identifiers_area}}>
+        <input type="hidden" id="projectTpNum" name="projectTpNum" value={{createLesson.projectTpNum}}>
+        <input type="hidden" id="howIdentified" name="howIdentified" value={{createLesson.howIdentified}}>
+        <input type="hidden" id="identifiedBy" name="identifiedBy" value={{createLesson.identifiedBy}}>
+        <input type="hidden" id="identifiedByArea" name="identifiedByArea" value={{createLesson.identifiedByArea}}>
         <input type="submit" draggable="false" value="Skip this step" class="govuk-button govuk-button--secondary">
       </form>
 
@@ -81,18 +81,22 @@
 
       <form class="form" action="create_action" method="post" enctype='application/json'>
 
-        <input type="hidden" id="projectTpNum" name="projectTpNum" value={{createLesson[0].project_tp_num}}>
-        <input type="hidden" id="lessonId" name="lessonId" value={{createLesson[0].lesson_id}}>
-        <input type="hidden" id="howIdentified" name="howIdentified" value={{createLesson[0].how_identified}}>
-        <input type="hidden" id="identifiedBy" name="identifiedBy" value={{createLesson[0].identified_by}}>
-        <input type="hidden" id="identifiedByArea" name="identifiedByArea" value={{createLesson[0].identifiers_area}}>
+        {{createLesson | dump}}
+
+        <div class='govuk-form-group'>
+          <input type="hidden" id="projectTpNum" name="projectTpNum" value={{createLesson.projectTpNum}}>
+          <input type="hidden" id="lessonId" name="lessonId" value={{createLesson.lesson_id}}>
+          <input type="hidden" id="howIdentified" name="howIdentified" value={{createLesson.howIdentified}}>
+          <input type="hidden" id="identifiedBy" name="identifiedBy" value={{createLesson.identifiedBy}}>
+          <input type="hidden" id="identifiedByArea" name="identifiedByArea" value={{createLesson.identifiedByArea}}>
+        </div>
 
         <!-- lesson ID field -->
         <div class='govuk-form-group'>
           <label class="govuk-label--s" for="projectTpNum">
             Lesson ID
           </label><br>
-          <input disabled class="govuk-input govuk-!-width-two-thirds" id="lessonIdDisplay" name="lessonIdDisplay" type="text" value="{{createLesson[0].project_tp_num}}-{{createLesson[0].lesson_id}}" style="background-color:#b9bbbd; color:#393b3d">
+          <input disabled class="govuk-input govuk-!-width-two-thirds" id="lessonIdDisplay" name="lessonIdDisplay" type="text" value="{{createLesson.projectTpNum}}-{{createLesson.lesson_id}}" style="background-color:#b9bbbd; color:#393b3d">
         </div>
 
         <!-- action details field -->
@@ -105,7 +109,7 @@
             <span class="govuk-visually-hidden">Error:</span> Detail the action to be taken
           </span>
           {% endif %}
-          <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="actionDetails" name="actionDetails" rows="5" aria-describedby="with-hint-info with-hint-hint">{{createLesson[0].action_details}}</textarea>
+          <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="actionDetails" name="actionDetails" rows="5" aria-describedby="with-hint-info with-hint-hint">{{createLesson.action_details}}</textarea>
         </div>
 
         <!-- action owner field -->
@@ -123,7 +127,7 @@
             <span class="govuk-visually-hidden">Error:</span> Action owner cannot be longer than 45 characters
           </span>
           {% endif %}
-          <input class="govuk-input govuk-!-width-two-thirds" id="actionOwner" name="actionOwner" type="text" value="{{createLesson[0].action_owner}}">
+          <input class="govuk-input govuk-!-width-two-thirds" id="actionOwner" name="actionOwner" type="text" value="{{createLesson.action_owner}}">
         </div>
 
         <!-- target date field -->

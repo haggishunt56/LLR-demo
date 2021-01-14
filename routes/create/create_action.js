@@ -35,13 +35,14 @@ module.exports = function (router) {
       err.summarise = true
     }
 
-    var createLesson = [{
-      project_tp_num: req.body.projectTpNum,
-      how_identified: req.body.howIdentified,
-      identified_by: req.body.identifiedBy,
-      identifiers_area: req.body.identifiedByArea,
+    var createLesson = {
+      projectTpNum: req.body.projectTpNum,
+      howIdentified: req.body.howIdentified,
+      identifiedBy: req.body.identifiedBy,
+      identifiedByArea: req.body.identifiedByArea,
       lesson_id: req.body.lessonId
-    }]
+    }
+
     const dateNow = new Date()
     let reqjson = {}
     reqjson.day_added = dateNow.getDate()
@@ -49,8 +50,8 @@ module.exports = function (router) {
     reqjson.year_added = dateNow.getFullYear()
 
     if (err.summarise) {
-      createLesson[0].action_details = req.body.actionDetails
-      createLesson[0].action_owner = req.body.actionOwner
+      createLesson.action_details = req.body.actionDetails
+      createLesson.action_owner = req.body.actionOwner
       res.render('create/create_action.html', { err, createLesson, reqjson, actionCreated })
     } else {
       queries

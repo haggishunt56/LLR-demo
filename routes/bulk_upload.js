@@ -47,13 +47,13 @@ module.exports = function (router) {
                   err.projectId.blank = true
                   err.projectId.row[i] = i + 2
                   err.summarise = true
-                } else if (jsonObj[i].ProjectID.length > 7) {
+                }
+                if (jsonObj[i].ProjectID.length > 7) {
                   err.projectId.tooLong = true
                   err.projectId.row[i] = i + 2
                   err.summarise = true
-                } else {
-                  projTpNum[i] = jsonObj[i].ProjectID
                 }
+                projTpNum[i] = jsonObj[i].ProjectID
 
                 if (jsonObj[i].Category === '') {
                   err.category.blank = true
@@ -126,7 +126,6 @@ module.exports = function (router) {
                   err.description.row[i] = i + 2
                   err.summarise = true
                 }
-
               }
             })
             .then(checkTpNum => {
@@ -141,27 +140,26 @@ module.exports = function (router) {
                   })
               }
             })
-            .then(setTimeout(submit => {
-              console.log(err.projectId)
+            .then(setTimeout(waitForQueries => {
               if (!err.summarise) {
-                console.log("No errors")
-                for (i = 0; i < projTpNum.length; i++) {
-                  queries.createLesson(projTpNum[i].ProjectID, projTpNum[i].Category,
-                    projTpNum[i].WWW_EBI_ID, projTpNum[i].LessonIdentifiedBy,
-                    projTpNum[i].LessonIdentifiersArea, projTpNum[i].LessonHowIdentifed,
-                    projTpNum[i].Summary, projTpNum[i].LessonDescription)
-                    .then()
-                  rowsAdded = i
-                }
-                rowsAdded++
-                res.render('./bulkupload.html', { rowsAdded })
+                csv()
+                  .fromFile(csvFilePath)
+                  .then(jsonObj => {
+                    for (var i = 0; i < projTpNum.length; i++) {
+                      queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].Category,
+                        jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
+                        jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
+                        jsonObj[i].Summary, jsonObj[i].LessonDescription)
+                        .then()
+                      rowsAdded = i + 1
+                    }
+                  })
+                setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 40)
               } else {
-                console.log("Errors")
                 res.render('./bulkupload.html', { err })
               }
-              console.log("fin")
-            }, 500)
-          )
+            }, 50)
+            )
         }
       })
     }
