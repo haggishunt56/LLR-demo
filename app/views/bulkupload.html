@@ -54,7 +54,7 @@
       </h2>
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
-          {% if err.projectId.blank or err.projectId.tooLong or err.projectId.notExists %}
+          {% if err.projectId.blank or err.projectId.tooLong %}
           <li>
             <details class="govuk-details" data-module="govuk-details">
               <summary class="govuk-details__summary">
@@ -69,6 +69,16 @@
                   {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
                 {% endfor %}
               </div>
+            </details>
+          </li>
+          {% elseif err.projectId.notExists %}
+          <li>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more Projects entered does not exist on the database
+                </span>
+              </summary>
             </details>
           </li>
           {% endif %}

@@ -329,6 +329,9 @@ module.exports = {
     },
     getById: function(id) {
       return knex('category_details').where('category_id', `${id}`);
+    },
+    getByName: function(name) {
+      return knex('category_details').where('category_name', `${name}`);
     }
   },
   createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
@@ -525,6 +528,16 @@ module.exports = {
     })
     .where('category_id', `${id}`);
 
+    return query;
+  },
+  deleteLessontest: function(lessonId) {
+    let query = knex.raw('UPDATE lesson_details SET deleted = 1 WHERE lesson_id = \'' + `${lessonId}` + '\';')
+
+    // ('lesson_details')
+    //   .where({lesson_id:lessonId})
+    //   .update({deleted:1})
+    //   ;
+    // //console.log(query)
     return query;
   },
   deleteLesson: function(projectTpNum, lessonId) {

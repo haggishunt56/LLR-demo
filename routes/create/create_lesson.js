@@ -112,7 +112,7 @@ module.exports = function (router) {
       .searchProjects
       .checkProjectExists(req.body.projectTpNum)
       .then(checkProjectExists => {
-        if (checkProjectExists[0].count === '0') {
+        if (checkProjectExists[0].count === 0) {
           err.projectTpNum.notExists = true
           err.summarise = true
         }
@@ -126,11 +126,18 @@ module.exports = function (router) {
             })
         } else { // query database if no errors
           queries
-            .createLesson(req.body.projectTpNum, req.body.category,
-              req.body.lessonType, req.body.identifiedBy, req.body.identifiedByArea,
-              req.body.howIdentified, req.body.summary, req.body.details)
-            .then(createLesson => {
-              res.render('create/create_action.html', { createLesson, reqjson }) // display success page
+            .searchCategories
+            .getByName(req.body.category)
+            .then(cat => {
+              console.log(cat)
+              req.body.category = cat[0].category_id;
+              queries
+                .createLesson(req.body.projectTpNum, req.body.category,
+                  req.body.lessonType, req.body.identifiedBy, req.body.identifiedByArea,
+                  req.body.howIdentified, req.body.summary, req.body.details)
+                .then(createLesson => {
+                  res.render('create/create_action.html', { createLesson, reqjson }) // display success page
+                })
             })
         }
       })

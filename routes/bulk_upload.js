@@ -24,37 +24,36 @@ module.exports = function (router) {
         if (err) {
           res.send(err)
         } else {
+          let projTpNum = []
+          let rowsAdded = 0
           const csv = require('csvtojson')
           const csvFilePath = './uploads/' + filename
+          const err = {
+            projectId: { row: [], notExistsRow: [] },
+            category: { row: [] },
+            lessonType: { row: [] },
+            identifiedBy: { row: [] },
+            identifiersArea: { row: [] },
+            howIdentifed: { row: [] },
+            summary: { row: [] },
+            description: { row: [] }
+          }
+
           csv()
             .fromFile(csvFilePath)
-            .then((jsonObj) => {
-              let rowsAdded = 0
-
-              // TODO data validation
-              const err = {
-                projectId: { row: [] },
-                category: { row: [] },
-                lessonType: { row: [] },
-                identifiedBy: { row: [] },
-                identifiersArea: { row: [] },
-                howIdentifed: { row: [] },
-                summary: { row: [] },
-                description: { row: [] }
-              }
-
+            .then(jsonObj => {
               for (var i = 0; i < jsonObj.length; i++) {
                 if (jsonObj[i].ProjectID === '') {
                   err.projectId.blank = true
                   err.projectId.row[i] = i + 2
                   err.summarise = true
-                }
-                if (jsonObj[i].ProjectID.length > 7) {
+                } else if (jsonObj[i].ProjectID.length > 7) {
                   err.projectId.tooLong = true
                   err.projectId.row[i] = i + 2
                   err.summarise = true
+                } else {
+                  projTpNum[i] = jsonObj[i].ProjectID
                 }
-                // TODO checkProjectExists
 
                 if (jsonObj[i].Category === '') {
                   err.category.blank = true
@@ -127,23 +126,42 @@ module.exports = function (router) {
                   err.description.row[i] = i + 2
                   err.summarise = true
                 }
-              }
 
+              }
+            })
+            .then(checkTpNum => {
+              for (var i = 0; i < projTpNum.length; i++) {
+                queries.searchProjects.checkProjectExists(projTpNum[i])
+                  .then(project => {
+                    if (project[0].count === 0) {
+                      err.projectId.notExists = true
+                      err.projectId.notExistsRow[i] = i + 2
+                      err.summarise = true
+                    }
+                  })
+              }
+            })
+            .then(setTimeout(submit => {
+              console.log(err.projectId)
               if (!err.summarise) {
-                for (i = 0; i < jsonObj.length; i++) {
-                  queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].Category,
-                    jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
-                    jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
-                    jsonObj[i].Summary, jsonObj[i].LessonDescription)
+                console.log("No errors")
+                for (i = 0; i < projTpNum.length; i++) {
+                  queries.createLesson(projTpNum[i].ProjectID, projTpNum[i].Category,
+                    projTpNum[i].WWW_EBI_ID, projTpNum[i].LessonIdentifiedBy,
+                    projTpNum[i].LessonIdentifiersArea, projTpNum[i].LessonHowIdentifed,
+                    projTpNum[i].Summary, projTpNum[i].LessonDescription)
                     .then()
                   rowsAdded = i
                 }
                 rowsAdded++
                 res.render('./bulkupload.html', { rowsAdded })
               } else {
+                console.log("Errors")
                 res.render('./bulkupload.html', { err })
               }
-            })
+              console.log("fin")
+            }, 500)
+          )
         }
       })
     }
