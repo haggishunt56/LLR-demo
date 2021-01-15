@@ -81,8 +81,6 @@
 
       <form class="form" action="create_action" method="post" enctype='application/json'>
 
-        {{createLesson | dump}}
-
         <div class='govuk-form-group'>
           <input type="hidden" id="projectTpNum" name="projectTpNum" value={{createLesson.projectTpNum}}>
           <input type="hidden" id="lessonId" name="lessonId" value={{createLesson.lesson_id}}>
@@ -147,7 +145,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day_added" name="day_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.day_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_day" name="target_day" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.day_added}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -155,7 +153,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month_added" name="month_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.month_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_month" name="target_month" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.month_added}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -163,7 +161,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year_added" name="year_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.year_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="target_year" name="target_year" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.year_added}}">
                 </div>
               </div>
             </div>

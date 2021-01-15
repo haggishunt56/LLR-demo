@@ -331,13 +331,14 @@ module.exports = {
       return knex('category_details').where('category_id', `${id}`);
     },
     getByName: function(name) {
+      console.log(name)
       return knex('category_details').where('category_name', `${name}`);
     }
   },
-  createLesson: function(project_tp_num, category, type, identified_by, identifiers_area,
+  createLesson: function(project_tp_num, dateAdded, category, type, identified_by, identifiers_area,
     how_identified, summary, details) {
 
-    let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
+    //let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
     //INSERT INTO lesson_details VALUES [args]
 
     return knex.insert({category: `${category}`, date_added: dateAdded, description: `${details}`,
@@ -358,26 +359,22 @@ module.exports = {
       ;
     return query
   },
-  createProject: function(projectName, projectTpNum, dateStartedDay,
-    dateStartedMonth, dateStartedYear, dateClosedDay, dateClosedMonth,
+  createProject: function(projectName, projectTpNum, dateAdded, dateClosedDay, dateClosedMonth,
     dateClosedYear, portfolio, srm, status) {
 
-    var startDate = new Date(`${dateStartedYear}`, `${dateStartedMonth}`, `${dateStartedDay}`, 0, 0, 0);
     var closedDate = new Date(`${dateClosedYear}`, `${dateClosedMonth}`, `${dateClosedDay}`, 0, 0, 0);
-
-    const startDateString = '' + `${dateStartedYear}` + '-' + `${dateStartedMonth}` + '-' + `${dateStartedDay}`
 
     if (`${dateClosedYear}` !== '' && `${dateClosedMonth}` !== '' && `${dateClosedDay}` !== '') {
       const closedDateString = '' + `${dateClosedYear}` + '-' + `${dateClosedMonth}` + '-' + `${dateClosedDay}`;
       query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, closure_date, srm, status, portfolio)\
-        SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + startDateString + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
+        SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + dateAdded + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
         FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
         ;'
       )
     } //only include value of closed date if data entered
     else {
       query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, srm, status, portfolio)\
-        SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + startDateString + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
+        SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + dateAdded + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
         FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
         ;'
       )
@@ -386,26 +383,22 @@ module.exports = {
     return query;
 
   },
-  createCampaign: function(projectName, projectTpNum, dateStartedDay,
-    dateStartedMonth, dateStartedYear, dateClosedDay, dateClosedMonth,
+  createCampaign: function(projectName, projectTpNum, dateAdded, dateClosedDay, dateClosedMonth,
     dateClosedYear, portfolio, srm, status) {
 
-      var startDate = new Date(`${dateStartedYear}`, `${dateStartedMonth}`, `${dateStartedDay}`, 0, 0, 0);
       var closedDate = new Date(`${dateClosedYear}`, `${dateClosedMonth}`, `${dateClosedDay}`, 0, 0, 0);
-
-      const startDateString = '' + `${dateStartedYear}` + '-' + `${dateStartedMonth}` + '-' + `${dateStartedDay}`
 
       if (`${dateClosedYear}` !== '' && `${dateClosedMonth}` !== '' && `${dateClosedDay}` !== '') {
         const closedDateString = '' + `${dateClosedYear}` + '-' + `${dateClosedMonth}` + '-' + `${dateClosedDay}`;
         query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, closure_date, srm, status, portfolio)\
-          SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'campaign\', \'' + startDateString + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
+          SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'campaign\', \'' + dateAdded + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
           FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
           ;'
         )
       } //only include value of closed date if data entered
       else {
         query = knex.raw('INSERT INTO project_details (project_name, project_tp_num, project_type, start_date, srm, status, portfolio)\
-          SELECT \'' + `${projectName}` + '\',\'' + `${projectTpNum}` + '\', \'campaign\', \'' + startDateString + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
+          SELECT \'' + `${projectName}` + '\',\'' + `${projectTpNum}` + '\', \'campaign\', \'' + dateAdded + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
           FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
           ;'
         )
@@ -413,26 +406,22 @@ module.exports = {
 
       return query;
   },
-  createConference: function(projectName, projectTpNum, dateStartedDay,
-    dateStartedMonth, dateStartedYear, dateClosedDay, dateClosedMonth,
+  createConference: function(projectName, projectTpNum, dateAdded, dateClosedDay, dateClosedMonth,
     dateClosedYear, portfolio, srm, status) {
 
-      var startDate = new Date(`${dateStartedYear}`, `${dateStartedMonth}`, `${dateStartedDay}`, 0, 0, 0);
       var closedDate = new Date(`${dateClosedYear}`, `${dateClosedMonth}`, `${dateClosedDay}`, 0, 0, 0);
-
-      const startDateString = '' + `${dateStartedYear}` + '-' + `${dateStartedMonth}` + '-' + `${dateStartedDay}`
 
       if (`${dateClosedYear}` !== '' && `${dateClosedMonth}` !== '' && `${dateClosedDay}` !== '') {
         const closedDateString = '' + `${dateClosedYear}` + '-' + `${dateClosedMonth}` + '-' + `${dateClosedDay}`;
         query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, closure_date, srm, status, portfolio)\
-          SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'conference\', \'' + startDateString + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
+          SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'conference\', \'' + dateAdded + '\', \'' + closedDateString + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
           FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
           ;'
         )
       } //only include value of closed date if data entered
       else {
         query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, srm, status, portfolio)\
-          SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'conference\', \'' + startDateString + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
+          SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'conference\', \'' + dateAdded + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
           FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
           ;'
         )

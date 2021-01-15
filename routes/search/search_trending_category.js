@@ -9,13 +9,10 @@ module.exports = function (router) {
     var offset = 2
     var searchFrom = '' + yyyy - offset + '-' + mm + '-' + dd
 
-    console.log(req.params.cat, searchFrom)
-
     queries
       .searchLessons
       .getByCategory(req.params.cat, searchFrom)
       .then(lesson_details => {
-        console.log(lesson_details)
         const rowsReturned = Object.keys(lesson_details).length
         const reqjson = {}
 

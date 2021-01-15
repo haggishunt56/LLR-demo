@@ -40,6 +40,8 @@ module.exports = function (router) {
         req.body.dateStartedYear === '') {
       err.dateStarted.blank = true
       err.summarise = true
+    } else {
+      req.body.dateAdded = new Date(req.body.dateStartedYear, req.body.dateStartedMonth - 1, req.body.dateStartedDay, 0, 0, 0, 0)
     }
 
     if (req.body.portfolio === '') {
@@ -80,8 +82,7 @@ module.exports = function (router) {
         } else { // query db if no errors
           queries
             .createProject(req.body.projectName, req.body.projectTpNum,
-              req.body.dateStartedDay, req.body.dateStartedMonth,
-              req.body.dateStartedYear, req.body.dateClosedDay,
+              req.body.dateAdded, req.body.dateClosedDay,
               req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
               req.body.srm, req.body.status)
             .then(createProject => {

@@ -259,6 +259,8 @@ if (typeof (routes) !== 'function') {
   app.use('/', routes)
 }
 
+
+
 if (useDocumentation) {
   // Clone app locals to documentation app locals
   // Use Object.assign to ensure app.locals is cloned to prevent additions from
@@ -323,17 +325,19 @@ app.post(/^\/([^.]+)$/, function (req, res) {
 })
 
 // Catch 404 and forward to error handler
+// TODO explore this in more detail. 404 errors are never caught - they appear to
+// the application as a 500 error
 app.use(function (req, res, next) {
   var err = new Error(`Page not found: ${req.path}`)
-  err.status = 404
+  res.status(404)
   next(err)
 })
 
 // Display error
 app.use(function (err, req, res, next) {
-  console.error(err.message)
+  console.error(err.stack)
   res.status(err.status || 500)
-  res.send(err.message)
+  res.render('500.html')
 })
 
 console.log('\nGOV.UK Prototype Kit v' + releaseVersion)

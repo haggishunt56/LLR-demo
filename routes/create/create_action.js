@@ -56,16 +56,13 @@ module.exports = function (router) {
     } else {
       queries
         .createAction(req.body.lessonId, req.body.actionDetails, req.body.actionOwner,
-          req.body.day_added, req.body.month_added, req.body.year_added)
+          req.body.target_day, req.body.target_month, req.body.target_year)
         .then(actionCreated => {
           if (req.body.new_action !== undefined) { // new action
             res.render('create/create_action.html', { reqjson, createLesson, actionCreated })
           } else if (req.body.new_lesson !== undefined) { // new lesson
             reqjson = req.body
-            const dateNow = new Date()
-            reqjson.day_added = dateNow.getDate()
-            reqjson.month_added = dateNow.getMonth()
-            reqjson.year_added = dateNow.getFullYear()
+            console.log(req.body)
 
             queries.searchCategories.getAll()
               .then(categories => {

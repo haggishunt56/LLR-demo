@@ -2,7 +2,6 @@ const queries = require('../../app/db/queries')
 
 module.exports = function (router) {
   router.post('/home_search', (req, res) => {
-    console.log(req.body.search)
     queries
       .searchLessons
       .searchForParam(req.body.search)

@@ -30,7 +30,6 @@ module.exports = function (router) {
           .then(categories => {
             queries.searchPortfolios.getActive()
               .then(activePortfolios => {
-                console.log(lesson_details)
                 const rowsReturned = Object.keys(lesson_details).length
                 res.render('search/search_lessons.html', { lesson_details, rowsReturned, reqjson, categories, activePortfolios })
               })

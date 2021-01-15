@@ -29,8 +29,6 @@ module.exports = function (router) {
       err.summarise = true
     }
 
-    console.log(req.body)
-
     if (err.summarise) {
       const reqjson = req.body
       res.render('admin/add_portfolio.html', { err, reqjson })

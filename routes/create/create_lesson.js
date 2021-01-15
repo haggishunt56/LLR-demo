@@ -5,7 +5,7 @@ module.exports = function (router) {
     const dateNow = new Date()
     const reqjson = {}
     reqjson.day_added = dateNow.getDate()
-    reqjson.month_added = dateNow.getMonth()
+    reqjson.month_added = dateNow.getMonth() + 1
     reqjson.year_added = dateNow.getFullYear()
 
     queries.searchCategories.getAll()
@@ -16,10 +16,6 @@ module.exports = function (router) {
 
   router.post('/create_new_lesson', (req, res) => {
     const reqjson = req.body
-    const dateNow = new Date()
-    reqjson.day_added = dateNow.getDate()
-    reqjson.month_added = dateNow.getMonth()
-    reqjson.year_added = dateNow.getFullYear()
 
     queries.searchCategories.getAll()
       .then(categories => {
@@ -48,6 +44,8 @@ module.exports = function (router) {
       err.projectTpNum.tooLong = true
       err.summarise = true
     }
+
+    req.body.dateAdded = new Date(req.body.year_added, req.body.month_added - 1, req.body.day_added, 0, 0, 0, 0)
 
     if (req.body.category === 'none') {
       err.category.blank = true
@@ -131,9 +129,10 @@ module.exports = function (router) {
             .then(cat => {
               req.body.category = cat[0].category_id
               queries
-                .createLesson(req.body.projectTpNum, req.body.category,
-                  req.body.lessonType, req.body.identifiedBy, req.body.identifiedByArea,
-                  req.body.howIdentified, req.body.summary, req.body.details)
+                .createLesson(req.body.projectTpNum, req.body.dateAdded.toISOString(),
+                  req.body.category, req.body.lessonType, req.body.identifiedBy,
+                  req.body.identifiedByArea, req.body.howIdentified, req.body.summary,
+                  req.body.details)
                 .then(lessonId => {
                   const createLesson = req.body
                   createLesson.lesson_id = lessonId
