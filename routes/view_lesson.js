@@ -7,7 +7,11 @@ module.exports = function (router) {
       .searchLessons
       .getByProjectLesson(req.params.proj_id, req.params.les_id)
       .then(lesson_details => {
-        res.render('view/view_lesson.html', { lesson_details })
+        if(lesson_details == '') {
+          res.render('404.html')
+        } else {
+          res.render('view/view_lesson.html', { lesson_details })
+        }
       })
   })
 }

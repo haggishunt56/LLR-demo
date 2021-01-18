@@ -325,8 +325,6 @@ app.post(/^\/([^.]+)$/, function (req, res) {
 })
 
 // Catch 404 and forward to error handler
-// TODO explore this in more detail. 404 errors are never caught - they appear to
-// the application as a 500 error
 app.use(function (req, res, next) {
   var err = new Error(`Page not found: ${req.path}`)
   res.status(404)

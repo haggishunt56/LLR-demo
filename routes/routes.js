@@ -47,10 +47,12 @@ var routes = [
   require('./srvadmin/add_portfolio.js'),
   require('./srvadmin/maintain_categories.js'),
   require('./srvadmin/edit_category.js'),
-  require('./srvadmin/add_category.js')
+  require('./srvadmin/add_category.js'),
+
 
   // user admin
 
+  require('./404.js') //404 handler - MUST be at the bottom of the stack
 ]
 
 module.exports = function (router) {
