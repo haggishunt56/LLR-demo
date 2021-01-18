@@ -1,4 +1,5 @@
 const knex = require('./knex');
+const queries = require('./queries')
 
   // TODO - replace 'like' with 'ilike' for PSQL
 
@@ -102,7 +103,7 @@ module.exports = {
 
     },
     getByProjectLesson: function(project, lesson) {
-      return knex.select(
+      let query = knex.select(
           // knex.raw('lesson_details.lesson_id, lesson_details.project_tp_num, lesson_details.date_added, lesson_details.category, lesson_details.www_ebi, lesson_details.identified_by, lesson_details.identifiers_area, lesson_details.how_identified, user_details.username, lesson_details.summary, lesson_details.description, lesson_details.deleted, project_details.project_name, portfolio_details.portfolio_name'),
           // knex.raw('EXTRACT(YEAR FROM date_added) as year_added'),
           // knex.raw('EXTRACT(MONTH FROM date_added) as month_added'),
@@ -112,14 +113,16 @@ module.exports = {
           // knex.raw('EXTRACT(DAY FROM target_date) as target_day')
         )
         .from('lesson_details')
-        .join('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
-        .join('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
-        .join('category_details', 'lesson_details.category', 'category_details.category_id')
+        .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
+        .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+        .leftOuterJoin('category_details', 'lesson_details.category', 'category_details.category_id')
         // .join('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
-        .where('lesson_details.project_tp_num', project)
+        //.where('lesson_details.project_tp_num', project)
         .where('lesson_id', lesson)
         .orderBy('lesson_id', 'asc');
       ;
+
+      return query;
     },
     getByProject: function(project) {
       return knex.select(
@@ -129,7 +132,7 @@ module.exports = {
         // knex.raw('EXTRACT(DAY FROM date_added) as day_added')
       )
         .from('lesson_details')
-        .join('category_details', 'category_details.category_id', 'lesson_details.category')
+        .leftOuterJoin('category_details', 'category_details.category_id', 'lesson_details.category')
         .where('lesson_details.project_tp_num', project)
         .orderBy('lesson_id', 'asc');
       ;
@@ -214,7 +217,7 @@ module.exports = {
         // knex.raw('EXTRACT(MONTH FROM closure_date) as closure_month'),
         // knex.raw('EXTRACT(DAY FROM closure_date) as closure_day')
       )
-      .join('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
+      .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
       .from('project_details')
       .where('project_tp_num', project);
     }
@@ -331,17 +334,13 @@ module.exports = {
       return knex('category_details').where('category_id', `${id}`);
     },
     getByName: function(name) {
-      console.log(name)
       return knex('category_details').where('category_name', `${name}`);
     }
   },
   createLesson: function(project_tp_num, dateAdded, category, type, identified_by, identifiers_area,
     how_identified, summary, details) {
 
-    //let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
-    //INSERT INTO lesson_details VALUES [args]
-
-    return knex.insert({category: `${category}`, date_added: dateAdded, description: `${details}`,
+    return knex.insert({category: `${category}`, date_added: `${dateAdded}`, description: `${details}`,
       how_identified: `${how_identified}`, identified_by: `${identified_by}`,
       identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
       summary: `${summary}`, uploaded_by: '1', www_ebi: `${type}`})
@@ -445,7 +444,7 @@ module.exports = {
     summary, details) {
 
     let startDate = new Date(startYear, startMonth, startDay)
-    console.log(projectId, '-', lessonId)
+
     return knex('lesson_details')
       .where('lesson_id', '=', lessonId)
       .update({

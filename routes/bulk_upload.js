@@ -30,6 +30,7 @@ module.exports = function (router) {
           const csvFilePath = './uploads/' + filename
           const err = {
             projectId: { row: [], notExistsRow: [] },
+            date: { row: [] },
             category: { row: [] },
             lessonType: { row: [] },
             identifiedBy: { row: [] },
@@ -54,6 +55,13 @@ module.exports = function (router) {
                   err.summarise = true
                 }
                 projTpNum[i] = jsonObj[i].ProjectID
+
+                if(jsonObj[i].LessonDateAdded === '') {
+                  err.dateAdded.blank = true
+                  err.dateAdded.row[i] = i + 2
+                  err.summarise = true
+                }
+                // TODO - test date format. Currently MUST be YYYY-MM-DD to work
 
                 if (jsonObj[i].Category === '') {
                   err.category.blank = true
@@ -141,27 +149,44 @@ module.exports = function (router) {
               }
             })
             .then(setTimeout(waitForQueries => {
+              let cat = []
               if (!err.summarise) {
                 csv()
                   .fromFile(csvFilePath)
                   .then(jsonObj => {
-                    for (var i = 0; i < projTpNum.length; i++) {
-                      queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].Category,
-                        jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
+                    for (var i = 0; i < jsonObj.length; i++) {
+                      queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
+                        jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
                         jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
                         jsonObj[i].Summary, jsonObj[i].LessonDescription)
                         .then()
-                      rowsAdded = i + 1
+                        rowsAdded = i + 1
                     }
                   })
                 setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 40)
               } else {
+                console.log(err)
                 res.render('./bulkupload.html', { err })
               }
-            }, 50)
+            }, 50) //application waits for queries to return errors before proceeding
+                   // otherwise asynchronous operation will continue to create
+                   // lessons without waiting for the result of error checks.
             )
         }
       })
+    } else {
+      const err = {
+        noFileUploaded: true
+      }
+      res.render('./bulkupload.html', { err })
     }
   })
+}
+
+function createLesson (jsonObj) {
+  queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
+    jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
+    jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
+    jsonObj[i].Summary, jsonObj[i].LessonDescription)
+
 }
