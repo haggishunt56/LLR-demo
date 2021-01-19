@@ -67,7 +67,7 @@ module.exports = function (env) {
   filters.portfolioActive = function (active) {
     var retStr = ''
 
-    if (active === true) {
+    if (active === 'true') {
       retStr = 'Yes'
     } else {
       retStr = 'No'
