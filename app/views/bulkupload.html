@@ -84,6 +84,24 @@
             • One or more Projects entered does not exist on the database
           </li>
           {% endif %}
+          {% if err.dateAdded.blank or err.dateAdded.format %}
+          <li>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  One or more of your dates has an error
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                <ul class="govuk-list">
+                  <li>Please check:</li>
+                {% for line in err.dateAdded.row %}
+                  {% if not line == "" %}<li>Row {{line}}</li>{% endif %}
+                {% endfor %}
+              </div>
+            </details>
+          </li>
+          {% endif %}
           {% if err.category.blank or err.category.tooLong %}
           <li>
             <details class="govuk-details" data-module="govuk-details">

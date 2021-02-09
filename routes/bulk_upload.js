@@ -25,12 +25,13 @@ module.exports = function (router) {
           res.send(err)
         } else {
           let projTpNum = []
+          let dateAdded = []
           let rowsAdded = 0
           const csv = require('csvtojson')
           const csvFilePath = './uploads/' + filename
           const err = {
             projectId: { row: [], notExistsRow: [] },
-            date: { row: [] },
+            dateAdded: { row: [] },
             category: { row: [] },
             lessonType: { row: [] },
             identifiedBy: { row: [] },
@@ -61,7 +62,24 @@ module.exports = function (router) {
                   err.dateAdded.row[i] = i + 2
                   err.summarise = true
                 }
-                // TODO - test date format. Currently MUST be YYYY-MM-DD to work
+
+                var ddRegEx = /\d\d(\/|-|.)\d\d(\/|-|.)\d\d\d\d/g
+                var yyyyRegEx = /\d\d\d\d(\/|-|.)\d\d(\/|-|.)\d\d/g
+
+                if(ddRegEx.test(jsonObj[i].LessonDateAdded)) {
+                  // Format mm/dd/yyyy. next line swaps mm and dd fields
+                  jsonObj[i].LessonDateAdded = jsonObj[i].LessonDateAdded.substr(3, 2)+"/"+jsonObj[i].LessonDateAdded.substr(0, 2)+"/"+jsonObj[i].LessonDateAdded.substr(6, 4);const dateNew = new Date(jsonObj[i].LessonDateAdded)
+                  dateAdded[i] = new Date(jsonObj[i].LessonDateAdded)
+                } else if(yyyyRegEx.test(jsonObj[i].LessonDateAdded)) {
+                  // Format yyyy-mm-dd
+                  dateAdded[i] = new Date(jsonObj[i].LessonDateAdded)
+                }
+
+                if(dateAdded[i] == "Invalid Date" || dateAdded[i] == undefined) {
+                  err.dateAdded.format = true
+                  err.dateAdded.row[i] = i + 2
+                  err.summarise = true
+                }
 
                 if (jsonObj[i].Category === '') {
                   err.category.blank = true
@@ -155,7 +173,7 @@ module.exports = function (router) {
                   .fromFile(csvFilePath)
                   .then(jsonObj => {
                     for (var i = 0; i < jsonObj.length; i++) {
-                      queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
+                      queries.createLesson(jsonObj[i].ProjectID, dateAdded[i],
                         jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
                         jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
                         jsonObj[i].Summary, jsonObj[i].LessonDescription)
@@ -168,9 +186,10 @@ module.exports = function (router) {
                 console.log(err)
                 res.render('./bulkupload.html', { err })
               }
-            }, 50) //application waits for queries to return errors before proceeding
-                   // otherwise asynchronous operation will continue to create
-                   // lessons without waiting for the result of error checks.
+            }, 80)  // Application waits before proceeding, to allow time for
+                    // queries to return errors. Otherwise, asynchronous
+                    // operation will continue to create lessons without waiting
+                    // for the result of error checks.
             )
         }
       })
