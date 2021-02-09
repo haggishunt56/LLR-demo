@@ -22,7 +22,7 @@ var routes = [
   require('./create/create_conference.js'),
 
   // bulk upload
-  require('./bulk_upload.js'),
+  require('./bulk_upload_new.js'),
 
   // view
   require('./view_lesson.js'),
@@ -49,8 +49,8 @@ var routes = [
   require('./srvadmin/edit_category.js'),
   require('./srvadmin/add_category.js'),
 
-
   // user admin
+  // TODO
 
   require('./404.js') //404 handler - MUST be at the bottom of the stack
 ]
