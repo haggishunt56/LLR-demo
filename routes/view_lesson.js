@@ -7,7 +7,6 @@ module.exports = function (router) {
       .searchLessons
       .getByProjectLesson(req.params.proj_id, req.params.les_id)
       .then(lesson_details => {
-        console.log(lesson_details[0])
         res.render('view/view_lesson.html', { lesson_details })
       })
   })

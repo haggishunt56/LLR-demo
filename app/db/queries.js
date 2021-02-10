@@ -309,7 +309,7 @@ module.exports = {
       }
 
       if(includeDeleted == undefined) {
-        query.where('project_details.deleted', 'f')
+        query.where('project_details.deleted', 'false')
       }
 
       if(!includeDeleted) {
@@ -354,7 +354,7 @@ module.exports = {
     return knex.insert({category: `${category}`, date_added: dateAdded, description: `${details}`,
       how_identified: `${how_identified}`, identified_by: `${identified_by}`,
       identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
-      summary: `${summary}`, uploaded_by: '1', www_ebi: `${type}`},
+      summary: `${summary}`, uploaded_by: '1', www_ebi: `${type}`, deleted: FALSE},
       ['lesson_id', 'project_tp_num', 'how_identified', 'identified_by', 'identifiers_area', 'date_added'])
       .into('lesson_details')
     ;
@@ -543,42 +543,42 @@ module.exports = {
   },
   deleteLesson: function(tpNum, lessonId) {
     let query = knex('lesson_details')
-      .update({deleted:'yes'})
+      .update({deleted:1})
       .where({lesson_id:lessonId})
       ;
     return query;
   },
   deleteAllProjectLessons: function(projectTpNum) {
     let query = knex('lesson_details')
-      .update({deleted:'yes'})
+      .update({deleted:1})
       .where({project_tp_num:projectTpNum})
       ;
     return query;
   },
   deleteProject: function(projectTpNum) {
     let query = knex('project_details')
-      .update({deleted:'yes'})
+      .update({deleted:1})
       .where({project_tp_num:projectTpNum})
       ;
     return query;
   },
   reinstateLesson: function(projectTpNum, lessonId) {
     let query = knex('lesson_details')
-      .update({deleted:'no'})
+      .update({deleted:0})
       .where({lesson_id:lessonId})
       ;
     return query;
   },
   reinstateAllProjectLessons: function(projectTpNum) {
     let query = knex('lesson_details')
-      .update({deleted:'no'})
+      .update({deleted:0})
       .where({project_tp_num:projectTpNum})
       ;
     return query;
   },
   reinstateProject: function(projectTpNum) {
     let query = knex('project_details')
-      .update({deleted:'no'})
+      .update({deleted:0})
       .where({project_tp_num:projectTpNum})
       ;
     return query;
