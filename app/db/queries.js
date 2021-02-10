@@ -543,7 +543,7 @@ module.exports = {
   },
   deleteLesson: function(tpNum, lessonId) {
     let query = knex('lesson_details')
-      .update({deleted:1})
+      .update({deleted:1, category:4})
       .where({lesson_id:lessonId})
       ;
     return query;
@@ -564,7 +564,7 @@ module.exports = {
   },
   reinstateLesson: function(projectTpNum, lessonId) {
     let query = knex('lesson_details')
-      .update({deleted:0})
+      .update({deleted:0, category:3})
       .where({lesson_id:lessonId})
       ;
     return query;
