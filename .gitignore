@@ -1,5 +1,5 @@
 # sqlite database causes errors when committing to github
-app/db/sqlite.db
+#app/db/sqlite.db
 
 # ignore tracking usage data config - we want a different one for each user
 usage-data-config.json
