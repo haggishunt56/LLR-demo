@@ -6,7 +6,10 @@ module.exports = function (router) {
 
   // handle input on search forms
   router.post('/search', (req, res) => {
-    if (req.body.lessonproject === 'lesson') {
+    console.log(req.body.lessonproject)
+    if (req.body.lessonproject === 'action') {
+      res.redirect('/search_actions')
+    } else if (req.body.lessonproject === 'lesson') {
       res.redirect('/search_lessons')
     } else if (req.body.lessonproject === 'project') {
       res.redirect('/search_projects')
@@ -16,6 +19,9 @@ module.exports = function (router) {
       res.redirect('/search_conferences')
     } else if (JSON.stringify(req.body) === '{}') {
       var err = '{ "error" : "noSelection" }'
+      res.render('search/searchwhat.html', { err })
+    } else {
+      var err = '{ "error" : "unknownError" }'
       res.render('search/searchwhat.html', { err })
     }
   })

@@ -24,7 +24,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/search">Search</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search Lessons</li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Search Actions</li>
   </ol>
 </div>
 {% endblock %}
@@ -34,82 +34,39 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
-      <h1 class="govuk-heading-xl">Search for a lesson</h1>
+      <h1 class="govuk-heading-xl">Search for an action</h1>
 
-      <form class="form" action="/search_lessons" method="post" enctype='application/json'>
+      <form class="form" action="/search_actions" method="post" enctype='application/json'>
 
         <div class="govuk-form-group"> <!-- Lesson name field -->
           <label class="govuk-label--s" for="Lesson name">
             Lesson ID
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="lessonName" name="lessonName" type="text" pattern="[0-9]*" value="{{reqjson.lessonName}}">
+          <input class="govuk-input govuk-!-width-two-thirds" id="lessonId" name="lessonId" type="text" pattern="[0-9]*" value="{{reqjson.lessonId}}">
         </div>
 
         <div class="govuk-form-group"> <!-- Project name field -->
           <label class="govuk-label--s" for="Project name">
             Project name
-          </label><br>
+          </label>
           <span id="date-from" class="govuk-hint">
             You can enter either the name of the project or the TP number.
           </span>
           <input class="govuk-input govuk-!-width-two-thirds" id="projectName" name="projectName" type="text" value="{{reqjson.projectName}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- Project type field -->
-          <label class="govuk-label--s" for="Project type">
-            Project type
+        <div class="govuk-form-group"> <!-- Action owner field -->
+          <label class="govuk-label--s" for="Action owner">
+            Action owner
           </label><br>
-          <select class="govuk-select" id="projectType" name="projectType">
-            <option value=""></option>
-            <option value="project" {% if reqjson.projectType=="project" %} selected {% endif %}>Project</option>
-            <option value="campaign" {% if reqjson.projectType=="campaign" %} selected {% endif %}>Recruitment Campaign</option>
-            <option value="conference" {% if reqjson.projectType=="conference" %} selected {% endif %}>Conference</option>
-          </select>
-        </div>
-
-        <div class="govuk-form-group"> <!-- portfolio field -->
-          <label class="govuk-label--s" for="portfolio">
-            Portfolio
-          </label><br>
-          <select class="govuk-select" id="portfolio" name="portfolio">
-            <option value=""></option>
-            {% asyncEach portfolio in activePortfolios %}
-            <option value={{portfolio.portfolio_name}}{% if reqjson.portfolio==portfolio.portfolio_name %} selected {% endif %}>{{portfolio.portfolio_name}}</option>
-            {% endeach %}
-          </select>
-        </div>
-
-        <div class="govuk-form-group"> <!-- Lesson category field -->
-          <label class="govuk-label--s" for="category">
-            Lesson Category
-          </label><br>
-          <select class="govuk-select" id="category" name="category">
-            <option value="none"></option>
-            {% asyncEach category in categories %}
-            {% set catName = category.category_name | toLowerCase %}
-            <option value={{category.category_name | toLowerCase }}{% if reqjson.category==catName %} selected {% endif %}>{{category.category_name}}</option>
-            {% endeach %}
-          </select>
-        </div>
-
-        <div class="govuk-form-group"> <!-- lesson type field -->
-          <label class="govuk-label--s" for="Lesson type">
-            Lesson type
-          </label><br>
-          <select class="govuk-select" id="lessonType" name="lessonType">
-
-            <option value="" selected></option>
-            <option value="www" {% if reqjson.lessonType=="www" %} selected {% endif %}>What went well</option>
-            <option value="ebi" {% if reqjson.lessonType=="ebi" %} selected {% endif %}>Even better if</option>
-
-          </select>
+          <input class="govuk-input govuk-!-width-two-thirds" id="actionOwner" name="actionOwner" type="text" value="{{reqjson.actionOwner}}">
         </div>
 
         <div class="govuk-form-group"> <!-- date from field -->
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-from">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
-                Date from
+                Target date from
               </h1>
             </legend>
             <span id="date-from" class="govuk-hint">
@@ -148,7 +105,7 @@
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-to">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h4 class="govuk-fieldset__heading">
-                Date to
+                Target date to
               </h4>
             </legend>
             <span id="date-from" class="govuk-hint">
@@ -205,7 +162,7 @@
 
       </form>
 
-      {% if lesson_details %} <!-- display table only if results exist -->
+      {% if action_details %} <!-- display table only if results exist -->
 
       <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
@@ -224,33 +181,30 @@
       <table class="govuk-table" id="resultsTable">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th onclick="sortTable(0)" style="cursor:pointer" class="govuk-table__header">Lesson number ⇅</th>
-            <th onclick="sortTable(1)" style="cursor:pointer" class="govuk-table__header">Project name ⇅</th>
-            <th onclick="sortTable(2)" style="cursor:pointer" class="govuk-table__header">Type ⇅</th>
-            <th onclick="sortTable(3)" style="cursor:pointer" class="govuk-table__header">Category ⇅</th>
-            <th onclick="sortTable(4)" style="cursor:pointer" class="govuk-table__header">Portfolio ⇅</th>
-            <th onclick="sortTable(5)" style="cursor:pointer" class="govuk-table__header">Date added ⇅</th> <!-- TODO - date field sorts in alphabetical not chronological order -->
+            <th onclick="sortTable(0)" style="cursor:pointer" class="govuk-table__header">Action number ⇅</th>
+            <th onclick="sortTable(1)" style="cursor:pointer" class="govuk-table__header">Action owner ⇅</th>
+            <th onclick="sortTable(2)" style="cursor:pointer" class="govuk-table__header">Target date ⇅</th>
+            <th onclick="sortTable(3)" style="cursor:pointer" class="govuk-table__header">Completion date ⇅</th> <!-- TODO - date fields sort in alphabetical not chronological order -->
           </tr>
         </thead>
         <tbody class="govuk-table__body">
 
-        {% asyncEach lesson_detail in lesson_details %}
+        {% asyncEach action in action_details %}
 
         <tr class="govuk-table__row">
-          <td scope="row" class="govuk-table__header"><a href="/view/{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}">{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}</a></th>
-          <td class="govuk-table__cell">{{lesson_detail.project_name | trim}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.www_ebi}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.category_name}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.portfolio_name}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.date_added | date }}</td>
-          <!-- <td class="govuk-table__cell">{{lesson_detail.summary}}</td>
-          <td class="govuk-table__cell">{{lesson_detail.username}}</td> -->
+          <th scope="row" class="govuk-table__header"><a href="/view/{{action.project_tp_num}}-{{action.lesson_id}}.{{action.action_id}}">{{action.project_tp_num}}-{{action.lesson_id}}.{{action.action_id}}</a></th>
+          <td class="govuk-table__cell">{{action.action_owner}}</td>
+          <td class="govuk-table__cell">{{action.target_date | date}}</td>
+          <td class="govuk-table__cell">{{action.completion_date | date}}</td>
         </tr>
 
         {% endeach %}
 
       </tbody>
     </table>
+
+    {{action_details | dump}}
+    {{action_details[0].project_tp_num}}
 
     {% endif %}
 

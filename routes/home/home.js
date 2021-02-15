@@ -4,7 +4,8 @@ module.exports = function (router) {
   // render home page
   router.get('/home', (req, res) => {
     queries
-      .getTrendingCategories()
+    .searchCategories
+      .getTrending()
       .then(trending => {
         queries
           .searchLessons

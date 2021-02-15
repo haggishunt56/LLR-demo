@@ -1,4 +1,4 @@
-const queries = require('../app/db/queries')
+const queries = require('../../app/db/queries')
 
 module.exports = function (router) {
   // display update project page
@@ -87,7 +87,7 @@ module.exports = function (router) {
           return res.render('../views/update/update_project.html', { err, projectDetails, activePortfolios })
         })
     } else {
-      queries.getPortfolioNum(req.body.portfolio_name)
+      queries.searchPortfolios.getByName(req.body.portfolio_name)
         .then(portfolio => {
           queries
             .updateProject(req.params.project_tp_num, req.body.project_name, req.body.srm,

@@ -1,4 +1,4 @@
-const queries = require('../app/db/queries')
+const queries = require('../../app/db/queries')
 
 module.exports = function (router) {
   // return full detail of a single lesson rendered onto html page

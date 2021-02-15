@@ -7,6 +7,7 @@ var routes = [
   // search
   require('./search/search.js'),
   require('./search/home_search.js'),
+  require('./search/search_actions.js'),
   require('./search/search_lessons.js'),
   require('./search/search_projects.js'),
   require('./search/search_campaigns.js'),
@@ -22,15 +23,17 @@ var routes = [
   require('./create/create_conference.js'),
 
   // bulk upload
-  require('./bulk_upload_new.js'),
+  require('./bulk_upload.js'),
 
   // view
-  require('./view_lesson.js'),
-  require('./view_project.js'),
+  require('./view/view_action.js'),
+  require('./view/view_lesson.js'),
+  require('./view/view_project.js'),
 
   // update
-  require('./update_lesson.js'),
-  require('./update_project.js'),
+  require('./update/update_action.js'),
+  require('./update/update_lesson.js'),
+  require('./update/update_project.js'),
 
   // delete
   require('./delete/delete_lesson.js'),

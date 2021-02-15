@@ -1,9 +1,62 @@
-const knex = require('./knex');
-const queries = require('./queries')
-
+const knex = require('./knex')
   // TODO - replace 'like' with 'ilike' for PSQL
 
 module.exports = {
+  searchActions: {
+    getAll: function() {
+      // SELECT * FROM action_details;
+      return knex('action_details');
+    },
+    getBySearchFields: function(lessonId, projectName, actionOwner, dateFromDay,
+      dateFromMonth, dateFromYear, dateToDay, dateToMonth, dateToYear) {
+      let query = knex.select()
+        .table('action_details') //SELECT * FROM lesson_details;
+        .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
+        .leftOuterJoin('project_details', 'lesson_details.project_tp_num', 'project_details.project_tp_num')
+        .orderBy('lesson_id', 'asc');
+
+      if (lessonId !== "") { // include only if field is not blank
+        query.where('lesson_details.lesson_id', 'like', `%${lessonId}%`);
+      }
+
+      if (projectName !== "") { // include only if field is not blank
+        query.where(function() {
+          this.where('project_details.project_name', 'like', `%${projectName}%`)
+          .orWhere('lesson_details.project_tp_num', 'like', `%${projectName}%`);
+        })
+      }
+
+      if (actionOwner !== "") { // include only if field is not blank
+        query.where('action_details.action_owner', 'like', `%${actionOwner}%`);
+      }
+
+      if(dateFromDay !== "" && dateFromMonth !== "" && dateFromYear !== "") { // include only if field is not blank
+        // dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0); // PSQL
+        dateFrom = '' + `${dateFromYear}` + '-' + `${dateFromMonth}` + '-' + `${dateFromDay}` // sqlite3
+        query.where('lesson_details.date_added', '>', dateFrom);
+      }
+
+      if(dateToDay !== "" && dateToMonth !== "" && dateToYear !== "") { // include only if field is not blank
+        // dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00); // PSQL
+        dateTo = '' + `${dateToYear}` + '-' + `${dateToMonth}` + '-' + `${dateToDay}` // sqlite3
+        query.where('lesson_details.date_added', '>', dateTo);
+      }
+
+      return query
+    },
+    getByLesson: function() {
+      // TODO
+    },
+    getById: function(id) {
+      let query = knex.select()
+        .from('action_details')
+        .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
+        .where('action_id', id);
+      ;
+
+      return query;
+    }
+  },
   searchLessons: {
     getAll: function() {
       //SELECT * FROM lesson_details;
@@ -38,14 +91,14 @@ module.exports = {
       //SELECT * FROM lesson_details WHERE lesson_name = lessonName, project_name = projectName etc...;
 
       let query = knex.select()
-        .table('lesson_details') //SELECT * FROM lesson_details;
+        .table('lesson_details') // SELECT * FROM lesson_details;
         .leftOuterJoin('project_details', 'lesson_details.project_tp_num', 'project_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
         .leftOuterJoin('category_details', 'lesson_details.category', 'category_details.category_id')
         .leftOuterJoin('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
         .orderBy('lesson_id', 'asc');
 
-      if(lessonName !== "") { //include only if field is not blank
+      if(lessonName !== "") { // include only if field is not blank
         var initStr = `${lessonName}`;
         var lowBound = initStr.replace(/\*/g, '/\d/');
         var upBound = initStr.replace(/\*/g, '9');
@@ -54,14 +107,14 @@ module.exports = {
         //query.where('lesson_details.lesson_id', '<=', upBound)
       }
 
-      if(projectName !== "") { //include only if field is not blank
+      if(projectName !== "") { // include only if field is not blank
         query.where(function() {
           this.where('project_details.project_name', 'like', `%${projectName}%`)
           .orWhere('lesson_details.project_tp_num', 'like', `%${projectName}%`);
         })
       }
 
-      if(projectType !== "") { //include search param only if field is not blank
+      if(projectType !== "") { // include search param only if field is not blank
         query.where('project_details.project_type', 'like', `%${projectType}%`);
       }
 
@@ -73,7 +126,7 @@ module.exports = {
         query.where('category_details.category_name', 'like', `%${category}%`);
       }
 
-      if(type !== "") { //include only if field is not blank
+      if(type !== "") { // include only if field is not blank
         if(type === "What went well") {
           type = "WWW";
         }
@@ -83,13 +136,13 @@ module.exports = {
         query.where('lesson_details.www_ebi', 'like', `%${type}%`);
       }
 
-      if(dateFromDay !== "") { //include only if field is not blank
+      if(dateFromDay !== "" && dateFromMonth !== "" && dateFromYear !== "") { // include only if field is not blank
         // dateFrom = new Date(`${dateFromYear}`, `${dateFromMonth}`-1, `${dateFromDay}`, 0, 0, 0); // PSQL
         dateFrom = '' + `${dateFromYear}` + '-' + `${dateFromMonth}` + '-' + `${dateFromDay}` // sqlite3
         query.where('lesson_details.date_added', '>', dateFrom);
       }
 
-      if(dateToDay !== "") { //include only if field is not blank
+      if(dateToDay !== "" && dateToMonth !== "" && dateToYear !== "") { // include only if field is not blank
         // dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00); // PSQL
         dateTo = '' + `${dateToYear}` + '-' + `${dateToMonth}` + '-' + `${dateToDay}` // sqlite3
         query.where('lesson_details.date_added', '>', dateTo);
@@ -322,6 +375,12 @@ module.exports = {
     },
     getById: function(id) {
       return knex('portfolio_details').where('portfolio_id', `${id}`);
+    },
+    getByName: function(name) {
+      let query = knex.select('portfolio_id')
+        .from('portfolio_details')
+        .where({portfolio_name:name});
+      return query
     }
   },
   searchCategories: {
@@ -335,7 +394,30 @@ module.exports = {
     },
     getByName: function(name) {
       return knex('category_details').where('category_name', `${name}`);
+    },
+    getTrending: function() {
+      // PSQL
+      // return knex.raw("SELECT category, COUNT(category) volume FROM lesson_details WHERE date_added > now() - interval '1 year' GROUP BY category ORDER BY volume DESC LIMIT 4;")
+
+      // sqlite3
+      let query = knex.raw('SELECT category_details.category_name, COUNT(lesson_details.category) AS volume\
+        FROM lesson_details\
+        LEFT OUTER JOIN category_details ON category_details.category_id = lesson_details.category\
+        WHERE date_added > date("now","-24 months")\
+        GROUP BY category\
+        ORDER BY volume DESC;')
+
+      return query
     }
+  },
+  createAction: function(lessonId, actionDetails, actionOwner, dayAdded, monthAdded, yearAdded) {
+    let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
+
+    let query = knex.insert({lesson_id: `${lessonId}`, action_details: `${actionDetails}`,
+      action_owner: `${actionOwner}`, target_date: dateAdded}) // target date uses current system time. Needs fixed
+      .into('action_details')
+      ;
+    return query
   },
   createLesson: function(project_tp_num, dateAdded, category, type, identified_by, identifiers_area,
     how_identified, summary, details) {
@@ -348,15 +430,6 @@ module.exports = {
       .into('lesson_details')
     ;
 
-  },
-  createAction: function(lessonId, actionDetails, actionOwner, dayAdded, monthAdded, yearAdded) {
-    let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
-
-    let query = knex.insert({lesson_id: `${lessonId}`, action_details: `${actionDetails}`,
-      action_owner: `${actionOwner}`, target_date: dateAdded}) // target date uses current system time. Needs fixed
-      .into('action_details')
-      ;
-    return query
   },
   createProject: function(projectName, projectTpNum, dateAdded, dateClosedDay, dateClosedMonth,
     dateClosedYear, portfolio, srm, status) {
@@ -439,6 +512,9 @@ module.exports = {
       .into('category_details')
     ;
   },
+  updateAction: function() {
+    // TODO
+  },
   updateLesson: function(projectId, lessonId, newTpNum, startDay, startMonth, startYear,
     category, type, identifiedBy, identifiersArea, howIdentified, uploadedBy,
     summary, details) {
@@ -518,6 +594,9 @@ module.exports = {
 
     return query;
   },
+  deleteAction: function() {
+    // TODO
+  },
   deleteLessontest: function(lessonId) {
     let query = knex.raw('UPDATE lesson_details SET deleted = 1 WHERE lesson_id = \'' + `${lessonId}` + '\';')
 
@@ -542,7 +621,7 @@ module.exports = {
     return knex('project_details')
       .where({project_tp_num:projectTpNum})
       .del();
-  },
+  }
   // reinstateLesson: function(projectTpNum, lessonId) {
   //   return = knex('lesson_details')
   //     .where({project_tp_num:projectTpNum, lesson_id:lessonId})
@@ -557,25 +636,5 @@ module.exports = {
   //   return = knex('project_details')
   //     .where({project_tp_num:projectTpNum})
   //     .update('deleted', 'f');
-  // },
-  getTrendingCategories: function() {
-    // PSQL
-    // return knex.raw("SELECT category, COUNT(category) volume FROM lesson_details WHERE date_added > now() - interval '1 year' GROUP BY category ORDER BY volume DESC LIMIT 4;")
-
-    // sqlite3
-    let query = knex.raw('SELECT category_details.category_name, COUNT(lesson_details.category) AS volume\
-      FROM lesson_details\
-      LEFT OUTER JOIN category_details ON category_details.category_id = lesson_details.category\
-      WHERE date_added > date("now","-24 months")\
-      GROUP BY category\
-      ORDER BY volume DESC;')
-
-    return query
-  },
-  getPortfolioNum: function(portfolioName) {
-    let query = knex.select('portfolio_id')
-      .from('portfolio_details')
-      .where({portfolio_name:portfolioName});
-    return query
-  }
+  // }
 }
