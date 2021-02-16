@@ -15,6 +15,7 @@ module.exports = function (router) {
   })
 
   router.post('/create_action', (req, res) => {
+    console.log(req.body)
     const actionCreated = true
     const err = {
       actionDetails: {},
@@ -62,16 +63,17 @@ module.exports = function (router) {
             res.render('create/create_action.html', { reqjson, createLesson, actionCreated })
           } else if (req.body.new_lesson !== undefined) { // new lesson
             reqjson = req.body
-            console.log(req.body)
-
             queries.searchCategories.getAll()
               .then(categories => {
                 res.render('create/create_lesson.html', { reqjson, categories })
               })
           } else if (req.body.go_home !== undefined) { // return home
             res.redirect('/home')
+          } else if (req.body.save !== undefined) { // for manual creation of actions
+            res.redirect('view/' + req.body.projectTpNum + '-' + req.body.lessonId)
           } else {
             console.log('something went wrong')
+            res.render('500.html')
           }
         })
     }

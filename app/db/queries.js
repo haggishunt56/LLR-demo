@@ -44,8 +44,13 @@ module.exports = {
 
       return query
     },
-    getByLesson: function() {
-      // TODO
+    getByLesson: function(lessonId) {
+      let query = knex.select()
+        .from('action_details')
+        .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
+        .where('action_details.lesson_id', lessonId);
+      ;
+      return query
     },
     getById: function(id) {
       let query = knex.select()

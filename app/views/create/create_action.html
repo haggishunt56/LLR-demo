@@ -31,7 +31,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
 
-      {% if not actionCreated %}
+      {% if createLesson.confirm %}
       <div class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title">
           Lesson added
@@ -79,7 +79,7 @@
       </div>
       {% endif %}
 
-      <form class="form" action="create_action" method="post" enctype='application/json'>
+      <form class="form" {% if not createLesson.manual %} action="create_action" {% else %} action="../create_action" {% endif %} method="post" enctype='application/json'>
 
         <div class='govuk-form-group'>
           <input type="hidden" id="projectTpNum" name="projectTpNum" value={{createLesson.projectTpNum}}>
@@ -170,9 +170,13 @@
 
         <br>
 
-        <input data-prevent-double-click="true" type="submit" draggable="false" name="new_action" value="Save and add another action" class="govuk-button">
-        <input data-prevent-double-click="true" type="submit" draggable="false" name="new_lesson" value="Save and add a new lesson" class="govuk-button">
-        <input data-prevent-double-click="true" type="submit" draggable="false" name="go_home" value="Save and return home" class="govuk-button govuk-button--secondary">
+        {% if not createLesson.manual %}
+          <input data-prevent-double-click="true" type="submit" draggable="false" name="new_action" value="Save and add another action" class="govuk-button">
+          <input data-prevent-double-click="true" type="submit" draggable="false" name="new_lesson" value="Save and add a new lesson" class="govuk-button">
+          <input data-prevent-double-click="true" type="submit" draggable="false" name="go_home" value="Save and return home" class="govuk-button govuk-button--secondary">
+        {% else %}
+          <input data-prevent-double-click="true" type="submit" draggable="false" name="save" value="Save" class="govuk-button">
+        {% endif %}
 
       </form>
 

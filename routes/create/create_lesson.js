@@ -136,7 +136,8 @@ module.exports = function (router) {
                 .then(lessonId => {
                   const createLesson = req.body
                   createLesson.lesson_id = lessonId
-                  res.render('create/create_action.html', { createLesson }) // display success page
+                  createLesson.confirm = true
+                  res.render('create/create_action.html', { createLesson })
                 })
             })
         }

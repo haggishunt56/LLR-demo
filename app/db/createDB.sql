@@ -34,6 +34,8 @@ CONSTRAINT fk_portfolio
    ON DELETE CASCADE
 );
 
+
+/* make the two column primary key unique and the auto-increment key primary. */
 CREATE TABLE lesson_details (
 lesson_id INTEGER PRIMARY KEY AUTOINCREMENT,
 project_tp_num VARCHAR(7) NOT NULL,

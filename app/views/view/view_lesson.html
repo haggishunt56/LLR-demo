@@ -115,6 +115,31 @@
       </a>
       {% endif %}
 
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Action number</th>
+            <th scope="col" class="govuk-table__header">Action owner</th>
+            <th scope="col" class="govuk-table__header">Target date</th>
+            <th scope="col" class="govuk-table__header">Completion date</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% asyncEach action in action_details %}
+          <tr class="govuk-table__row">
+            <td scope="row" class="govuk-table__header"><a href='/view/{{action.project_tp_num}}-{{action.lesson_id}}.{{action.action_id}}'>{{action.project_tp_num}}-{{action.lesson_id}}.{{action.action_id}}</a></td>
+            <td class="govuk-table__cell">{{action.action_owner}}</td>
+            <td class="govuk-table__cell">{{action.target_date | date}}</td>
+            <td class="govuk-table__cell">{{action.completion_date | date}}</td>
+          </tr>
+          {% endeach %}
+        </tbody>
+      </table>
+
+      <form class="form" action="../add_action/{{action_details[0].project_tp_num}}-{{action_details[0].lesson_id}}" method="post" enctype='application/json'>
+        <input type="submit" draggable="false" value="Add an action" class="govuk-button govuk-button--secondary">
+      </form>
+
     </div>
   </div>
 
