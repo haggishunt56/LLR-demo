@@ -36,13 +36,33 @@
 
       <h1 class="govuk-heading-xl">Search for a lesson</h1>
 
+      {% if err.NaN %}
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
+              <a href="#lessonName">The lesson ID can contain only numbers</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
       <form class="form" action="/search_lessons" method="post" enctype='application/json'>
 
-        <div class="govuk-form-group"> <!-- Lesson name field -->
+        <div {% if err.NaN %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} > <!-- Lesson name field -->
           <label class="govuk-label--s" for="Lesson name">
             Lesson ID
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="lessonName" name="lessonName" type="text" pattern="[0-9]*" value="{{reqjson.lessonName}}">
+          {% if err.NaN %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> The lesson ID can contain only numbers
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="lessonName" name="lessonName" type="text" value="{{reqjson.lessonName}}">
         </div>
 
         <div class="govuk-form-group"> <!-- Project name field -->
@@ -181,7 +201,7 @@
               </div>
             </div>
             </fieldset>
-        </div>
+        </div><br>
 
         <!-- <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" aria-describedby="include-deleted">
