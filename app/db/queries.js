@@ -49,7 +49,6 @@ module.exports = {
         .from('action_details')
         .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
         .where('action_details.lesson_id', lessonId);
-      ;
       return query
     },
     getById: function(id) {
@@ -57,8 +56,6 @@ module.exports = {
         .from('action_details')
         .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
         .where('action_id', id);
-      ;
-
       return query;
     }
   },

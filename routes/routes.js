@@ -1,5 +1,6 @@
 var routes = [
   require('./index.js'),
+  require('./login.js'),
 
   // home
   require('./home/home.js'),
