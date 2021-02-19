@@ -339,46 +339,6 @@
           </div>
         </div>
 
-        <!-- target date field -->
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-              <h1 class="govuk-fieldset__heading">
-                Target date
-              </h1>
-            </legend>
-            <span id="date-from" class="govuk-hint">
-              Date all actions should be completed by. For example, 12 11 2007
-            </span>
-            <div class="govuk-date-input" id="date-added">
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-added-day">
-                    Day
-                  </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_day" name="target_date_day" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].target_day}}">
-                </div>
-              </div>
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-added-month">
-                    Month
-                  </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_date_month" name="target_date_month" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].target_month}}">
-                </div>
-              </div>
-              <div class="govuk-date-input__item">
-                <div class="govuk-form-group">
-                  <label class="govuk-label govuk-date-input__label" for="date-added-year">
-                    Year
-                  </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="target_date_year" name="target_date_year" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].target_year}}">
-                </div>
-              </div>
-            </div>
-          </fieldset>
-        </div>
-
         <input type="submit" draggable="false" value="Update" class="govuk-button">
 
       </form>
