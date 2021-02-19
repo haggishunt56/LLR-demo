@@ -172,7 +172,17 @@
           <tr class="govuk-table__row">
             <td scope="row" class="govuk-table__header"><a href='/view/{{lesson.project_tp_num}}-{{lesson.lesson_id}}'>{{lesson.project_tp_num}}-{{lesson.lesson_id}}</a></td>
             <td class="govuk-table__cell">{{lesson.project_tp_num}}</td>
-            <td class="govuk-table__cell">{{lesson.www_ebi}}</td>
+            <td class="govuk-table__cell">
+              <div class="tooltip">{{lesson.www_ebi}}
+                <div class="tooltiptext">
+                  {% if lesson.www_ebi == "www" or lesson.www_ebi == "WWW" %}
+                    what went well
+                  {% else %}
+                    even better if
+                  {% endif %}
+                </div>
+              </div>
+            </td>
             <td class="govuk-table__cell">{{lesson.category_name}}</td>
             <td class="govuk-table__cell">{{lesson.date_added | date}}</td>
           </tr>

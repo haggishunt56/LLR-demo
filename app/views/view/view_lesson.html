@@ -62,7 +62,17 @@
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">WWW/EBI</th>
-            <td class="govuk-table__cell">{{lesson_details[0].www_ebi}}</td>
+            <td class="govuk-table__cell">
+              <div class="tooltip">{{lesson_details[0].www_ebi}}
+                <div class="tooltiptext">
+                  {% if lesson_details[0].www_ebi == "www" or lesson_details[0].www_ebi == "WWW" %}
+                    what went well
+                  {% else %}
+                    even better if
+                  {% endif %}
+                </div>
+              </div>
+            </td>
           </tr>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Portfolio</th>
