@@ -531,36 +531,28 @@ module.exports = {
       .returning('*');
   },
   updateProject: function(projectTpNum, projectName, srm, status, portfolio,
-    startDateDay, startDateMonth, startDateYear, closeDateDay, closeDateMonth,
-    closeDateYear) {
+    startDate, closeDate, closeDateExists) {
 
-    const startDateString = '' + `${startDateYear}` + '-' + `${startDateMonth}` + '-' + `${startDateDay}`
-
-    if (`${closeDateYear}` !== '' && `${closeDateMonth}` !== '' && `${closeDateDay}` !== '') {
-
-      const closedDateString = '' + `${closeDateYear}` + '-' + `${closeDateMonth}` + '-' + `${closeDateDay}`;
+    if (closeDateExists) {
       query = knex.raw('UPDATE project_details\
         SET project_name = \'' + `${projectName}` + '\',\
-          start_date = \'' + startDateString + '\',\
-          closure_date = \'' + closedDateString + '\',\
+          start_date = \'' + startDate + '\',\
+          closure_date = \'' + closeDate + '\',\
           srm = \'' + `${srm}` + '\',\
           status = \'' + `${status}` + '\',\
           portfolio = \'' + `${portfolio}` + '\'\
         WHERE project_details.project_tp_num = \'' + `${projectTpNum}` + '\';'
       )
-
     } //only include value of closed date if data entered
     else {
-
       query = knex.raw('UPDATE project_details\
         SET project_name = \'' + `${projectName}` + '\',\
-          start_date = \'' + startDateString + '\',\
+          start_date = \'' + startDate + '\',\
           srm = \'' + `${srm}` + '\',\
           status = \'' + `${status}` + '\',\
           portfolio = \'' + `${portfolio}` + '\'\
         WHERE project_details.project_tp_num = \'' + `${projectTpNum}` + '\';'
       )
-
     }
 
     return query;

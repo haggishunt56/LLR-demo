@@ -7,13 +7,26 @@ module.exports = function (router) {
       .searchProjects
       .getByTpNum(req.params.proj_tp_num)
       .then(projectDetails => {
+        if (projectDetails[0].project_type === 'project') {
+          projectDetails[0].isProject = true
+        } else if (projectDetails[0].project_type === 'campaign') {
+          projectDetails[0].isCampaign = true
+        } else if (projectDetails[0].project_type === 'conference') {
+          projectDetails[0].isConference = true
+        }
         queries.searchPortfolios.getActive()
           .then(activePortfolios => {
-            const dateNow = new Date(projectDetails[0].start_date)
-            projectDetails[0].start_day = dateNow.getDate()
-            projectDetails[0].start_month = dateNow.getMonth() + 1
-            projectDetails[0].start_year = dateNow.getFullYear()
+            const startDate = new Date(projectDetails[0].start_date)
+            projectDetails[0].start_day = startDate.getDate()
+            projectDetails[0].start_month = startDate.getMonth() + 1
+            projectDetails[0].start_year = startDate.getFullYear()
 
+            if (!(projectDetails[0].closure_date == undefined)) {
+              const endDate = new Date(projectDetails[0].closure_date)
+              projectDetails[0].closure_day = endDate.getDate()
+              projectDetails[0].closure_month = endDate.getMonth() + 1
+              projectDetails[0].closure_year = endDate.getFullYear()
+            }
             res.render('../views/update/update_project.html', { projectDetails, activePortfolios })
           })
       })
@@ -23,7 +36,6 @@ module.exports = function (router) {
   router.post('/update/:project_tp_num', (req, res) => { //
     // validate empty fields
     const err = {
-      summarise: {},
       project_name: {},
       srm: {},
       portfolio: {},
@@ -37,6 +49,55 @@ module.exports = function (router) {
     if (req.body.project_name.length > 100) {
       err.project_name.tooLong = true
       err.summarise = true
+    }
+
+    const dateRegEx = new RegExp('^0*$')
+    if(
+        req.body.start_year == "" ||
+        req.body.start_month == "" ||
+        req.body.start_day == "" ||
+        isNaN(req.body.start_year) ||
+        isNaN(req.body.start_month) ||
+        isNaN(req.body.start_day) ||
+        dateRegEx.test(req.body.start_year) ||
+        dateRegEx.test(req.body.start_month) ||
+        dateRegEx.test(req.body.start_day) ||
+        req.body.start_day > 31 ||
+        req.body.start_day < 0 ||
+        req.body.start_month > 12 ||
+        req.body.start_month < 0 ||
+        req.body.start_year < 1970
+        ) {
+      err.startDate = true
+      err.summarise = true
+    } else {
+      req.body.dateStarted = new Date(req.body.start_year, req.body.start_month - 1, req.body.start_day, 0, 0, 0, 0)
+    }
+
+    if (
+        req.body.closure_year == '' &&
+        req.body.closure_month == '' &&
+        req.body.closure_day == ''
+        ) {
+      // do nothing
+    } else if(
+        isNaN(req.body.closure_year) ||
+        isNaN(req.body.closure_month) ||
+        isNaN(req.body.closure_day) ||
+        dateRegEx.test(req.body.closure_year) ||
+        dateRegEx.test(req.body.closure_month) ||
+        dateRegEx.test(req.body.closure_day) ||
+        req.body.closure_day > 31 ||
+        req.body.closure_day < 0 ||
+        req.body.closure_month > 12 ||
+        req.body.closure_month < 0 ||
+        req.body.closure_year < 1970
+        ) {
+      err.closedDate = true
+      err.summarise = true
+    } else {
+      req.body.dateClosed = new Date(req.body.closure_year, req.body.closure_month - 1, req.body.closure_day, 0, 0, 0, 0)
+      req.body.dateClosedExists = true
     }
 
     if (req.body.start_day === '') {
@@ -76,10 +137,17 @@ module.exports = function (router) {
       err.summarise = true
     }
 
-    if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
+    if (err.summarise) {
       const projectDetails = [{}]
       projectDetails[0] = req.body
       projectDetails[0].project_tp_num = req.params.project_tp_num
+      if (projectDetails[0].project_type === 'project') {
+        projectDetails[0].isProject = true
+      } else if (projectDetails[0].project_type === 'campaign') {
+        projectDetails[0].isCampaign = true
+      } else if (projectDetails[0].project_type === 'conference') {
+        projectDetails[0].isConference = true
+      }
       queries
         .searchPortfolios
         .getActive()
@@ -91,9 +159,8 @@ module.exports = function (router) {
         .then(portfolio => {
           queries
             .updateProject(req.params.project_tp_num, req.body.project_name, req.body.srm,
-              req.body.status, portfolio[0].portfolio_id, req.body.start_day, req.body.start_month,
-              req.body.start_year, req.body.closure_day, req.body.closure_month,
-              req.body.closure_year)
+              req.body.status, portfolio[0].portfolio_id, req.body.dateStarted,
+              req.body.dateClosed, req.body.dateClosedExists)
             .then(projectDetails => {
               queries
                 .searchProjects
