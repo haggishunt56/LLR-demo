@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  LLR - Create Lesson
+  LLR - Create Conference
 {% endblock %}
 
 {% block beforeContent %}
@@ -21,7 +21,7 @@
     <li class="govuk-breadcrumbs__list-item">
       <a class="govuk-breadcrumbs__link" href="/home">Home</a>
     </li>
-    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create</li>
+    <li class="govuk-breadcrumbs__list-item" aria-current="page">Create Conference</li>
   </ol>
 </div>
 {% endblock %}
@@ -53,6 +53,16 @@
             {% if err.projectTpNum.notExists and not err.projectTpNum.blank %}
             <li>
               <a href="#projectTpNum">This is not a valid project. Please enter the number of an existing project, or create the project first.</a>
+            </li>
+            {% endif %}
+            {% if err.dateStarted %}
+            <li>
+              <a href="#dateStartedDay">Enter a valid date</a>
+            </li>
+            {% endif %}
+            {% if err.dateClosed %}
+            <li>
+              <a href="#dateClosedDay">Enter a valid date</a>
             </li>
             {% endif %}
             {% if err.category.blank %}
@@ -170,7 +180,7 @@
         </div>
 
         <!-- Date started field -->
-        <div {% if err.dateStarted.blank %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+        <div {% if err.dateStarted %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %}>
           <fieldset class="govuk-fieldset" role="group" aria-describedby="dateStarted">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <label class="govuk-fieldset__heading" for="dateStarted">
@@ -180,9 +190,9 @@
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>
-            {% if err.dateStarted.blank %}
+            {% if err.dateStarted %}
             <span id="event-name-error" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span> Enter the date the conference started
+              <span class="govuk-visually-hidden">Error:</span> Enter a valid date
             </span>
             {% endif %}
             <div class="govuk-date-input" id="date-added">
@@ -215,13 +225,18 @@
         </div>
 
         <!-- Closure date field -->
-        <div class="govuk-form-group">
+        <div {% if err.dateClosed %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %}>
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-closed">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
                 Date closed
               </h1>
             </legend>
+            {% if err.dateClosed %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter a valid date
+            </span>
+            {% endif %}
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>
@@ -231,7 +246,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-closed-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedDay" name="dateClosedDay" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedDay" name="dateClosedDay" type="text" value={{ reqjson.dateClosedDay }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -239,7 +254,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-closed-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedMonth" name="dateClosedMonth" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateClosedMonth" name="dateClosedMonth" type="text" value={{ reqjson.dateClosedMonth }}>
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -247,7 +262,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-closed-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateClosedYear" name="dateClosedYear" type="text" pattern="[0-9]*" inputmode="numeric">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateClosedYear" name="dateClosedYear" type="text" value={{ reqjson.dateClosedYear }}>
                 </div>
               </div>
             </div>

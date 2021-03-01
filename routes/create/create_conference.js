@@ -17,7 +17,56 @@ module.exports = function (router) {
       srm: {},
       status: {},
       dateStarted: {}
-    } // TODO include start and close date
+    }
+
+    const dateRegEx = new RegExp('^0*$')
+    if(
+        req.body.dateStartedYear == "" ||
+        req.body.dateStartedMonth == "" ||
+        req.body.dateStartedDay == "" ||
+        isNaN(req.body.dateStartedYear) ||
+        isNaN(req.body.dateStartedMonth) ||
+        isNaN(req.body.dateStartedDay) ||
+        dateRegEx.test(req.body.dateStartedYear) ||
+        dateRegEx.test(req.body.dateStartedMonth) ||
+        dateRegEx.test(req.body.dateStartedDay) ||
+        req.body.dateStartedDay > 31 ||
+        req.body.dateStartedDay < 0 ||
+        req.body.dateStartedMonth > 12 ||
+        req.body.dateStartedMonth < 0 ||
+        req.body.dateStartedYear < 1970
+        ) {
+      err.dateStarted = true
+      err.summarise = true
+    } else {
+      req.body.dateStarted = new Date(req.body.dateStartedYear, req.body.dateStartedMonth - 1, req.body.dateStartedDay, 0, 0, 0, 0)
+    }
+
+    if (
+        req.body.dateClosedYear == '' &&
+        req.body.dateClosedMonth == '' &&
+        req.body.dateClosedDay == ''
+        ) {
+      // do nothing
+    } else if(
+        isNaN(req.body.dateClosedYear) ||
+        isNaN(req.body.dateClosedMonth) ||
+        isNaN(req.body.dateClosedDay) ||
+        dateRegEx.test(req.body.dateClosedYear) ||
+        dateRegEx.test(req.body.dateClosedMonth) ||
+        dateRegEx.test(req.body.dateClosedDay) ||
+        req.body.dateClosedDay > 31 ||
+        req.body.dateClosedDay < 0 ||
+        req.body.dateClosedMonth > 12 ||
+        req.body.dateClosedMonth < 0 ||
+        req.body.dateClosedYear < 1970
+        ) {
+      err.dateClosed = true
+      err.summarise = true
+    } else {
+      req.body.dateClosed = new Date(req.body.dateClosedYear, req.body.dateClosedMonth - 1, req.body.dateClosedDay, 0, 0, 0, 0)
+      req.body.dateClosedExists = true
+    }
 
     if (req.body.projectName === '') {
       err.projectName.blank = true
@@ -82,8 +131,8 @@ module.exports = function (router) {
         } else { // query database if no errors
           queries
             .createConference(req.body.projectName, req.body.projectTpNum,
-              req.body.dateAdded, req.body.dateClosedDay,
-              req.body.dateClosedMonth, req.body.dateClosedYear, req.body.portfolio,
+              req.body.dateAdded, req.body.dateClosed,
+              req.body.dateClosedExists, req.body.portfolio,
               req.body.srm, req.body.status)
             .then(createConference => {
               const projectTpNum = req.body.projectTpNum

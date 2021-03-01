@@ -23,65 +23,75 @@ module.exports = function (router) {
     if (!req.files) {
       // return error if no file uploaded
       const err = {
-        noFileUploaded: true
+        noFileUploaded: true,
+        summary: true
       }
       res.render('./bulkupload.html', { err })
-    } else {
+    }else {
       var file = req.files.file
       var filename = file.name
       // TODO test that file is a .csv extenstion
 
-      file.mv('./uploads/' + filename, function (err) {
-        if (err) {
-          res.send(err)
-        } else {
-          let jsonObj = []
-          const csvFilePath = './uploads/' + filename
-          let err = {
-            projectId: { row: [], notExistsRow: [] },
-            dateAdded: { row: [] },
-            category: { row: [] },
-            lessonType: { row: [] },
-            identifiedBy: { row: [] },
-            identifiersArea: { row: [] },
-            howIdentifed: { row: [] },
-            summary: { row: [] },
-            description: { row: [] }
-          }
-
-          csv()
-          .fromFile(csvFilePath)
-          .then(csv => {
-            jsonObj = csv // pass values from csv file into jsonObj object, so that they can be used by subsequent functions
-          })
-          .then(script => err = validateFields(jsonObj, err)) // check that fields are not empty or too long
-          .then(script => jsonObj = updateDate(jsonObj)) // format date field
-          .then(script => err = checkForProject(jsonObj, err)) // check project exists
-          .then(script => err = checkForCategory(jsonObj, err)) // check category exists
-          // .then(script => jsonObj = updateCat(jsonObj)) // format category field. Currently not working
-          .then(setTimeout(waitForQueries => {
-            if (err.summarise) { // if error checking has returned errors
-              console.log(err)
-              setTimeout(wait => { res.render('./bulkupload.html', { err }) }, 80) // display errors
-            } else { // if no errors
-              for (var i = 0; i < jsonObj.length; i++) {
-                // add lessons to database
-                queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
-                  jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
-                  jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
-                  jsonObj[i].Summary, jsonObj[i].LessonDescription)
-                  .then()
-                  rowsAdded = i + 1
-              }
-              setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 80) // display success
+      if (!(filename.split('.').pop() == 'csv')) {
+       // return error if something other than csv uploaded
+       const err = {
+         notCSV: true,
+         summary: true
+       }
+       res.render('./bulkupload.html', { err })
+      } else {
+        file.mv('./uploads/' + filename, function (err) {
+          if (err) {
+            res.send(err)
+          } else {
+            let jsonObj = []
+            const csvFilePath = './uploads/' + filename
+            let err = {
+              projectId: { row: [], notExistsRow: [] },
+              dateAdded: { row: [] },
+              category: { row: [] },
+              lessonType: { row: [] },
+              identifiedBy: { row: [] },
+              identifiersArea: { row: [] },
+              howIdentifed: { row: [] },
+              summary: { row: [] },
+              description: { row: [] }
             }
-          }, 80) /* Application must wait before proceeding, to allow time for
-                 queries to return errors. Otherwise, asynchronous
-                 operation will continue to create lessons without waiting
-                 for the result of error checks. */
-          )
-        }
-      })
+
+            csv()
+            .fromFile(csvFilePath)
+            .then(csv => {
+              jsonObj = csv // pass values from csv file into jsonObj object, so that they can be used by subsequent functions
+            })
+            .then(script => err = validateFields(jsonObj, err)) // check that fields are not empty or too long
+            .then(script => jsonObj = updateDate(jsonObj)) // format date field
+            .then(script => err = checkForProject(jsonObj, err)) // check project exists
+            .then(script => err = checkForCategory(jsonObj, err)) // check category exists
+            // .then(script => jsonObj = updateCat(jsonObj)) // format category field. Currently not working
+            .then(setTimeout(waitForQueries => {
+              if (err.summarise) { // if error checking has returned errors
+                console.log(err)
+                setTimeout(wait => { res.render('./bulkupload.html', { err }) }, 80) // display errors
+              } else { // if no errors
+                for (var i = 0; i < jsonObj.length; i++) {
+                  // add lessons to database
+                  queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
+                    jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
+                    jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
+                    jsonObj[i].Summary, jsonObj[i].LessonDescription)
+                    .then()
+                    rowsAdded = i + 1
+                }
+                setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 80) // display success
+              }
+            }, 80) /* Application must wait before proceeding, to allow time for
+                   queries to return errors. Otherwise, asynchronous
+                   operation will continue to create lessons without waiting
+                   for the result of error checks. */
+            )
+          }
+        })
+      }
     }
   })
 }

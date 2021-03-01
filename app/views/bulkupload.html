@@ -47,14 +47,6 @@
         </div>
     {% endif %}
 
-    {% if err.noFileUploaded %}
-    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-      <h2 class="govuk-error-summary__title" id="error-summary-title">
-        No file selected. Please select a file to upload
-      </h2>
-    </div>
-    {% endif %}
-
     {% if err.summary %}
     <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
       <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -62,6 +54,16 @@
       </h2>
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
+          {% if err.noFileUploaded %}
+          <li>
+            No file selected. Select a file to upload
+          </li>
+          {% endif %}
+          {% if err.notCSV %}
+          <li>
+            File not recognised. Use the template provided
+          </li>
+          {% endif %}
           {% if err.projectId.blank or err.projectId.tooLong %}
           <li>
             <details class="govuk-details" data-module="govuk-details">
