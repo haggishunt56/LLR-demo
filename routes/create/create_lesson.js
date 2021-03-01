@@ -25,7 +25,6 @@ module.exports = function (router) {
 
   router.post('/create_lesson', (req, res) => {
     const err = {
-      summarise: {},
       projectTpNum: {},
       category: {},
       lessonType: {},
@@ -45,7 +44,28 @@ module.exports = function (router) {
       err.summarise = true
     }
 
-    req.body.dateAdded = new Date(req.body.year_added, req.body.month_added - 1, req.body.day_added, 0, 0, 0, 0)
+    const dateRegEx = new RegExp('^0*$')
+    if(
+        req.body.year_added == "" ||
+        req.body.month_added == "" ||
+        req.body.day_added == "" ||
+        isNaN(req.body.year_added) ||
+        isNaN(req.body.month_added) ||
+        isNaN(req.body.day_added) ||
+        dateRegEx.test(req.body.year_added) ||
+        dateRegEx.test(req.body.month_added) ||
+        dateRegEx.test(req.body.day_added) ||
+        req.body.day_added > 31 ||
+        req.body.day_added < 0 ||
+        req.body.month_added > 12 ||
+        req.body.month_added < 0 ||
+        req.body.year_added < 1970
+        ) {
+      err.dateAdded = true
+      err.summarise = true
+    } else {
+      req.body.dateAdded = new Date(req.body.year_added, req.body.month_added - 1, req.body.day_added, 0, 0, 0, 0)
+    }
 
     if (req.body.category === 'none') {
       err.category.blank = true
@@ -117,7 +137,7 @@ module.exports = function (router) {
         const reqjson = req.body
 
         // summarise and send errors
-        if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
+        if (err.summarise) {
           queries.searchCategories.getAll()
             .then(categories => {
               res.render('create/create_lesson.html', { err, reqjson, categories })

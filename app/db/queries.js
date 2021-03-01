@@ -39,7 +39,7 @@ module.exports = {
       if(dateToDay !== "" && dateToMonth !== "" && dateToYear !== "") { // include only if field is not blank
         // dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00); // PSQL
         dateTo = '' + `${dateToYear}` + '-' + `${dateToMonth}` + '-' + `${dateToDay}` // sqlite3
-        query.where('lesson_details.date_added', '>', dateTo);
+        query.where('lesson_details.date_added', '<', dateTo);
       }
 
       return query
@@ -147,7 +147,7 @@ module.exports = {
       if(dateToDay !== "" && dateToMonth !== "" && dateToYear !== "") { // include only if field is not blank
         // dateTo = new Date(`${dateToYear}`, `${dateToMonth}`-1, `${dateToDay}`-(-1), 01, 00, 00); // PSQL
         dateTo = '' + `${dateToYear}` + '-' + `${dateToMonth}` + '-' + `${dateToDay}` // sqlite3
-        query.where('lesson_details.date_added', '>', dateTo);
+        query.where('lesson_details.date_added', '<', dateTo);
       }
 
       if(!includeDeleted) {

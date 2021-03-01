@@ -56,6 +56,11 @@
               <a href="#project_tp_num">Enter the TP number of the project, for example, "TP081"</a>
             </li>
             {% endif %}
+            {% if err.dateAdded %}
+            <li>
+              <a href="#day_added">Enter a valid date</a>
+            </li>
+            {% endif %}
             {% if err.category.blank %}
             <li>
               <a href="#category">Select a category</a>
@@ -141,14 +146,19 @@
           <input class="govuk-input govuk-!-width-two-thirds" id="project_tp_num" name="project_tp_num" type="text" value="{{ lessonDetails[0].project_tp_num }}">
         </div>
 
-        <!-- date added field --> <!-- TODO validation -->
-        <div class="govuk-form-group" >
+        <!-- date added field -->
+        <div {% if err.dateAdded %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %}>
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
                 Date added
               </h1>
             </legend>
+            {% if err.dateAdded %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter a valid date
+            </span>
+            {% endif %}
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>
@@ -158,7 +168,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day_added" name="day_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].day_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day_added" name="day_added" type="text" value="{{lessonDetails[0].day_added}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -166,7 +176,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month_added" name="month_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].month_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month_added" name="month_added" type="text" value="{{lessonDetails[0].month_added}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -174,7 +184,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year_added" name="year_added" type="text" pattern="[0-9]*" inputmode="numeric" value="{{lessonDetails[0].year_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year_added" name="year_added" type="text" value="{{lessonDetails[0].year_added}}">
                 </div>
               </div>
             </div>

@@ -74,6 +74,11 @@
               <a href="#actionOwner">Action owner cannot be longer than 45 characters</a>
             </li>
             {% endif %}
+            {% if err.targetDate %}
+            <li>
+              <a href="#target_day">Enter a valid date</a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -129,13 +134,18 @@
         </div>
 
         <!-- target date field -->
-        <div class="govuk-form-group">
+        <div {% if err.targetDate %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %}>
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
                 Target date
               </h1>
             </legend>
+            {% if err.targetDate %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter a valid date
+            </span>
+            {% endif %}
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>
@@ -145,7 +155,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_day" name="target_day" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.day_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_day" name="target_day" type="text" value="{{reqjson.target_day}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -153,7 +163,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_month" name="target_month" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.month_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="target_month" name="target_month" type="text" value="{{reqjson.target_month}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -161,7 +171,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-added-year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="target_year" name="target_year" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.year_added}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="target_year" name="target_year" type="text" value="{{reqjson.target_year}}">
                 </div>
               </div>
             </div>

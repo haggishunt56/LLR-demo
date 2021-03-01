@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  LLR - Search Lessons
+  LLR - Search Actions
 {% endblock %}
 
 {% block beforeContent %}
@@ -36,13 +36,45 @@
 
       <h1 class="govuk-heading-xl">Search for an action</h1>
 
+      {% if err.summarise %}
+      <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            {% if err.NaN %}
+            <li>
+              <a href="#lessonName">The lesson ID can contain only numbers</a>
+            </li>
+            {% endif %}
+            {% if err.dateFrom %}
+              <li>
+                <a href="#dateFromDay">Enter a valid date to search from</a>
+              </li>
+            {% endif %}
+            {% if err.dateTo %}
+              <li>
+                <a href="#dateToDay">Enter a valid date to search to</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+
       <form class="form" action="/search_actions" method="post" enctype='application/json'>
 
-        <div class="govuk-form-group"> <!-- Lesson name field -->
+        <div {% if err.NaN %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} > <!-- Lesson name field -->
           <label class="govuk-label--s" for="Lesson name">
             Lesson ID
           </label><br>
-          <input class="govuk-input govuk-!-width-two-thirds" id="lessonId" name="lessonId" type="text" pattern="[0-9]*" value="{{reqjson.lessonId}}">
+          {% if err.NaN %}
+          <span id="event-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> The lesson ID can contain only numbers
+          </span>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds" id="lessonId" name="lessonId" type="text" value="{{reqjson.lessonId}}">
         </div>
 
         <div class="govuk-form-group"> <!-- Project name field -->
@@ -62,13 +94,18 @@
           <input class="govuk-input govuk-!-width-two-thirds" id="actionOwner" name="actionOwner" type="text" value="{{reqjson.actionOwner}}">
         </div>
 
-        <div class="govuk-form-group"> <!-- date from field -->
+        <div {% if err.dateFrom %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %}> <!-- date from field -->
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-from">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
                 Target date from
               </h1>
             </legend>
+            {% if err.dateFrom %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter a valid date
+            </span>
+            {% endif %}
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>
@@ -78,7 +115,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-from-day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromDay" name="dateFromDay" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value="{{reqjson.dateFromDay}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromDay" name="dateFromDay" type="text" maxlength="2" value="{{reqjson.dateFromDay}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -86,7 +123,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromMonth" name="dateFromMonth" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="2" inputmode="numeric" value="{{reqjson.dateFromMonth}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateFromMonth" name="dateFromMonth" type="text" maxlength="2" value="{{reqjson.dateFromMonth}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -94,20 +131,25 @@
                   <label class="govuk-label govuk-date-input__label" for="date_from_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateFromYear" name="dateFromYear" type="text" pattern="[0-9]*" inputmode="numeric" maxlength="4" inputmode="numeric" value="{{reqjson.dateFromYear}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateFromYear" name="dateFromYear" type="text" maxlength="4" value="{{reqjson.dateFromYear}}">
                 </div>
               </div>
             </div>
           </fieldset>
         </div>
 
-        <div class="govuk-form-group"> <!-- date to field -->
+        <div {% if err.dateTo %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} > <!-- date to field -->
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-to">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-              <h4 class="govuk-fieldset__heading">
+              <h1 class="govuk-fieldset__heading">
                 Target date to
-              </h4>
+              </h1>
             </legend>
+            {% if err.dateTo %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter a valid date
+            </span>
+            {% endif %}
             <span id="date-from" class="govuk-hint">
               For example, 12 12 2007
             </span>
@@ -117,7 +159,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_day">
                     Day
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToDay" name="dateToDay" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.dateToDay}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToDay" name="dateToDay" type="text" value="{{reqjson.dateToDay}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -125,7 +167,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date-to-month">
                     Month
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToMonth" name="dateToMonth" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.dateToMonth}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="dateToMonth" name="dateToMonth" type="text" value="{{reqjson.dateToMonth}}">
                 </div>
               </div>
               <div class="govuk-date-input__item">
@@ -133,7 +175,7 @@
                   <label class="govuk-label govuk-date-input__label" for="date_to_year">
                     Year
                   </label>
-                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateToYear" name="dateToYear" type="text" pattern="[0-9]*" inputmode="numeric" value="{{reqjson.dateToYear}}">
+                  <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="dateToYear" name="dateToYear" type="text" value="{{reqjson.dateToYear}}">
                 </div>
               </div>
             </div>

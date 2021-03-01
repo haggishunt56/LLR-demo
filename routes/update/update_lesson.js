@@ -27,7 +27,6 @@ module.exports = function (router) {
 
     // test for blank fields
     const err = {
-      summarise: {},
       project_tp_num: {},
       day_added: {},
       month_added: {},
@@ -50,17 +49,27 @@ module.exports = function (router) {
       err.summarise = true
     }
 
-    if (req.body.day_added === '') {
-      err.day_added.blank = true
+    const dateRegEx = new RegExp('^0*$')
+    if(
+        req.body.year_added == "" ||
+        req.body.month_added == "" ||
+        req.body.day_added == "" ||
+        isNaN(req.body.year_added) ||
+        isNaN(req.body.month_added) ||
+        isNaN(req.body.day_added) ||
+        dateRegEx.test(req.body.year_added) ||
+        dateRegEx.test(req.body.month_added) ||
+        dateRegEx.test(req.body.day_added) ||
+        req.body.day_added > 31 ||
+        req.body.day_added < 0 ||
+        req.body.month_added > 12 ||
+        req.body.month_added < 0 ||
+        req.body.year_added < 1970
+        ) {
+      err.dateAdded = true
       err.summarise = true
-    }
-    if (req.body.month_added === '') {
-      err.month_added.blank = true
-      err.summarise = true
-    }
-    if (req.body.year_added === '') {
-      err.year_added.blank = true
-      err.summarise = true
+    } else {
+      req.body.dateAdded = new Date(req.body.year_added, req.body.month_added - 1, req.body.day_added, 0, 0, 0, 0)
     }
 
     if (req.body.category_name === 'none') {
@@ -123,7 +132,7 @@ module.exports = function (router) {
     }
 
     // summarise and send errors
-    if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
+    if (err.summarise) {
       const lessonDetails = [{}]
       lessonDetails[0] = req.body
       queries.searchCategories.getAll()

@@ -55,6 +55,11 @@
               <a href="#projectTpNum">This is not a valid project. Please enter the number of an existing project, or create the project first.</a>
             </li>
             {% endif %}
+            {% if err.dateAdded %}
+            <li>
+              <a href="#day_added">Enter a valid date</a>
+            </li>
+            {% endif %}
             {% if err.category.blank %}
             <li>
               <a href="#category">Select a category</a>
@@ -148,14 +153,19 @@
           <input class="govuk-input govuk-!-width-two-thirds" id="projectTpNum" name="projectTpNum" type="text" value = {{ reqjson.projectTpNum }}>
         </div>
 
-        <!-- date added field --> <!-- TODO validation -->
-        <div class="govuk-form-group">
+        <!-- date added field -->
+        <div {% if err.dateAdded %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %}>
           <fieldset class="govuk-fieldset" role="group" aria-describedby="date-added">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <h1 class="govuk-fieldset__heading">
                 Date added
               </h1>
             </legend>
+            {% if err.dateAdded %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter a valid date
+            </span>
+            {% endif %}
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>

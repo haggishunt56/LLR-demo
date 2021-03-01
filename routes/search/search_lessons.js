@@ -22,9 +22,26 @@ module.exports = function (router) {
 
     if (isNaN(reqjson.lessonName)) {
       err.NaN = true
+      err.summarise = true
     }
 
-    if (err.NaN) {
+    const dateRegEx = new RegExp('^0*$')
+
+    if( !(reqjson.dateFromYear == "") || !(reqjson.dateFromMonth == "") || !(reqjson.dateFromDay == "")) { // ignore if date is blank
+      if((isNaN(reqjson.dateFromYear) || isNaN(reqjson.dateFromMonth) || isNaN(reqjson.dateFromDay)) || (dateRegEx.test(reqjson.dateFromYear) || dateRegEx.test(reqjson.dateFromMonth) || dateRegEx.test(reqjson.dateFromDay))) { // //if any field is not a number, or if any field is 0, throw err
+          err.dateFrom = true
+          err.summarise = true
+      }
+    }
+
+    if( !(reqjson.dateToYear == "") || !(reqjson.dateToMonth == "") || !(reqjson.dateToDay == "")) { // ignore if date is blank
+      if((isNaN(reqjson.dateToYear) || isNaN(reqjson.dateToMonth) || isNaN(reqjson.dateToDay)) || (dateRegEx.test(reqjson.dateToYear) || dateRegEx.test(reqjson.dateToMonth) || dateRegEx.test(reqjson.dateToDay))) { // //if any field is not a number, or if any field is 0, throw err
+          err.dateTo = true
+          err.summarise = true
+      }
+    }
+
+    if (err.summarise) {
       queries.searchCategories.getAll()
         .then(categories => {
           queries.searchPortfolios.getActive()
