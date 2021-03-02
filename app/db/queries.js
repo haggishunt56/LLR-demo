@@ -412,11 +412,10 @@ module.exports = {
       return query
     }
   },
-  createAction: function(lessonId, actionDetails, actionOwner, dayAdded, monthAdded, yearAdded) {
-    let dateAdded = (new Date()).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ");
-
+  createAction: function(lessonId, actionDetails, actionOwner, targetDay, targetMonth, targetYear) {
+    let targetDate = (new Date(targetYear, targetMonth, targetDay)).toISOString().slice(0, 19).replace(/-/g, "-").replace("T", " ")
     let query = knex.insert({lesson_id: `${lessonId}`, action_details: `${actionDetails}`,
-      action_owner: `${actionOwner}`, target_date: dateAdded}) // target date uses current system time. Needs fixed
+      action_owner: `${actionOwner}`, target_date: targetDate})
       .into('action_details')
       ;
     return query
@@ -505,8 +504,17 @@ module.exports = {
       .into('category_details')
     ;
   },
-  updateAction: function() {
-    // TODO
+  updateAction: function(actionId, actionDetails, actionOwner, targetDay, targetMonth, targetYear) {
+    let targetDate = (new Date(targetYear, targetMonth, targetDay)).toISOString().slice(0, 19).replace(/-/g, "-").replace("T", " ")
+    let query = knex('action_details')
+    .where('action_id', '=', actionId)
+    .update({
+      action_details: actionDetails,
+      action_owner: actionOwner,
+      target_date: targetDate
+    });
+    // .returning('*');
+    return query
   },
   updateLesson: function(projectId, lessonId, newTpNum, startDay, startMonth, startYear,
     category, type, identifiedBy, identifiersArea, howIdentified, uploadedBy,
@@ -526,9 +534,8 @@ module.exports = {
         how_identified: howIdentified,
         summary: summary,
         description: details
-        //target date
-      })
-      .returning('*');
+      });
+      // .returning('*');
   },
   updateProject: function(projectTpNum, projectName, srm, status, portfolio,
     startDate, closeDate, closeDateExists) {

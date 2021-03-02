@@ -1,151 +1,86 @@
 const queries = require('../../app/db/queries')
 
 module.exports = function (router) {
-  // // display update lesson page
-  // router.get('/update/:proj_id-:les_id', (req, res) => {
-  //   const id = req.params
-  //
-  //   queries
-  //     .searchLessons
-  //     .getByProjectLesson(req.params.proj_id, req.params.les_id)
-  //     .then(lessonDetails => {
-  //       queries.searchCategories.getAll()
-  //         .then(categories => {
-  //           const dateNow = new Date(lessonDetails[0].date_added)
-  //           lessonDetails[0].day_added = dateNow.getDate()
-  //           lessonDetails[0].month_added = dateNow.getMonth() + 1
-  //           lessonDetails[0].year_added = dateNow.getFullYear()
-  //
-  //           res.render('update/update_lesson.html', { lessonDetails, id, categories })
-  //         })
-  //     })
-  // })
-  //
-  // // handle update lesson instruction
-  // router.post('/update/:proj_id-:les_id', (req, res) => {
-  //   const id = req.params
-  //
-  //   // test for blank fields
-  //   const err = {
-  //     summarise: {},
-  //     project_tp_num: {},
-  //     day_added: {},
-  //     month_added: {},
-  //     year_added: {},
-  //     category: {},
-  //     type: {},
-  //     identified_by: {},
-  //     identifiers_area: {},
-  //     how_identified: {},
-  //     summary: {},
-  //     description: {}
-  //   }
-  //
-  //   if (req.body.project_tp_num === '') {
-  //     err.project_tp_num.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.project_tp_num.length > 6) {
-  //     err.project_tp_num.tooLong = true
-  //     err.summarise = true
-  //   }
-  //
-  //   if (req.body.day_added === '') {
-  //     err.day_added.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.month_added === '') {
-  //     err.month_added.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.year_added === '') {
-  //     err.year_added.blank = true
-  //     err.summarise = true
-  //   }
-  //
-  //   if (req.body.category_name === 'none') {
-  //     err.category.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.category_name.length > 45) {
-  //     err.category.tooLong = true
-  //     err.summarise = true
-  //   }
-  //
-  //   if (req.body.www_ebi === '') {
-  //     err.type.blank = true
-  //     err.summarise = true
-  //   }
-  //
-  //   if (req.body.identified_by === '') {
-  //     err.identified_by.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.identified_by.length > 45) {
-  //     err.identified_by.tooLong = true
-  //     err.summarise = true
-  //   }
-  //
-  //   if (req.body.identifiers_area === '') {
-  //     err.identifiers_area.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.identifiers_area.length > 45) {
-  //     err.identifiers_area.tooLong = true
-  //     err.summarise = true
-  //   }
-  //
-  //   if (req.body.how_identified === '') {
-  //     err.how_identified.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.how_identified.length > 128) {
-  //     err.how_identified.tooLong = true
-  //     err.summarise = true
-  //   }
-  //
-  //   if (req.body.summary === '') {
-  //     err.summary.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.summary.length > 128) {
-  //     err.summary.tooLong = true
-  //     err.summarise = true
-  //   }
-  //
-  //   if (req.body.description === '') {
-  //     err.description.blank = true
-  //     err.summarise = true
-  //   }
-  //   if (req.body.description.length > 2000) {
-  //     err.description.tooLong = true
-  //     err.summarise = true
-  //   }
-  //
-  //   // summarise and send errors
-  //   if (JSON.stringify(err.summarise) !== JSON.stringify({})) {
-  //     const lessonDetails = [{}]
-  //     lessonDetails[0] = req.body
-  //     queries.searchCategories.getAll()
-  //       .then(
-  //         categories => {
-  //           return res.render('update/update_lesson.html', { err, lessonDetails, id, categories })
-  //         }
-  //       )
-  //   } else { // update lesson
-  //     queries
-  //       .updateLesson(req.params.proj_id, req.params.les_id, req.body.project_tp_num,
-  //         req.body.day_added, req.body.month_added, req.body.year_added, req.body.category,
-  //         req.body.www_ebi, req.body.identified_by, req.body.identifiers_area,
-  //         req.body.how_identified, req.body.username, req.body.summary, req.body.description)
-  //       .then(lessonDetails => {
-  //         queries
-  //           .searchLessons
-  //           .getByProjectLesson(req.body.project_tp_num, req.params.les_id)
-  //           .then(lessonDetails => {
-  //             res.render('update/update_lesson_success.html', { lessonDetails })
-  //           })
-  //       })
-  //   }
-  // })
+  router.get('/update/:proj_id-:les_id.:action_id', (req, res) => {
+    queries
+    .searchActions
+    .getById(req.params.action_id)
+    .then(action_details => {
+      if(action_details == '') {
+        res.render('404.html')
+      } else {
+        const id = req.params
+        var d = new Date(action_details[0].target_date)
+        action_details[0].target_day = d.getDate()
+        action_details[0].target_month = d.getMonth() + 1
+        action_details[0].target_year = d.getFullYear()
+        res.render('update/update_action.html', { action_details, id })
+      }
+    })
+  })
+
+  router.post('/update/:proj_id-:les_id.:action_id', (req, res) => {
+     const id = req.params
+
+    // test for blank fields
+    const err = {
+      actionDetails: {},
+      actionOwner: {},
+    }
+
+    if (req.body.action_details === '') {
+      err.actionDetails.blank = true
+      err.summarise = true
+    }
+
+    if (req.body.action_owner === '') {
+      err.actionOwner.blank = true
+      err.summarise = true
+    } else if (req.body.action_owner.length > 45) {
+      err.actionOwner.tooLong = true
+      err.summarise = true
+    }
+
+    const dateRegEx = new RegExp('^0*$')
+
+    if(
+        req.body.target_year == "" ||
+        req.body.target_month == "" ||
+        req.body.target_day == "" ||
+        isNaN(req.body.target_year) ||
+        isNaN(req.body.target_month) ||
+        isNaN(req.body.target_day) ||
+        dateRegEx.test(req.body.target_year) ||
+        dateRegEx.test(req.body.target_month) ||
+        dateRegEx.test(req.body.target_day) ||
+        req.body.target_day < 0 ||
+        req.body.target_day > 31 ||
+        req.body.target_month < 0 ||
+        req.body.target_month > 12 ||
+        req.body.target_year < 1970
+      ) {
+      err.targetDate = true
+      err.summarise = true
+    }
+
+    // summarise and send errors
+    if (err.summarise) {
+      let action_details = [{}]
+      action_details[0] = req.body
+      res.render('update/update_action.html', { err, action_details, id })
+    } else { // update lesson
+      queries
+        .updateAction(req.params.action_id, req.body.action_details, req.body.action_owner,
+          req.body.target_day, req.body.target_month, req.body.target_year)
+        .then(returnedVal => {
+          queries
+            .searchActions
+            .getById(req.params.action_id)
+            .then(action_details => {
+              const actionUpdated = true
+              res.render('view/view_action.html', { action_details, actionUpdated, id })
+            })
+        })
+    }
+  })
 }

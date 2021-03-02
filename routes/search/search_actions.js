@@ -35,8 +35,6 @@ module.exports = function (router) {
       }
     }
 
-    console.log(err)
-
     if (err.summarise) {
       res.render('search/search_actions.html', { err, reqjson })
     } else {
@@ -47,7 +45,6 @@ module.exports = function (router) {
           reqjson.dateToDay, reqjson.dateToMonth, reqjson.dateToYear)
         .then(action_details => {
           const rowsReturned = Object.keys(action_details).length
-          console.log(err)
           res.render('search/search_actions.html', { rowsReturned, reqjson, action_details })
         })
     }
