@@ -599,6 +599,11 @@ module.exports = {
     // //console.log(query)
     return query;
   },
+  deleteAction: function(id) {
+    return knex('action_details')
+      .where({action_id: id})
+      .del();
+  },
   deleteLesson: function(projectTpNum, lessonId) {
     return knex('lesson_details')
       .where({project_tp_num:projectTpNum, lesson_id:lessonId})

@@ -37,6 +37,7 @@ var routes = [
   require('./update/update_project.js'),
 
   // delete
+  require('./delete/delete_action.js'),
   require('./delete/delete_lesson.js'),
   require('./delete/delete_project.js'),
 
