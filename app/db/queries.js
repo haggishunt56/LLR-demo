@@ -413,7 +413,7 @@ module.exports = {
     }
   },
   createAction: function(lessonId, actionDetails, actionOwner, targetDay, targetMonth, targetYear) {
-    let targetDate = (new Date(targetYear, targetMonth, targetDay)).toISOString().slice(0, 19).replace(/-/g, "-").replace("T", " ")
+    let targetDate = (new Date(targetYear, targetMonth - 1, targetDay)).toISOString().slice(0, 19).replace(/-/g, "-").replace("T", " ")
     let query = knex.insert({lesson_id: `${lessonId}`, action_details: `${actionDetails}`,
       action_owner: `${actionOwner}`, target_date: targetDate})
       .into('action_details')
