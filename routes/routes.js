@@ -18,7 +18,6 @@ var routes = [
   // create
   require('./create/create.js'),
   require('./create/create_action.js'),
-  require('./create/create_action_man.js'),
   require('./create/create_lesson.js'),
   require('./create/create_project.js'),
   require('./create/create_campaign.js'),

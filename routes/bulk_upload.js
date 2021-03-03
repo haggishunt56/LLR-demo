@@ -74,17 +74,6 @@ module.exports = function (router) {
                 setTimeout(wait => { res.render('./bulkupload.html', { err }) }, 80) // display errors
               } else { // if no errors
                 for (var i = 0; i < jsonObj.length; i++) {
-                  queries
-                    .searchCategories
-                    .getByName(jsonObj[i].Category)
-                    .then(cat => {
-                      console.log("i = " + i)
-                      console.log(" cat id = " + cat[0].category_id)
-                      console.log("jsonObj[i] = " + jsonObj[i])
-                      jsonObj[i] = cat[0].category_id
-                      // does not work currently since i always resolves to 9
-                    })
-
                   // add lessons to database
                   queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
                     jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
