@@ -1,19 +1,6 @@
 const queries = require('../../app/db/queries')
 
 module.exports = function (router) {
-  router.get('/create_action', (req, res) => {
-    const dateNow = new Date()
-    const reqjson = {}
-    reqjson.day_added = dateNow.getDate()
-    reqjson.month_added = dateNow.getMonth()
-    reqjson.year_added = dateNow.getFullYear()
-
-    queries.searchCategories.getAll()
-      .then(categories => {
-        res.render('create/create_action.html', { reqjson, categories })
-      })
-  })
-
   router.post('/create_action', (req, res) => {
     const actionCreated = true
     const err = {
@@ -88,8 +75,6 @@ module.exports = function (router) {
                 })
             } else if (req.body.go_home !== undefined) { // return home
               res.redirect('/home')
-            } else if (req.body.save !== undefined) { // for manual creation of actions
-              res.redirect('view/' + req.body.projectTpNum + '-' + req.body.lessonId)
             } else {
               console.log('something went wrong')
               res.render('500.html')

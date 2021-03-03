@@ -52,6 +52,12 @@
 
           <div class="govuk-radios govuk-radios--inline">
             <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="lesson_radio" name="lessonproject" type="radio" value="action">
+              <label class="govuk-label govuk-radios__label" for="action">
+                Action
+              </label>
+            </div>
+            <div class="govuk-radios__item">
               <input class="govuk-radios__input" id="lesson_radio" name="lessonproject" type="radio" value="lesson">
               <label class="govuk-label govuk-radios__label" for="lesson">
                 Lesson
@@ -77,15 +83,12 @@
             </div>
           </div>
 
-        {% if err %} <!-- display only if error returned by Express -->
+        {% if err %}
           </fieldset>
         </div>
-        {% endif %}
-
-        {% if not err %} <!-- display only if no error returned by Express (formats page correctly) -->
+        {% else %}
         <br>
         {% endif %}
-
 
         <input type="submit" draggable="false" value="Next" class="govuk-button">
 

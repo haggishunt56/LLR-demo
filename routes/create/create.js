@@ -6,7 +6,9 @@ module.exports = function (router) {
 
   // handle input on create forms
   router.post('/create', (req, res) => {
-    if (req.body.lessonproject === 'lesson') { // if lesson selected
+    if (req.body.lessonproject === 'action') { // if action selected
+      return res.redirect('create_action') // display create action page
+    } else if (req.body.lessonproject === 'lesson') { // if lesson selected
       return res.redirect('create_lesson') // display create lesson page
     } else if (req.body.lessonproject === 'project') { // if project selected
       return res.redirect('create_project') // display create project page
