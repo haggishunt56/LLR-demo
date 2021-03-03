@@ -27,14 +27,13 @@ module.exports = function (router) {
         summary: true
       }
       res.render('./bulkupload.html', { err })
-    }else {
+    } else {
       var file = req.files.file
       var filename = file.name
-      // TODO test that file is a .csv extenstion
 
-      if (!(filename.split('.').pop() == 'csv')) {
+      if (!(filename.split('.').pop() == 'csv')) { // test file type
        // return error if something other than csv uploaded
-       const err = {
+       let err = {
          notCSV: true,
          summary: true
        }
@@ -44,9 +43,9 @@ module.exports = function (router) {
           if (err) {
             res.send(err)
           } else {
-            let jsonObj = []
+            var jsonObj = []
             const csvFilePath = './uploads/' + filename
-            let err = {
+            var err = {
               projectId: { row: [], notExistsRow: [] },
               dateAdded: { row: [] },
               category: { row: [] },
@@ -70,28 +69,30 @@ module.exports = function (router) {
             // .then(script => jsonObj = updateCat(jsonObj)) // format category field. Currently not working
             .then(setTimeout(waitForQueries => {
               if (err.summarise) { // if error checking has returned errors
-                console.log(err)
                 setTimeout(wait => { res.render('./bulkupload.html', { err }) }, 80) // display errors
               } else { // if no errors
-                for (var i = 0; i < jsonObj.length; i++) {
+                for (let i = 0; i < jsonObj.length; i++) {
                   queries
                     .searchCategories
                     .getByName(jsonObj[i].Category)
                     .then(cat => {
                       console.log("i = " + i)
                       console.log(" cat id = " + cat[0].category_id)
-                      console.log("jsonObj[i] = " + jsonObj[i])
-                      jsonObj[i] = cat[0].category_id
+                      console.log("jsonObj[i]:")
+                      console.log(jsonObj[i])
+                      jsonObj[i].Category = cat[0].category_id
                       // does not work currently since i always resolves to 9
+
+                      queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
+                        jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
+                        jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
+                        jsonObj[i].Summary, jsonObj[i].LessonDescription)
+                        .then()
+                        rowsAdded = i + 1
                     })
 
                   // add lessons to database
-                  queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
-                    jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
-                    jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
-                    jsonObj[i].Summary, jsonObj[i].LessonDescription)
-                    .then()
-                    rowsAdded = i + 1
+
                 }
                 setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 80) // display success
               }
@@ -108,7 +109,7 @@ module.exports = function (router) {
 }
 
 function validateFields(jsonObj, err) {
-  for (var i = 0; i < jsonObj.length; i++) {
+  for (let i = 0; i < jsonObj.length; i++) {
     if (jsonObj[i].ProjectID === '') {
       err.projectId.blank = true
       err.projectId.row[i] = i + 2
@@ -128,7 +129,7 @@ function validateFields(jsonObj, err) {
 
     var ddRegEx = /\d\d(\/|-|.)\d\d(\/|-|.)\d\d\d\d/g
     var yyyyRegEx = /\d\d\d\d(\/|-|.)\d\d(\/|-|.)\d\d/g
-    let dateAdded
+    var dateAdded
 
     if(ddRegEx.test(jsonObj[i].LessonDateAdded)) {
       // Format dd/mm/yyyy. next line swaps mm and dd fields to create Date object
@@ -220,7 +221,7 @@ function validateFields(jsonObj, err) {
 }
 
 function updateDate(jsonObj) {
-  for (var i = 0; i < jsonObj.length; i++) {
+  for (let i = 0; i < jsonObj.length; i++) {
     var ddRegEx = /\d\d(\/|-|.)\d\d(\/|-|.)\d\d\d\d/g
     var yyyyRegEx = /\d\d\d\d(\/|-|.)\d\d(\/|-|.)\d\d/g
 
@@ -238,7 +239,7 @@ function updateDate(jsonObj) {
 }
 
 function checkForProject(jsonObj, err) {
-  for (var i = 0; i < jsonObj.length; i++) {
+  for (let i = 0; i < jsonObj.length; i++) {
     queries.searchProjects.checkProjectExists(jsonObj[i].ProjectID)
       .then(project => {
         if (project[0].count === 0) {
@@ -252,7 +253,7 @@ function checkForProject(jsonObj, err) {
 }
 
 function checkForCategory(jsonObj, err) {
-  for (var i = 0; i < jsonObj.length; i++) {
+  for (let i = 0; i < jsonObj.length; i++) {
     queries.searchCategories.getByName(jsonObj[i].Category)
       .then(cat => {
         if (cat === []) {
@@ -266,7 +267,7 @@ function checkForCategory(jsonObj, err) {
 }
 
 function updateCat(jsonObj) {
-  for (var i = 0; i < jsonObj.length; i++) {
+  for (let i = 0; i < jsonObj.length; i++) {
     queries
       .searchCategories
       .getByName(jsonObj[i].Category)

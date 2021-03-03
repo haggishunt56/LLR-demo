@@ -13,8 +13,6 @@ module.exports = function (router) {
       actionOwner: {}
     }
 
-
-
     const regex = new RegExp('^([a-z]|[0-9]|[A-Z]){0,7}-\\d*$')
     if (req.body.lessonIdDisplay == '') {
       err.lessonId.blank = true

@@ -423,6 +423,9 @@ module.exports = {
   createLesson: function(project_tp_num, dateAdded, category, type, identified_by, identifiers_area,
     how_identified, summary, details) {
 
+      console.log(project_tp_num, dateAdded, category, type, identified_by, identifiers_area,
+        how_identified, summary, details)
+
     return knex.insert({category: `${category}`, date_added: `${dateAdded}`, description: `${details}`,
       how_identified: `${how_identified}`, identified_by: `${identified_by}`,
       identifiers_area: `${identifiers_area}`, project_tp_num: `${project_tp_num}`,
