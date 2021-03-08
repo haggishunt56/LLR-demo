@@ -66,7 +66,12 @@ module.exports = function (router) {
         req.body.start_day < 0 ||
         req.body.start_month > 12 ||
         req.body.start_month < 0 ||
-        req.body.start_year < 1970
+        req.body.start_year < 1970 ||
+        (req.body.start_month == 4 && req.body.start_day > 30) ||
+        (req.body.start_month == 6 && req.body.start_day > 30) ||
+        (req.body.start_month == 9 && req.body.start_day > 30) ||
+        (req.body.start_month == 11 && req.body.start_day > 30) ||
+        (req.body.start_month == 2 && req.body.start_day > 28  && !(req.body.start_year % 4 == 0))
         ) {
       err.startDate = true
       err.summarise = true
@@ -91,7 +96,12 @@ module.exports = function (router) {
         req.body.closure_day < 0 ||
         req.body.closure_month > 12 ||
         req.body.closure_month < 0 ||
-        req.body.closure_year < 1970
+        req.body.closure_year < 1970 ||
+        (req.body.closure_month == 4 && req.body.closure_day > 30) ||
+        (req.body.closure_month == 6 && req.body.closure_day > 30) ||
+        (req.body.closure_month == 9 && req.body.closure_day > 30) ||
+        (req.body.closure_month == 11 && req.body.closure_day > 30) ||
+        (req.body.closure_month == 2 && req.body.closure_day > 28 && !(req.body.closure_year % 4 == 0))
         ) {
       err.closedDate = true
       err.summarise = true

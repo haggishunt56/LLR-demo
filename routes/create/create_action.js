@@ -50,7 +50,12 @@ module.exports = function (router) {
           reqjson.target_day > 31 ||
           reqjson.target_month < 0 ||
           reqjson.target_month > 12 ||
-          reqjson.target_year < 1970
+          reqjson.target_year < 1970 ||
+          (reqjson.target_month == 4 && reqjson.target_day > 30) ||
+          (reqjson.target_month == 6 && reqjson.target_day > 30) ||
+          (reqjson.target_month == 9 && reqjson.target_day > 30) ||
+          (reqjson.target_month == 11 && reqjson.target_day > 30) ||
+          (reqjson.target_month == 2 && reqjson.target_day > 28)
         ) {
         err.targetDate = true
         err.summarise = true
