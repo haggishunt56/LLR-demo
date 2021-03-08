@@ -13,8 +13,6 @@ module.exports = function (router) {
       actionOwner: {}
     }
 
-    console.log(req.body)
-
     const regex = new RegExp('^([a-z]|[0-9]|[A-Z]){0,7}-\\d*$')
     if (req.body.lessonIdDisplay == '') {
       err.lessonId.blank = true
@@ -71,7 +69,7 @@ module.exports = function (router) {
         (reqjson.target_month == 6 && reqjson.target_day > 30) ||
         (reqjson.target_month == 9 && reqjson.target_day > 30) ||
         (reqjson.target_month == 11 && reqjson.target_day > 30) ||
-        (reqjson.target_month == 2 && reqjson.target_day > 28)
+        (reqjson.target_month == 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 == 0))
       ) {
       err.targetDate = true
       err.summarise = true
