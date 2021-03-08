@@ -8,6 +8,8 @@ module.exports = function (router) {
       actionOwner: {}
     }
 
+    console.log(req.body)
+
     if(req.body.lessonId == "") {
       res.render('500.html')
     } else {
@@ -80,6 +82,8 @@ module.exports = function (router) {
                 })
             } else if (req.body.go_home !== undefined) { // return home
               res.redirect('/home')
+            } else if (req.body.save == 'Save') { // return to view project page
+              res.redirect('/view/' + req.body.projectTpNum + '-' + req.body.lessonId)
             } else {
               console.log('something went wrong')
               res.render('500.html')
