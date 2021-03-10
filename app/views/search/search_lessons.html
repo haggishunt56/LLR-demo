@@ -284,7 +284,7 @@
           <td scope="row" class="govuk-table__header"><a href="/view/{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}">{{lesson_detail.project_tp_num}}-{{lesson_detail.lesson_id}}</a></th>
           <td class="govuk-table__cell">{{lesson_detail.project_name | trim}}</td>
           <td class="govuk-table__cell">
-            <div class="tooltip">{{lesson_detail.www_ebi}}
+            <div class="tooltip" id="tooltip">{{lesson_detail.www_ebi}}
               <div class="tooltiptext">
                 {% if lesson_detail.www_ebi == "www" or lesson_detail.www_ebi == "WWW" %}
                   what went well

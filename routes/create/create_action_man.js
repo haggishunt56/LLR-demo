@@ -70,12 +70,14 @@ module.exports = function (router) {
         (reqjson.target_month == 9 && reqjson.target_day > 30) ||
         (reqjson.target_month == 11 && reqjson.target_day > 30) ||
         (reqjson.target_month == 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 == 0))
+        (reqjson.target_month == 2 && reqjson.target_day > 29)
       ) {
       err.targetDate = true
       err.summarise = true
     }
 
     if (err.summarise) {
+      console.log("working")
       res.render('create/create_action_man.html', { err, reqjson })
     } else {
       queries.searchProjects.checkProjectExists(req.body.projectTpNum)

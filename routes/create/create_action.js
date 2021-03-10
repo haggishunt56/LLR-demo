@@ -8,8 +8,6 @@ module.exports = function (router) {
       actionOwner: {}
     }
 
-    console.log(req.body)
-
     if(req.body.lessonId == "") {
       res.render('500.html')
     } else {
@@ -57,7 +55,8 @@ module.exports = function (router) {
           (reqjson.target_month == 6 && reqjson.target_day > 30) ||
           (reqjson.target_month == 9 && reqjson.target_day > 30) ||
           (reqjson.target_month == 11 && reqjson.target_day > 30) ||
-          (reqjson.target_month == 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 == 0))
+          (reqjson.target_month == 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 == 0)) ||
+          (reqjson.target_month == 2 && reqjson.target_day > 29)
         ) {
         err.targetDate = true
         err.summarise = true
@@ -66,6 +65,7 @@ module.exports = function (router) {
       if (err.summarise) {
         createLesson.action_details = req.body.actionDetails
         createLesson.action_owner = req.body.actionOwner
+        createLesson.manual = req.body.manual
         res.render('create/create_action.html', { err, createLesson, reqjson, actionCreated })
       } else {
         queries
