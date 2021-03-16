@@ -64,7 +64,8 @@ module.exports = function (router) {
         (req.body.month_added == 6 && req.body.day_added > 30) ||
         (req.body.month_added == 9 && req.body.day_added > 30) ||
         (req.body.month_added == 11 && req.body.day_added > 30) ||
-        (req.body.month_added == 2 && req.body.day_added > 28 && !(req.body.year_added % 4 == 0))
+        (req.body.month_added == 2 && req.body.day_added > 28 && !(req.body.year_added % 4 == 0)) ||
+        (req.body.month_added == 2 && req.body.day_added > 29)
       ) {
       err.dateAdded = true
       err.summarise = true
