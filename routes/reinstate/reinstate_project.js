@@ -5,8 +5,8 @@ module.exports = function (router) {
   router.get('/reinstate/:proj_id', (req, res) => {
     const tpNum = req.params.proj_id
 
-    queries.reinstateProject(tpNum)
-      .then(queries.reinstateAllProjectLessons(tpNum)
+    queries.delete.reinstateProject(tpNum)
+      .then(queries.delete.reinstateAllProjectLessons(tpNum)
         .then(rowsReinstated => {
           res.redirect('../view/' + tpNum)
         })

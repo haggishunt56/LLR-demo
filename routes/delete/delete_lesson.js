@@ -12,9 +12,12 @@ module.exports = function (router) {
     const tpNum = req.params.proj_id
     const lessonId = req.params.les_id
 
-    queries.deleteLesson(tpNum, lessonId)
+    queries.delete.deleteLesson(tpNum, lessonId)
       .then(rowsDeleted => {
-        res.render('delete/delete_lesson_success.html', { tpNum, lessonId })
+        queries.delete.deleteAllLessonActions(lessonId)
+          .then(deleted => {
+            res.render('delete/delete_lesson_success.html', { tpNum, lessonId })
+          })
       })
   })
 }

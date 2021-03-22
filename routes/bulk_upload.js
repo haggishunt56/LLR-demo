@@ -76,10 +76,6 @@ module.exports = function (router) {
                     .searchCategories
                     .getByName(jsonObj[i].Category)
                     .then(cat => {
-                      console.log("i = " + i)
-                      console.log(" cat id = " + cat[0].category_id)
-                      console.log("jsonObj[i]:")
-                      console.log(jsonObj[i])
                       jsonObj[i].Category = cat[0].category_id
                       // does not work currently since i always resolves to 9
 
@@ -272,9 +268,6 @@ function updateCat(jsonObj) {
       .searchCategories
       .getByName(jsonObj[i].Category)
       .then(cat => {
-        console.log("i = " + i)
-        console.log(" cat id = " + cat[0].category_id)
-        console.log("jsonObj[i] = " + jsonObj[i])
         jsonObj[i] = cat[0].category_id
         // does not work currently since i always resolves to 9
       })

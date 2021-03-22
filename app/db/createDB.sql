@@ -67,6 +67,7 @@ action_details TEXT,
 action_owner VARCHAR(45),
 target_date DATE,
 completed_date DATE,
+deleted BOOLEAN NOT NULL DEFAULT FALSE,
 CONSTRAINT fk_lesson
    FOREIGN KEY(lesson_id)
    REFERENCES lesson_details(lesson_id)

@@ -31,9 +31,9 @@ module.exports = function (router) {
         } else if (projectDetails[0].project_type === 'conference') {
           type.isConference = true
         }
-        queries.deleteProject(id)
+        queries.delete.deleteProject(id)
           .then(rowsDeleted => {
-            queries.deleteAllProjectLessons(id)
+            queries.delete.deleteAllProjectLessons(id)
               .then(res.render('delete/delete_project_success.html', { type, id })
               )
           })

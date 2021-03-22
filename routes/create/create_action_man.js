@@ -77,7 +77,6 @@ module.exports = function (router) {
     }
 
     if (err.summarise) {
-      console.log("working")
       res.render('create/create_action_man.html', { err, reqjson })
     } else {
       queries.searchProjects.checkProjectExists(req.body.projectTpNum)

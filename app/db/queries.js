@@ -52,7 +52,10 @@ module.exports = {
       return query
     },
     getById: function(id) {
-      let query = knex.select()
+      let query = knex.select(
+        'action_details.action_details', 'action_details.action_owner', 'action_details.target_date',
+        'action_details.completed_date', 'lesson_details.lesson_id', 'lesson_details.project_tp_num'
+      )
         .from('action_details')
         .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
         .where('action_id', id);
@@ -65,7 +68,10 @@ module.exports = {
       return knex('lesson_details');
     },
     searchForParam: function(arg) {
-      let query = knex.select()
+      let query = knex.select(
+        // SELECT * FROM lesson_details;
+        // TODO specify fields to select
+      )
         .table('lesson_details')
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
@@ -92,6 +98,7 @@ module.exports = {
       dateToYear, includeDeleted) {
       //SELECT * FROM lesson_details WHERE lesson_name = lessonName, project_name = projectName etc...;
 
+      // TODO specify fields to select
       let query = knex.select()
         .table('lesson_details') // SELECT * FROM lesson_details;
         .leftOuterJoin('project_details', 'lesson_details.project_tp_num', 'project_details.project_tp_num')
@@ -101,9 +108,9 @@ module.exports = {
         .orderBy('lesson_id', 'asc');
 
       if(lessonName !== "") { // include only if field is not blank
-        var initStr = `${lessonName}`;
-        var lowBound = initStr.replace(/\*/g, '/\d/');
-        var upBound = initStr.replace(/\*/g, '9');
+        let initStr = `${lessonName}`;
+        let lowBound = initStr.replace(/\*/g, '/\d/');
+        let upBound = initStr.replace(/\*/g, '9');
 
         query.where('lesson_details.lesson_id', '=', lowBound); //`%${lessonName}%`
         //query.where('lesson_details.lesson_id', '<=', upBound)
@@ -159,28 +166,25 @@ module.exports = {
     },
     getByProjectLesson: function(project, lesson) {
       let query = knex.select(
-          // knex.raw('lesson_details.lesson_id, lesson_details.project_tp_num, lesson_details.date_added, lesson_details.category, lesson_details.www_ebi, lesson_details.identified_by, lesson_details.identifiers_area, lesson_details.how_identified, user_details.username, lesson_details.summary, lesson_details.description, lesson_details.deleted, project_details.project_name, portfolio_details.portfolio_name'),
-          // knex.raw('EXTRACT(YEAR FROM date_added) as year_added'),
-          // knex.raw('EXTRACT(MONTH FROM date_added) as month_added'),
-          // knex.raw('EXTRACT(DAY FROM date_added) as day_added')
-          // knex.raw('EXTRACT(YEAR FROM target_date) as target_year'),
-          // knex.raw('EXTRACT(MONTH FROM target_date) as target_month'),
-          // knex.raw('EXTRACT(DAY FROM target_date) as target_day')
+          'lesson_details.lesson_id', 'lesson_details.project_tp_num', 'lesson_details.date_added',
+          'lesson_details.category', 'lesson_details.www_ebi', 'lesson_details.identified_by',
+          'lesson_details.identifiers_area', 'lesson_details.how_identified', 'lesson_details.uploaded_by',
+          'lesson_details.completion_date', 'lesson_details.summary', 'lesson_details.description',
+          'lesson_details.deleted', 'category_details.category_name', 'project_details.project_name',
+          'project_details.project_type', 'portfolio_details.portfolio_name'
         )
         .from('lesson_details')
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
         .leftOuterJoin('category_details', 'lesson_details.category', 'category_details.category_id')
-        // .join('user_details', 'user_details.userid', 'lesson_details.uploaded_by')
-        //.where('lesson_details.project_tp_num', project)
         .where('lesson_id', lesson)
-        .orderBy('lesson_id', 'asc');
       ;
-
       return query;
     },
     getByProject: function(project) {
       return knex.select(
+        // SELECT * FROM lesson_details;
+        // TODO specify fields to select
         // knex.raw('lesson_details.lesson_id, lesson_details.project_tp_num, lesson_details.date_added, lesson_details.category, lesson_details.www_ebi, lesson_details.identified_by, lesson_details.identifiers_area, lesson_details.how_identified, user_details.username, lesson_details.summary, lesson_details.description, lesson_details.deleted')
         // knex.raw('EXTRACT(YEAR FROM date_added) as year_added'),
         // knex.raw('EXTRACT(MONTH FROM date_added) as month_added'),
@@ -589,52 +593,56 @@ module.exports = {
 
     return query;
   },
-  deleteAction: function() {
-    // TODO
-  },
-  deleteLessontest: function(lessonId) {
-    let query = knex.raw('UPDATE lesson_details SET deleted = 1 WHERE lesson_id = \'' + `${lessonId}` + '\';')
-
-    // ('lesson_details')
-    //   .where({lesson_id:lessonId})
-    //   .update({deleted:1})
-    //   ;
-    // //console.log(query)
-    return query;
-  },
-  deleteAction: function(id) {
-    return knex('action_details')
-      .where({action_id: id})
-      .del();
-  },
-  deleteLesson: function(projectTpNum, lessonId) {
-    return knex('lesson_details')
-      .where({project_tp_num:projectTpNum, lesson_id:lessonId})
-      .del();
-  },
-  deleteAllProjectLessons: function(projectTpNum) {
-    return knex('lesson_details')
-      .where({project_tp_num:projectTpNum})
-      .del();
-  },
-  deleteProject: function(projectTpNum) {
-    return knex('project_details')
-      .where({project_tp_num:projectTpNum})
-      .del();
+  delete: {
+    deleteAction: function(actionId) {
+      return knex('action_details')
+        .where({action_id: actionId})
+        .update('deleted', 1);
+    },
+    reinstateAction: function(actionId) {
+      return knex('action_details')
+        .where({action_id: actionId})
+        .update('deleted', 0);
+    },
+    deleteAllLessonActions: function(lessonId) {
+      return knex('action_details')
+        .where({lesson_id: lessonId})
+        .update('deleted', 1);
+    },
+    reinstateAllLessonActions: function(lessonId) {
+      return knex('action_details')
+        .where({lesson_id: lessonId})
+        .update('deleted', 0);
+    },
+    deleteLesson: function(projectTpNum, lessonId) {
+      return knex('lesson_details')
+        .where({lesson_id:lessonId})
+        .update('deleted', 1);
+    },
+    reinstateLesson: function(projectTpNum, lessonId) {
+      return knex('lesson_details')
+        .where({project_tp_num:projectTpNum, lesson_id:lessonId})
+        .update('deleted', 0);
+    },
+    deleteAllProjectLessons: function(projectTpNum) {
+      return knex('lesson_details')
+        .where({project_tp_num: projectTpNum})
+        .update('deleted', 1);
+    },
+    reinstateAllProjectLessons: function(projectTpNum) {
+      return knex('lesson_details')
+        .where({project_tp_num: projectTpNum})
+        .update('deleted', 0);
+    },
+    deleteProject: function(projectTpNum) {
+      return knex('project_details')
+        .where({project_tp_num:projectTpNum})
+        .update('deleted', 1);
+    },
+    reinstateProject: function(projectTpNum) {
+      return knex('project_details')
+        .where({project_tp_num:projectTpNum})
+        .update('deleted', 0);
+    }
   }
-  // reinstateLesson: function(projectTpNum, lessonId) {
-  //   return = knex('lesson_details')
-  //     .where({project_tp_num:projectTpNum, lesson_id:lessonId})
-  //     .update('deleted', 'f');
-  // },
-  // reinstateAllProjectLessons: function(projectTpNum) {
-  //   return = knex('lesson_details')
-  //     .where({project_tp_num:projectTpNum})
-  //     .update('deleted', 'f');
-  // },
-  // reinstateProject: function(projectTpNum) {
-  //   return = knex('project_details')
-  //     .where({project_tp_num:projectTpNum})
-  //     .update('deleted', 'f');
-  // }
 }

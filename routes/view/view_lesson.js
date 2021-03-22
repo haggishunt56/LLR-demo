@@ -14,6 +14,7 @@ module.exports = function (router) {
             .searchActions
             .getByLesson(req.params.les_id)
             .then(action_details => {
+              console.log(lesson_details)
               res.render('view/view_lesson.html', { lesson_details, action_details })
             })
         }
@@ -25,7 +26,7 @@ module.exports = function (router) {
     createLesson.projectTpNum = req.params.proj_id
     createLesson.lesson_id = req.params.les_id
     createLesson.manual = true
-    
+
     res.render('create/create_action.html', { createLesson })
 
   })

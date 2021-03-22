@@ -9,12 +9,11 @@ module.exports = function (router) {
 
   // handle instruction to delete lesson
   router.post('/delete/:proj_id-:les_id.:action_id', (req, res) => {
-    console.log("working")
     const tpNum = req.params.proj_id
     const lessonId = req.params.les_id
     const actionId = req.params.action_id
 
-    queries.deleteAction(actionId)
+    queries.delete.deleteAction(actionId)
       .then(rowsDeleted => {
         res.render('delete/delete_action_success.html', { tpNum, lessonId, actionId })
       })

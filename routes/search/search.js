@@ -6,7 +6,6 @@ module.exports = function (router) {
 
   // handle input on search forms
   router.post('/search', (req, res) => {
-    console.log(req.body.lessonproject)
     if (req.body.lessonproject === 'action') {
       res.redirect('/search_actions')
     } else if (req.body.lessonproject === 'lesson') {
