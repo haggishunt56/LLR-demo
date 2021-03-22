@@ -259,8 +259,6 @@ if (typeof (routes) !== 'function') {
   app.use('/', routes)
 }
 
-
-
 if (useDocumentation) {
   // Clone app locals to documentation app locals
   // Use Object.assign to ensure app.locals is cloned to prevent additions from

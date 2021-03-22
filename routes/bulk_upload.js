@@ -58,44 +58,40 @@ module.exports = function (router) {
             }
 
             csv()
-            .fromFile(csvFilePath)
-            .then(csv => {
-              jsonObj = csv // pass values from csv file into jsonObj object, so that they can be used by subsequent functions
-            })
-            .then(script => err = validateFields(jsonObj, err)) // check that fields are not empty or too long
-            .then(script => jsonObj = updateDate(jsonObj)) // format date field
-            .then(script => err = checkForProject(jsonObj, err)) // check project exists
-            .then(script => err = checkForCategory(jsonObj, err)) // check category exists
-            // .then(script => jsonObj = updateCat(jsonObj)) // format category field. Currently not working
-            .then(setTimeout(waitForQueries => {
-              if (err.summarise) { // if error checking has returned errors
-                setTimeout(wait => { res.render('./bulkupload.html', { err }) }, 80) // display errors
-              } else { // if no errors
-                for (let i = 0; i < jsonObj.length; i++) {
-                  queries
-                    .searchCategories
-                    .getByName(jsonObj[i].Category)
-                    .then(cat => {
-                      jsonObj[i].Category = cat[0].category_id
-                      // does not work currently since i always resolves to 9
-
-                      queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
-                        jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
-                        jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
-                        jsonObj[i].Summary, jsonObj[i].LessonDescription)
-                        .then()
-                        rowsAdded = i + 1
-                    })
-
-                  // add lessons to database
-
+              .fromFile(csvFilePath)
+              .then(csv => {
+                jsonObj = csv // pass values from csv file into jsonObj object, so that they can be used by subsequent functions
+              })
+              .then(script => err = validateFields(jsonObj, err)) // check that fields are not empty or too long
+              .then(script => jsonObj = updateDate(jsonObj)) // format date field
+              .then(script => err = checkForProject(jsonObj, err)) // check project exists
+              .then(script => err = checkForCategory(jsonObj, err)) // check category exists
+              // .then(script => jsonObj = updateCat(jsonObj)) // format category field. Currently not working
+              .then(setTimeout(waitForQueries => {
+                if (err.summarise) { // if error checking has returned errors
+                  setTimeout(wait => { res.render('./bulkupload.html', { err }) }, 80) // display errors
+                } else { // if no errors
+                  for (let i = 0; i < jsonObj.length; i++) {
+                    queries
+                      .searchCategories
+                      .getByName(jsonObj[i].Category)
+                      .then(cat => {
+                        jsonObj[i].Category = cat[0].category_id
+                        // add lessons to database
+                        queries.createLesson(jsonObj[i].ProjectID, jsonObj[i].LessonDateAdded,
+                          jsonObj[i].Category, jsonObj[i].WWW_EBI_ID, jsonObj[i].LessonIdentifiedBy,
+                          jsonObj[i].LessonIdentifiersArea, jsonObj[i].LessonHowIdentifed,
+                          jsonObj[i].Summary, jsonObj[i].LessonDescription)
+                          .then()
+                          rowsAdded = i + 1
+                      })
+                  }
+                  setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 80) // display success
                 }
-                setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 80) // display success
-              }
-            }, 80) /* Application must wait before proceeding, to allow time for
-                   queries to return errors. Otherwise, asynchronous
-                   operation will continue to create lessons without waiting
-                   for the result of error checks. */
+              }, 80) /* Application must wait before proceeding, to allow time for
+                     queries to return errors. Otherwise, asynchronous
+                     operation will continue to create lessons without waiting
+                     for the result of error checks. */
             )
           }
         })
@@ -104,7 +100,7 @@ module.exports = function (router) {
   })
 }
 
-function validateFields(jsonObj, err) {
+function validateFields (jsonObj, err) {
   for (let i = 0; i < jsonObj.length; i++) {
     if (jsonObj[i].ProjectID === '') {
       err.projectId.blank = true
@@ -117,7 +113,7 @@ function validateFields(jsonObj, err) {
       err.summarise = true
     }
 
-    if(jsonObj[i].LessonDateAdded === '') {
+    if (jsonObj[i].LessonDateAdded === '') {
       err.dateAdded.blank = true
       err.dateAdded.row[i] = i + 2
       err.summarise = true
@@ -127,15 +123,15 @@ function validateFields(jsonObj, err) {
     var yyyyRegEx = /\d\d\d\d(\/|-|.)\d\d(\/|-|.)\d\d/g
     var dateAdded
 
-    if(ddRegEx.test(jsonObj[i].LessonDateAdded)) {
+    if( ddRegEx.test(jsonObj[i].LessonDateAdded)) {
       // Format dd/mm/yyyy. next line swaps mm and dd fields to create Date object
-      dateAdded = new Date(jsonObj[i].LessonDateAdded.substr(3, 2)+"/"+jsonObj[i].LessonDateAdded.substr(0, 2)+"/"+jsonObj[i].LessonDateAdded.substr(6, 4))
-    } else if(yyyyRegEx.test(jsonObj[i].LessonDateAdded)) {
+      dateAdded = new Date(jsonObj[i].LessonDateAdded.substr(3, 2) + '/' + jsonObj[i].LessonDateAdded.substr(0, 2) + '/' + jsonObj[i].LessonDateAdded.substr(6, 4))
+    } else if (yyyyRegEx.test(jsonObj[i].LessonDateAdded)) {
       // Format yyyy-mm-dd
       dateAdded = new Date(jsonObj[i].LessonDateAdded)
     }
 
-    if(dateAdded == "Invalid Date" || dateAdded == undefined) {
+    if (dateAdded == 'Invalid Date' || dateAdded == undefined) {
       err.dateAdded.format = true
       err.dateAdded.row[i] = i + 2
       err.summarise = true
@@ -221,11 +217,11 @@ function updateDate(jsonObj) {
     var ddRegEx = /\d\d(\/|-|.)\d\d(\/|-|.)\d\d\d\d/g
     var yyyyRegEx = /\d\d\d\d(\/|-|.)\d\d(\/|-|.)\d\d/g
 
-    if(ddRegEx.test(jsonObj[i].LessonDateAdded)) {
+    if (ddRegEx.test(jsonObj[i].LessonDateAdded)) {
       // Format dd/mm/yyyy. next line swaps mm and dd fields to create Date object
-      let dateAdded = new Date(jsonObj[i].LessonDateAdded.substr(3, 2)+"/"+jsonObj[i].LessonDateAdded.substr(0, 2)+"/"+jsonObj[i].LessonDateAdded.substr(6, 4))
+      let dateAdded = new Date(jsonObj[i].LessonDateAdded.substr(3, 2) + '/' + jsonObj[i].LessonDateAdded.substr(0, 2) + '/' + jsonObj[i].LessonDateAdded.substr(6, 4))
       jsonObj[i].LessonDateAdded = dateAdded
-    } else if(yyyyRegEx.test(jsonObj[i].LessonDateAdded)) {
+    } else if (yyyyRegEx.test(jsonObj[i].LessonDateAdded)) {
       // Format yyyy-mm-dd
       let dateAdded = new Date(jsonObj[i].LessonDateAdded)
       jsonObj[i].LessonDateAdded = dateAdded
@@ -260,17 +256,4 @@ function checkForCategory(jsonObj, err) {
       })
   }
   return err
-}
-
-function updateCat(jsonObj) {
-  for (let i = 0; i < jsonObj.length; i++) {
-    queries
-      .searchCategories
-      .getByName(jsonObj[i].Category)
-      .then(cat => {
-        jsonObj[i] = cat[0].category_id
-        // does not work currently since i always resolves to 9
-      })
-  }
-  return jsonObj
 }

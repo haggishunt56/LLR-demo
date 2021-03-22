@@ -46,9 +46,9 @@ module.exports = function (router) {
 
     const dateRegEx = new RegExp('^0*$')
     if(
-        req.body.year_added == "" ||
-        req.body.month_added == "" ||
-        req.body.day_added == "" ||
+        req.body.year_added === '' ||
+        req.body.month_added === '' ||
+        req.body.day_added === '' ||
         isNaN(req.body.year_added) ||
         isNaN(req.body.month_added) ||
         isNaN(req.body.day_added) ||
@@ -60,12 +60,12 @@ module.exports = function (router) {
         req.body.month_added > 12 ||
         req.body.month_added < 0 ||
         req.body.year_added < 1970 ||
-        (req.body.month_added == 4 && req.body.day_added > 30) ||
-        (req.body.month_added == 6 && req.body.day_added > 30) ||
-        (req.body.month_added == 9 && req.body.day_added > 30) ||
-        (req.body.month_added == 11 && req.body.day_added > 30) ||
-        (req.body.month_added == 2 && req.body.day_added > 28 && !(req.body.year_added % 4 == 0)) ||
-        (req.body.month_added == 2 && req.body.day_added > 29)
+        (req.body.month_added === 4 && req.body.day_added > 30) ||
+        (req.body.month_added === 6 && req.body.day_added > 30) ||
+        (req.body.month_added === 9 && req.body.day_added > 30) ||
+        (req.body.month_added === 11 && req.body.day_added > 30) ||
+        (req.body.month_added === 2 && req.body.day_added > 28 && !(req.body.year_added % 4 === 0)) ||
+        (req.body.month_added === 2 && req.body.day_added > 29)
       ) {
       err.dateAdded = true
       err.summarise = true

@@ -1,11 +1,11 @@
-//update with your config settings
+// update with your config settings
 
 module.exports = {
   // development environment
   development: {
     client: 'sqlite3',
     connection: {
-      filename: "./app/db/sqlite.db"
+      filename: './app/db/sqlite.db'
     }
   },
 
@@ -13,7 +13,7 @@ module.exports = {
   integration: {
     client: 'sqlite3',
     connection: {
-      filename: "./app/db/sqlite.db"
+      filename: './app/db/sqlite.db'
     }
   }
 
@@ -27,4 +27,4 @@ module.exports = {
   //   connection: 'postgres://postgres:a@localhost:5432/postgres', // TODO use environment variables to secure db access
   //   searchPath: ['knex', 'public']
   // }
-};
+}

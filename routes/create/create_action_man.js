@@ -14,15 +14,15 @@ module.exports = function (router) {
     }
 
     const regex = new RegExp('^([a-z]|[0-9]|[A-Z]){0,7}-\\d*$')
-    if (req.body.lessonIdDisplay == '') {
+    if (req.body.lessonIdDisplay === '') {
       err.lessonId.blank = true
       err.summarise = true
     } else if (!regex.test(req.body.lessonIdDisplay)) {
       err.lessonId.invalid = true
       err.summarise = true
     } else {
-      req.body.projectTpNum = req.body.lessonIdDisplay.split("-")[0]
-      req.body.lessonId = req.body.lessonIdDisplay.split("-")[1]
+      req.body.projectTpNum = req.body.lessonIdDisplay.split('-')[0]
+      req.body.lessonId = req.body.lessonIdDisplay.split('-')[1]
     }
 
     if (req.body.actionDetails === '') {
@@ -51,9 +51,9 @@ module.exports = function (router) {
     const dateRegEx = new RegExp('^0*$')
 
     if(
-        reqjson.target_year == "" ||
-        reqjson.target_month == "" ||
-        reqjson.target_day == "" ||
+        reqjson.target_year === '' ||
+        reqjson.target_month === '' ||
+        reqjson.target_day === '' ||
         isNaN(reqjson.target_year) ||
         isNaN(reqjson.target_month) ||
         isNaN(reqjson.target_day) ||
@@ -65,12 +65,12 @@ module.exports = function (router) {
         reqjson.target_month < 0 ||
         reqjson.target_month > 12 ||
         reqjson.target_year < 1970 ||
-        (reqjson.target_month == 4 && reqjson.target_day > 30) ||
-        (reqjson.target_month == 6 && reqjson.target_day > 30) ||
-        (reqjson.target_month == 9 && reqjson.target_day > 30) ||
-        (reqjson.target_month == 11 && reqjson.target_day > 30) ||
-        (reqjson.target_month == 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 == 0)) ||
-        (reqjson.target_month == 2 && reqjson.target_day > 29)
+        (reqjson.target_month === 4 && reqjson.target_day > 30) ||
+        (reqjson.target_month === 6 && reqjson.target_day > 30) ||
+        (reqjson.target_month === 9 && reqjson.target_day > 30) ||
+        (reqjson.target_month === 11 && reqjson.target_day > 30) ||
+        (reqjson.target_month === 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 === 0)) ||
+        (reqjson.target_month === 2 && reqjson.target_day > 29)
       ) {
       err.targetDate = true
       err.summarise = true
@@ -81,7 +81,7 @@ module.exports = function (router) {
     } else {
       queries.searchProjects.checkProjectExists(req.body.projectTpNum)
       .then(project => {
-        if (project[0].count == 0) {
+        if (project[0].count === 0) {
           err.lessonId.invalid = true
           err.summarise = true
           res.render('create/create_action_man.html', { err, reqjson })

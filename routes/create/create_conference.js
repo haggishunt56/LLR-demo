@@ -21,9 +21,9 @@ module.exports = function (router) {
 
     const dateRegEx = new RegExp('^0*$')
     if(
-        req.body.dateStartedYear == "" ||
-        req.body.dateStartedMonth == "" ||
-        req.body.dateStartedDay == "" ||
+        req.body.dateStartedYear === '' ||
+        req.body.dateStartedMonth === '' ||
+        req.body.dateStartedDay === '' ||
         isNaN(req.body.dateStartedYear) ||
         isNaN(req.body.dateStartedMonth) ||
         isNaN(req.body.dateStartedDay) ||
@@ -35,11 +35,11 @@ module.exports = function (router) {
         req.body.dateStartedMonth > 12 ||
         req.body.dateStartedMonth < 0 ||
         req.body.dateStartedYear < 1970 ||
-        (req.body.dateStartedMonth == 4 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth == 6 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth == 9 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth == 11 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth == 2 && req.body.dateStartedDay > 28 && !(req.body.dateStartedYear % 4 == 0))
+        (req.body.dateStartedMonth === 4 && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth === 6 && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth === 9 && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth === 11 && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth === 2 && req.body.dateStartedDay > 28 && !(req.body.dateStartedYear % 4 === 0))
       ) {
       err.dateStarted = true
       err.summarise = true
@@ -48,9 +48,9 @@ module.exports = function (router) {
     }
 
     if (
-        req.body.dateClosedYear == '' &&
-        req.body.dateClosedMonth == '' &&
-        req.body.dateClosedDay == ''
+        req.body.dateClosedYear === '' &&
+        req.body.dateClosedMonth === '' &&
+        req.body.dateClosedDay === ''
         ) {
       // do nothing
     } else if(
@@ -65,12 +65,12 @@ module.exports = function (router) {
         req.body.dateClosedMonth > 12 ||
         req.body.dateClosedMonth < 0 ||
         req.body.dateClosedYear < 1970 ||
-        (req.body.dateClosedMonth == 4 && req.body.dateClosedDay > 30) ||
-        (req.body.dateClosedMonth == 6 && req.body.dateClosedDay > 30) ||
-        (req.body.dateClosedMonth == 9 && req.body.dateClosedDay > 30) ||
-        (req.body.dateClosedMonth == 11 && req.body.dateClosedDay > 30) ||
-        (req.body.dateClosedMonth == 2 && req.body.dateClosedDay > 28 && !(req.body.dateClosedYear % 4 == 0)) ||
-        (req.body.dateClosedMonth == 2 && req.body.dateClosedDay > 29)
+        (req.body.dateClosedMonth === 4 && req.body.dateClosedDay > 30) ||
+        (req.body.dateClosedMonth === 6 && req.body.dateClosedDay > 30) ||
+        (req.body.dateClosedMonth === 9 && req.body.dateClosedDay > 30) ||
+        (req.body.dateClosedMonth === 11 && req.body.dateClosedDay > 30) ||
+        (req.body.dateClosedMonth === 2 && req.body.dateClosedDay > 28 && !(req.body.dateClosedYear % 4 === 0)) ||
+        (req.body.dateClosedMonth === 2 && req.body.dateClosedDay > 29)
       ) {
       err.dateClosed = true
       err.summarise = true

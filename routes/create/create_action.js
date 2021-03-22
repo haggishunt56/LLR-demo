@@ -8,7 +8,7 @@ module.exports = function (router) {
       actionOwner: {}
     }
 
-    if(req.body.lessonId == "") {
+    if(req.body.lessonId === '') {
       res.render('500.html')
     } else {
       if (req.body.actionDetails === '') {
@@ -37,9 +37,9 @@ module.exports = function (router) {
       const dateRegEx = new RegExp('^0*$')
 
       if(
-          reqjson.target_year == "" ||
-          reqjson.target_month == "" ||
-          reqjson.target_day == "" ||
+          reqjson.target_year === '' ||
+          reqjson.target_month === '' ||
+          reqjson.target_day === '' ||
           isNaN(reqjson.target_year) ||
           isNaN(reqjson.target_month) ||
           isNaN(reqjson.target_day) ||
@@ -51,12 +51,12 @@ module.exports = function (router) {
           reqjson.target_month < 0 ||
           reqjson.target_month > 12 ||
           reqjson.target_year < 1970 ||
-          (reqjson.target_month == 4 && reqjson.target_day > 30) ||
-          (reqjson.target_month == 6 && reqjson.target_day > 30) ||
-          (reqjson.target_month == 9 && reqjson.target_day > 30) ||
-          (reqjson.target_month == 11 && reqjson.target_day > 30) ||
-          (reqjson.target_month == 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 == 0)) ||
-          (reqjson.target_month == 2 && reqjson.target_day > 29)
+          (reqjson.target_month === 4 && reqjson.target_day > 30) ||
+          (reqjson.target_month === 6 && reqjson.target_day > 30) ||
+          (reqjson.target_month === 9 && reqjson.target_day > 30) ||
+          (reqjson.target_month === 11 && reqjson.target_day > 30) ||
+          (reqjson.target_month === 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 === 0)) ||
+          (reqjson.target_month === 2 && reqjson.target_day > 29)
         ) {
         err.targetDate = true
         err.summarise = true
@@ -82,7 +82,7 @@ module.exports = function (router) {
                 })
             } else if (req.body.go_home !== undefined) { // return home
               res.redirect('/home')
-            } else if (req.body.save == 'Save') { // return to view project page
+            } else if (req.body.save === 'Save') { // return to view project page
               res.redirect('/view/' + req.body.projectTpNum + '-' + req.body.lessonId)
             } else {
               console.log('something went wrong')

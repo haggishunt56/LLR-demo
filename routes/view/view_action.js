@@ -7,7 +7,7 @@ module.exports = function (router) {
       .searchActions
       .getById(req.params.action_id)
       .then(action_details => {
-        if(action_details == '') {
+        if (action_details === '') {
           res.render('404.html')
         } else {
           res.render('view/view_action.html', { action_details })

@@ -7,14 +7,13 @@ module.exports = function (router) {
       .searchLessons
       .getByProjectLesson(req.params.proj_id, req.params.les_id)
       .then(lesson_details => {
-        if(lesson_details == '') {
+        if (lesson_details === '') {
           res.render('404.html')
         } else {
           queries
             .searchActions
             .getByLesson(req.params.les_id)
             .then(action_details => {
-              console.log(lesson_details)
               res.render('view/view_lesson.html', { lesson_details, action_details })
             })
         }
@@ -28,6 +27,5 @@ module.exports = function (router) {
     createLesson.manual = true
 
     res.render('create/create_action.html', { createLesson })
-
   })
 }

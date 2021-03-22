@@ -50,27 +50,28 @@ module.exports = function (router) {
     }
 
     const dateRegEx = new RegExp('^0*$')
-    if(
-        req.body.year_added == "" ||
-        req.body.month_added == "" ||
-        req.body.day_added == "" ||
-        isNaN(req.body.year_added) ||
-        isNaN(req.body.month_added) ||
-        isNaN(req.body.day_added) ||
-        dateRegEx.test(req.body.year_added) ||
-        dateRegEx.test(req.body.month_added) ||
-        dateRegEx.test(req.body.day_added) ||
-        req.body.day_added > 31 ||
-        req.body.day_added < 0 ||
-        req.body.month_added > 12 ||
-        req.body.month_added < 0 ||
-        req.body.year_added < 1970 ||
-        (req.body.month_added == 4 && req.body.day_added > 30) ||
-        (req.body.month_added == 6 && req.body.day_added > 30) ||
-        (req.body.month_added == 9 && req.body.day_added > 30) ||
-        (req.body.month_added == 11 && req.body.day_added > 30) ||
-        (req.body.month_added == 2 && req.body.day_added > 28 && !(req.body.year_added % 4 == 0))
-        ) {
+    if (
+      req.body.year_added === '' ||
+      req.body.month_added === '' ||
+      req.body.day_added === '' ||
+      isNaN(req.body.year_added) ||
+      isNaN(req.body.month_added) ||
+      isNaN(req.body.day_added) ||
+      dateRegEx.test(req.body.year_added) ||
+      dateRegEx.test(req.body.month_added) ||
+      dateRegEx.test(req.body.day_added) ||
+      req.body.day_added > 31 ||
+      req.body.day_added < 0 ||
+      req.body.month_added > 12 ||
+      req.body.month_added < 0 ||
+      req.body.year_added < 1970 ||
+      (req.body.month_added === 4 && req.body.day_added > 30) ||
+      (req.body.month_added === 6 && req.body.day_added > 30) ||
+      (req.body.month_added === 9 && req.body.day_added > 30) ||
+      (req.body.month_added === 11 && req.body.day_added > 30) ||
+      (req.body.month_added === 2 && req.body.day_added > 28 && req.body.year_added % 4 !== 0) ||
+      (req.body.month_added === 2 && req.body.day_added > 29)
+    ) {
       err.dateAdded = true
       err.summarise = true
     } else {
@@ -141,11 +142,9 @@ module.exports = function (router) {
       const lessonDetails = [{}]
       lessonDetails[0] = req.body
       queries.searchCategories.getAll()
-        .then(
-          categories => {
-            return res.render('update/update_lesson.html', { err, lessonDetails, id, categories })
-          }
-        )
+        .then(categories => {
+          return res.render('update/update_lesson.html', { err, lessonDetails, id, categories })
+        })
     } else { // update lesson
       queries
         .updateLesson(req.params.proj_id, req.params.les_id, req.body.project_tp_num,

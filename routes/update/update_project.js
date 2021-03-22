@@ -52,27 +52,28 @@ module.exports = function (router) {
     }
 
     const dateRegEx = new RegExp('^0*$')
-    if(
-        req.body.start_year == "" ||
-        req.body.start_month == "" ||
-        req.body.start_day == "" ||
-        isNaN(req.body.start_year) ||
-        isNaN(req.body.start_month) ||
-        isNaN(req.body.start_day) ||
-        dateRegEx.test(req.body.start_year) ||
-        dateRegEx.test(req.body.start_month) ||
-        dateRegEx.test(req.body.start_day) ||
-        req.body.start_day > 31 ||
-        req.body.start_day < 0 ||
-        req.body.start_month > 12 ||
-        req.body.start_month < 0 ||
-        req.body.start_year < 1970 ||
-        (req.body.start_month == 4 && req.body.start_day > 30) ||
-        (req.body.start_month == 6 && req.body.start_day > 30) ||
-        (req.body.start_month == 9 && req.body.start_day > 30) ||
-        (req.body.start_month == 11 && req.body.start_day > 30) ||
-        (req.body.start_month == 2 && req.body.start_day > 28  && !(req.body.start_year % 4 == 0))
-        ) {
+    if (
+      req.body.start_year === '' ||
+      req.body.start_month === '' ||
+      req.body.start_day === '' ||
+      isNaN(req.body.start_year) ||
+      isNaN(req.body.start_month) ||
+      isNaN(req.body.start_day) ||
+      dateRegEx.test(req.body.start_year) ||
+      dateRegEx.test(req.body.start_month) ||
+      dateRegEx.test(req.body.start_day) ||
+      req.body.start_day > 31 ||
+      req.body.start_day < 0 ||
+      req.body.start_month > 12 ||
+      req.body.start_month < 0 ||
+      req.body.start_year < 1970 ||
+      (req.body.start_month === 4 && req.body.start_day > 30) ||
+      (req.body.start_month === 6 && req.body.start_day > 30) ||
+      (req.body.start_month === 9 && req.body.start_day > 30) ||
+      (req.body.start_month === 11 && req.body.start_day > 30) ||
+      (req.body.start_month === 2 && req.body.start_day > 28 && req.body.start_year % 4 !== 0) ||
+      (req.body.start_month === 2 && req.body.start_day > 29)
+    ) {
       err.startDate = true
       err.summarise = true
     } else {
@@ -80,29 +81,30 @@ module.exports = function (router) {
     }
 
     if (
-        req.body.closure_year == '' &&
-        req.body.closure_month == '' &&
-        req.body.closure_day == ''
-        ) {
+      req.body.closure_year === '' &&
+      req.body.closure_month === '' &&
+      req.body.closure_day === ''
+    ) {
       // do nothing
-    } else if(
-        isNaN(req.body.closure_year) ||
-        isNaN(req.body.closure_month) ||
-        isNaN(req.body.closure_day) ||
-        dateRegEx.test(req.body.closure_year) ||
-        dateRegEx.test(req.body.closure_month) ||
-        dateRegEx.test(req.body.closure_day) ||
-        req.body.closure_day > 31 ||
-        req.body.closure_day < 0 ||
-        req.body.closure_month > 12 ||
-        req.body.closure_month < 0 ||
-        req.body.closure_year < 1970 ||
-        (req.body.closure_month == 4 && req.body.closure_day > 30) ||
-        (req.body.closure_month == 6 && req.body.closure_day > 30) ||
-        (req.body.closure_month == 9 && req.body.closure_day > 30) ||
-        (req.body.closure_month == 11 && req.body.closure_day > 30) ||
-        (req.body.closure_month == 2 && req.body.closure_day > 28 && !(req.body.closure_year % 4 == 0))
-        ) {
+    } else if (
+      isNaN(req.body.closure_year) ||
+      isNaN(req.body.closure_month) ||
+      isNaN(req.body.closure_day) ||
+      dateRegEx.test(req.body.closure_year) ||
+      dateRegEx.test(req.body.closure_month) ||
+      dateRegEx.test(req.body.closure_day) ||
+      req.body.closure_day > 31 ||
+      req.body.closure_day < 0 ||
+      req.body.closure_month > 12 ||
+      req.body.closure_month < 0 ||
+      req.body.closure_year < 1970 ||
+      (req.body.closure_month === 4 && req.body.closure_day > 30) ||
+      (req.body.closure_month === 6 && req.body.closure_day > 30) ||
+      (req.body.closure_month === 9 && req.body.closure_day > 30) ||
+      (req.body.closure_month === 11 && req.body.closure_day > 30) ||
+      (req.body.closure_month === 2 && req.body.closure_day > 28 && req.body.closure_year % 4 !== 0) ||
+      (req.body.closure_month === 2 && req.body.closure_day > 29)
+    ) {
       err.closedDate = true
       err.summarise = true
     } else {
