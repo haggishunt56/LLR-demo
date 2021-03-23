@@ -43,6 +43,7 @@ var routes = [
   require('./delete/delete_project.js'),
 
   // reinstate
+  require('./reinstate/reinstate_action.js'),
   require('./reinstate/reinstate_lesson.js'),
   require('./reinstate/reinstate_project.js'),
 

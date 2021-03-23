@@ -53,7 +53,7 @@ module.exports = function (router) {
       if (
         isNaN(reqjson.dateToYear) ||
         isNaN(reqjson.dateToMonth) ||
-        isNaN(reqjson.dateToDay)) ||
+        isNaN(reqjson.dateToDay) ||
         dateRegEx.test(reqjson.dateToYear) ||
         dateRegEx.test(reqjson.dateToMonth) ||
         dateRegEx.test(reqjson.dateToDay)

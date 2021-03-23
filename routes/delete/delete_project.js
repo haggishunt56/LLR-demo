@@ -34,8 +34,10 @@ module.exports = function (router) {
         queries.delete.deleteProject(id)
           .then(rowsDeleted => {
             queries.delete.deleteAllProjectLessons(id)
-              .then(res.render('delete/delete_project_success.html', { type, id })
-              )
+              .then(deletedLessons => {
+                queries.delete.deleteAllProjectActions(id)
+                  .then(res.render('delete/delete_project_success.html', { type, id }))
+              })
           })
       })
   })

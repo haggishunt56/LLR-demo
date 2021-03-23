@@ -33,12 +33,12 @@ module.exports = function (router) {
         req.body.dateStartedMonth > 12 ||
         req.body.dateStartedMonth < 0 ||
         req.body.dateStartedYear < 1970 ||
-        (req.body.dateStartedMonth === 4 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth === 6 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth === 9 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth === 11 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth === 2 && req.body.dateStartedDay > 28  && !(req.body.dateStartedYear % 4 === 0)) ||
-        (req.body.dateStartedMonth === 2 && req.body.dateStartedDay > 29)
+        (req.body.dateStartedMonth == 4 && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth == 6 && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth == 9 && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth == 11 && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth == 2 && req.body.dateStartedDay > 28  && !(req.body.dateStartedYear % 4 == 0)) ||
+        (req.body.dateStartedMonth == 2 && req.body.dateStartedDay > 29)
       ) {
       err.dateStarted = true
       err.summarise = true

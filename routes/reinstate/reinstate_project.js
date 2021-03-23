@@ -7,9 +7,9 @@ module.exports = function (router) {
 
     queries.delete.reinstateProject(tpNum)
       .then(queries.delete.reinstateAllProjectLessons(tpNum)
-        .then(rowsReinstated => {
-          res.redirect('../view/' + tpNum)
-        })
+        .then(queries.delete.reinstateAllProjectActions(tpNum)
+          .then(rowsReinstated => {res.redirect('../view/' + tpNum)})
+        )
       )
   })
 }

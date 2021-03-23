@@ -7,7 +7,7 @@ module.exports = function (router) {
       .searchProjects
       .getByTpNum(req.params.proj_id)
       .then(project_details => {
-        if (project_details === '') {
+        if (project_details == '') {
           res.render('404.html')
         } else {
           if (project_details[0].project_type === 'project') {

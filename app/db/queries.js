@@ -45,7 +45,11 @@ module.exports = {
       return query
     },
     getByLesson: function(lessonId) {
-      let query = knex.select()
+      let query = knex.select(
+        'lesson_details.project_tp_num', 'action_details.lesson_id', 'action_details.action_owner',
+        'action_details.target_date', 'action_details.completed_date', 'action_details.deleted',
+        'action_details.action_id'
+      )
         .from('action_details')
         .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
         .where('action_details.lesson_id', lessonId);
@@ -54,7 +58,8 @@ module.exports = {
     getById: function(id) {
       let query = knex.select(
         'action_details.action_details', 'action_details.action_owner', 'action_details.target_date',
-        'action_details.completed_date', 'lesson_details.lesson_id', 'lesson_details.project_tp_num'
+        'action_details.completed_date', 'action_details.deleted', 'lesson_details.lesson_id',
+        'lesson_details.project_tp_num', 'action_details.action_id'
       )
         .from('action_details')
         .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
@@ -177,6 +182,7 @@ module.exports = {
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
         .leftOuterJoin('category_details', 'lesson_details.category', 'category_details.category_id')
+        .where('lesson_details.project_tp_num', project)
         .where('lesson_id', lesson)
       ;
       return query;
@@ -624,6 +630,16 @@ module.exports = {
         .where({project_tp_num:projectTpNum, lesson_id:lessonId})
         .update('deleted', 0);
     },
+    deleteProject: function(projectTpNum) {
+      return knex('project_details')
+        .where({project_tp_num:projectTpNum})
+        .update('deleted', 1);
+    },
+    reinstateProject: function(projectTpNum) {
+      return knex('project_details')
+        .where({project_tp_num:projectTpNum})
+        .update('deleted', 0);
+    },
     deleteAllProjectLessons: function(projectTpNum) {
       return knex('lesson_details')
         .where({project_tp_num: projectTpNum})
@@ -634,15 +650,23 @@ module.exports = {
         .where({project_tp_num: projectTpNum})
         .update('deleted', 0);
     },
-    deleteProject: function(projectTpNum) {
-      return knex('project_details')
-        .where({project_tp_num:projectTpNum})
-        .update('deleted', 1);
+    deleteAllProjectActions: function(projectTpNum) {
+      return knex('action_details')
+        .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
+        .where((builder) =>
+          builder.select('lesson_details.lesson_id', 'lesson_details.action_id').from('action_details')
+            .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
+          )
+        .update('deleted', 1)
     },
-    reinstateProject: function(projectTpNum) {
-      return knex('project_details')
-        .where({project_tp_num:projectTpNum})
-        .update('deleted', 0);
-    }
+    reinstateAllProjectActions: function(projectTpNum) {
+      return knex('action_details')
+        .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
+        .where((builder) =>
+          builder.select('lesson_details.lesson_id', 'lesson_details.action_id').from('action_details')
+            .leftOuterJoin('lesson_details', 'lesson_details.lesson_id', 'action_details.lesson_id')
+          )
+        .update('deleted', 0)
+    },
   }
 }

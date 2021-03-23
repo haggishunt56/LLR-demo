@@ -36,6 +36,10 @@ module.exports = function (router) {
       let reqjson = req.body
       const dateRegEx = new RegExp('^0*$')
 
+      console.log(reqjson.target_month)
+      console.log(reqjson.target_month == 2)
+      console.log(parseInt(reqjson.target_month) === 2)
+
       if(
           reqjson.target_year === '' ||
           reqjson.target_month === '' ||
@@ -51,12 +55,13 @@ module.exports = function (router) {
           reqjson.target_month < 0 ||
           reqjson.target_month > 12 ||
           reqjson.target_year < 1970 ||
-          (reqjson.target_month === 4 && reqjson.target_day > 30) ||
-          (reqjson.target_month === 6 && reqjson.target_day > 30) ||
-          (reqjson.target_month === 9 && reqjson.target_day > 30) ||
-          (reqjson.target_month === 11 && reqjson.target_day > 30) ||
-          (reqjson.target_month === 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 === 0)) ||
-          (reqjson.target_month === 2 && reqjson.target_day > 29)
+          (reqjson.target_month == 4 && reqjson.target_day > 30) ||
+          // reqjson.target_month is a string. The === operator does not work
+          (reqjson.target_month == 6 && reqjson.target_day > 30) ||
+          (reqjson.target_month == 9 && reqjson.target_day > 30) ||
+          (reqjson.target_month == 11 && reqjson.target_day > 30) ||
+          (reqjson.target_month == 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 == 0)) ||
+          (reqjson.target_month == 2 && reqjson.target_day > 29)
         ) {
         err.targetDate = true
         err.summarise = true
