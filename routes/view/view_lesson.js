@@ -16,7 +16,15 @@ module.exports = function (router) {
             .then(action_details => {
               res.render('view/view_lesson.html', { lesson_details, action_details })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
         }
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 

@@ -17,6 +17,10 @@ module.exports = function (router) {
           res.render('update/update_action.html', { action_details, id })
         }
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 
   router.post('/update/:proj_id-:les_id.:action_id', (req, res) => {
@@ -86,6 +90,14 @@ module.exports = function (router) {
               const actionUpdated = true
               res.render('view/view_action.html', { action_details, actionUpdated, id })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
+        })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
         })
     }
   })

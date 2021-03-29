@@ -80,20 +80,28 @@ module.exports = function (router) {
       res.render('create/create_action_man.html', { err, reqjson })
     } else {
       queries.searchProjects.checkProjectExists(req.body.projectTpNum)
-      .then(project => {
-        if (project[0].count === 0) {
-          err.lessonId.invalid = true
-          err.summarise = true
-          res.render('create/create_action_man.html', { err, reqjson })
-        } else {
-          queries
-          .createAction(req.body.lessonId, req.body.actionDetails, req.body.actionOwner,
-            req.body.target_day, req.body.target_month, req.body.target_year)
-          .then(actionCreated => {
-            res.redirect('view/' + req.body.projectTpNum + '-' + req.body.lessonId)
-          })
-        }
-      })
+        .then(project => {
+          if (project[0].count === 0) {
+            err.lessonId.invalid = true
+            err.summarise = true
+            res.render('create/create_action_man.html', { err, reqjson })
+          } else {
+            queries
+              .createAction(req.body.lessonId, req.body.actionDetails, req.body.actionOwner,
+                req.body.target_day, req.body.target_month, req.body.target_year)
+              .then(actionCreated => {
+                res.redirect('view/' + req.body.projectTpNum + '-' + req.body.lessonId)
+              })
+              .catch(e => {
+                console.log(e)
+                return res.render('500.html');
+              })
+          }
+        })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
+        })
     }
   })
 }

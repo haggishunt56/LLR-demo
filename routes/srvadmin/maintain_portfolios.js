@@ -6,5 +6,9 @@ module.exports = function (router) {
       .then(portfolios => {
         res.render('admin/maintain_portfolios.html', { portfolios })
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 }

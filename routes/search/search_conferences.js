@@ -6,6 +6,10 @@ module.exports = function (router) {
       .then(activePortfolios => {
         res.render('search/search_conferences.html', { activePortfolios })
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 
   router.post('/search_conferences', (req, res) => {
@@ -26,6 +30,14 @@ module.exports = function (router) {
           .then(activePortfolios => {
             res.render('search/search_conferences.html', { activePortfolios, project_details, reqjson, rowsReturned })
           })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
+          })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 }

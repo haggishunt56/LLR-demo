@@ -6,10 +6,12 @@ module.exports = function (router) {
     const tpNum = req.params.proj_id
 
     queries.delete.reinstateProject(tpNum)
-      .then(queries.delete.reinstateAllProjectLessons(tpNum)
-        .then(queries.delete.reinstateAllProjectActions(tpNum)
-          .then(rowsReinstated => {res.redirect('../view/' + tpNum)})
-        )
-      )
+      .then(queries.delete.reinstateAllProjectLessons(tpNum))
+      .then(queries.delete.reinstateAllProjectActions(tpNum))
+      .then(rowsReinstated => {res.redirect('../view/' + tpNum)})
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 }

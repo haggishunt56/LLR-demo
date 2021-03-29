@@ -6,6 +6,10 @@ module.exports = function (router) {
       .then(category => {
         res.render('admin/edit_category.html', { category })
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 
   router.post('/admin/edit_category/:id', (req, res) => {
@@ -27,6 +31,10 @@ module.exports = function (router) {
         .then(category => {
           res.render('admin/edit_category.html', { category, err, reqjson })
         })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
+        })
     } else {
       queries.updateCategory(req.body.category_name, req.params.id)
         .then(category => {
@@ -35,6 +43,14 @@ module.exports = function (router) {
             .then(categories => {
               res.render('admin/maintain_categories.html', { categories, changeSuccess })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
+        })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
         })
     }
   })

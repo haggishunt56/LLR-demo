@@ -6,6 +6,10 @@ module.exports = function (router) {
       .then(activePortfolios => {
         res.render('create/create_project.html', { activePortfolios })
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 
   router.post('/create_project', (req, res) => {
@@ -130,6 +134,10 @@ module.exports = function (router) {
             .then(activePortfolios => {
               return res.render('create/create_project.html', { err, reqjson, activePortfolios })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
         } else { // query db if no errors
           queries
             .createProject(req.body.projectName, req.body.projectTpNum,
@@ -139,7 +147,15 @@ module.exports = function (router) {
               const projectTpNum = req.body.projectTpNum
               return res.render('create/create_project_success.html', { projectTpNum }) // display success page
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
         }
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 }

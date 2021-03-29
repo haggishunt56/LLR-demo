@@ -18,6 +18,14 @@ module.exports = function (router) {
 
             res.render('update/update_lesson.html', { lessonDetails, id, categories })
           })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
+          })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 
@@ -145,6 +153,10 @@ module.exports = function (router) {
         .then(categories => {
           return res.render('update/update_lesson.html', { err, lessonDetails, id, categories })
         })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
+        })
     } else { // update lesson
       queries
         .updateLesson(req.params.proj_id, req.params.les_id, req.body.project_tp_num,
@@ -158,6 +170,14 @@ module.exports = function (router) {
             .then(lessonDetails => {
               res.render('update/update_lesson_success.html', { lessonDetails })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
+        })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
         })
     }
   })

@@ -85,6 +85,10 @@ module.exports = function (router) {
                           .then()
                           rowsAdded = i + 1
                       })
+                      .catch(e => {
+                        console.log(e)
+                        return res.render('500.html');
+                      })
                   }
                   setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 80) // display success
                 }
@@ -92,6 +96,10 @@ module.exports = function (router) {
                      queries to return errors. Otherwise, asynchronous
                      operation will continue to create lessons without waiting
                      for the result of error checks. */
+              .catch(e => {
+                console.log(e)
+                return res.render('500.html');
+              })
             )
           }
         })
@@ -240,6 +248,10 @@ function checkForProject(jsonObj, err) {
           err.summarise = true
         }
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   }
   return err
 }
@@ -253,6 +265,10 @@ function checkForCategory(jsonObj, err) {
           err.category.notExistsRow[i] = i + 2
           err.summarise = true
         }
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   }
   return err

@@ -13,5 +13,9 @@ module.exports = function (router) {
           res.render('view/view_action.html', { action_details })
         }
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 }

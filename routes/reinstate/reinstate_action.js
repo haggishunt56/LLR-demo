@@ -6,11 +6,13 @@ module.exports = function (router) {
     const lessonId = req.params.les_id
     const actionId = req.params.action_id
 
-    console.log("working")
-    
     queries.delete.reinstateAction(actionId)
       .then(rowsReinstated => {
         res.redirect('../view/' + tpNum + '-' + lessonId + '.' + actionId)
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 }

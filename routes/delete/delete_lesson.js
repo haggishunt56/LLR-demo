@@ -18,6 +18,14 @@ module.exports = function (router) {
           .then(deleted => {
             res.render('delete/delete_lesson_success.html', { tpNum, lessonId })
           })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
+          })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 }

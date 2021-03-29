@@ -29,6 +29,14 @@ module.exports = function (router) {
             }
             res.render('../views/update/update_project.html', { projectDetails, activePortfolios })
           })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
+          })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 
@@ -166,6 +174,10 @@ module.exports = function (router) {
         .then(activePortfolios => {
           return res.render('../views/update/update_project.html', { err, projectDetails, activePortfolios })
         })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
+        })
     } else {
       queries.searchPortfolios.getByName(req.body.portfolio_name)
         .then(portfolio => {
@@ -191,8 +203,24 @@ module.exports = function (router) {
                     .then(lesson_details => {
                       res.render('../views/update/update_project_success.html', { projectDetails, lesson_details })
                     })
+                    .catch(e => {
+                      console.log(e)
+                      return res.render('500.html');
+                    })
+                })
+                .catch(e => {
+                  console.log(e)
+                  return res.render('500.html');
                 })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
+        })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
         })
     }
   })

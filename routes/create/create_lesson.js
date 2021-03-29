@@ -12,6 +12,10 @@ module.exports = function (router) {
       .then(categories => {
         res.render('create/create_lesson.html', { reqjson, categories })
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 
   router.post('/create_new_lesson', (req, res) => {
@@ -20,6 +24,10 @@ module.exports = function (router) {
     queries.searchCategories.getAll()
       .then(categories => {
         res.render('create/create_lesson.html', { reqjson, categories })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 
@@ -148,6 +156,10 @@ module.exports = function (router) {
             .then(categories => {
               res.render('create/create_lesson.html', { err, reqjson, categories })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
         } else { // query database if no errors
           queries
             .searchCategories
@@ -165,8 +177,20 @@ module.exports = function (router) {
                   createLesson.confirm = true
                   res.render('create/create_action.html', { createLesson })
                 })
+                .catch(e => {
+                  console.log(e)
+                  return res.render('500.html');
+                })
+            })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
             })
         }
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 }

@@ -85,6 +85,10 @@ module.exports = function (router) {
                 .then(categories => {
                   res.render('create/create_lesson.html', { reqjson, categories })
                 })
+                .catch(e => {
+                  console.log(e)
+                  return res.render('500.html');
+                })
             } else if (req.body.go_home !== undefined) { // return home
               res.redirect('/home')
             } else if (req.body.save === 'Save') { // return to view project page
@@ -93,6 +97,10 @@ module.exports = function (router) {
               console.log('something went wrong')
               res.render('500.html')
             }
+          })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
           })
       }
     }

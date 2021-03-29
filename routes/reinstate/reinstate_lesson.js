@@ -11,6 +11,14 @@ module.exports = function (router) {
           .then(reinstated => {
             res.redirect('../view/' + tpNum + '-' + lessonId)
           })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
+          })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 }

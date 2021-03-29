@@ -17,5 +17,9 @@ module.exports = function (router) {
       .then(rowsDeleted => {
         res.render('delete/delete_action_success.html', { tpNum, lessonId, actionId })
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 }

@@ -1,4 +1,8 @@
 module.exports = function (router) {
+  router.get('/500', (req, res) => {
+    res.render('./500.html')
+  })
+
   router.get('/:url', (req, res) => {
     res.render('./404.html')
   })

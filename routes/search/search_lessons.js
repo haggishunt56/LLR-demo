@@ -8,6 +8,14 @@ module.exports = function (router) {
           .then(activePortfolios => {
             res.render('search/search_lessons.html', { categories, activePortfolios })
           })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
+          })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 
@@ -86,7 +94,19 @@ module.exports = function (router) {
                   const rowsReturned = Object.keys(lesson_details).length
                   res.render('search/search_lessons.html', { lesson_details, rowsReturned, reqjson, categories, activePortfolios })
                 })
+                .catch(e => {
+                  console.log(e)
+                  return res.render('500.html');
+                })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
+        })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
         })
     }
   })

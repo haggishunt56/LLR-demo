@@ -6,6 +6,10 @@ module.exports = function (router) {
       .then(portfolio => {
         res.render('admin/edit_portfolio.html', { portfolio })
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 
   router.post('/admin/edit_portfolio/:id', (req, res) => {
@@ -36,6 +40,10 @@ module.exports = function (router) {
         .then(portfolio => {
           res.render('admin/edit_portfolio.html', { portfolio, err, reqjson })
         })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
+        })
     } else {
       queries.updatePortfolio(req.body.portfolio_name, req.body.director_name, req.body.active, req.params.id)
         .then(portfolio => {
@@ -44,6 +52,14 @@ module.exports = function (router) {
             .then(portfolios => {
               res.render('admin/maintain_portfolios.html', { portfolios, changeSuccess })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
+        })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
         })
     }
   })

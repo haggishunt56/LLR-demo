@@ -28,6 +28,14 @@ module.exports = function (router) {
             .then(categories => {
               res.render('admin/maintain_categories.html', { categories, addedCategory })
             })
+            .catch(e => {
+              console.log(e)
+              return res.render('500.html');
+            })
+        })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
         })
     }
   })

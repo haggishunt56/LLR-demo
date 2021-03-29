@@ -47,6 +47,10 @@ module.exports = function (router) {
           const rowsReturned = Object.keys(action_details).length
           res.render('search/search_actions.html', { rowsReturned, reqjson, action_details })
         })
+        .catch(e => {
+          console.log(e)
+          return res.render('500.html');
+        })
     }
   })
 }

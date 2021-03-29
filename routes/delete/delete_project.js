@@ -15,6 +15,10 @@ module.exports = function (router) {
         }
         res.render('delete/delete_project.html', { id, projectDetails })
       })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
+      })
   })
 
   // handle instruction to delete project
@@ -37,8 +41,24 @@ module.exports = function (router) {
               .then(deletedLessons => {
                 queries.delete.deleteAllProjectActions(id)
                   .then(res.render('delete/delete_project_success.html', { type, id }))
+                  .catch(e => {
+                    console.log(e)
+                    return res.render('500.html');
+                  })
+              })
+              .catch(e => {
+                console.log(e)
+                return res.render('500.html');
               })
           })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
+          })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 }

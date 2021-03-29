@@ -27,7 +27,19 @@ module.exports = function (router) {
               .then(activePortfolios => {
                 res.render('search/search_lessons.html', { lesson_details, rowsReturned, reqjson, categories, activePortfolios })
               })
+              .catch(e => {
+                console.log(e)
+                return res.render('500.html');
+              })
           })
+          .catch(e => {
+            console.log(e)
+            return res.render('500.html');
+          })
+      })
+      .catch(e => {
+        console.log(e)
+        return res.render('500.html');
       })
   })
 }
