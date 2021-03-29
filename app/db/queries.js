@@ -73,10 +73,9 @@ module.exports = {
       return knex('lesson_details');
     },
     searchForParam: function(arg) {
-      let query = knex.select(
-        // SELECT * FROM lesson_details;
-        // TODO specify fields to select
-      )
+      // SELECT * FROM lesson_details;
+      // TODO specify fields to select
+      let query = knex.select()
         .table('lesson_details')
         .leftOuterJoin('project_details', 'project_details.project_tp_num', 'lesson_details.project_tp_num')
         .leftOuterJoin('portfolio_details', 'project_details.portfolio', 'portfolio_details.portfolio_id')
