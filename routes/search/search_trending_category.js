@@ -16,6 +16,8 @@ module.exports = function (router) {
         const rowsReturned = Object.keys(lesson_details).length
         const reqjson = {}
 
+        console.log(lesson_details)
+
         reqjson.category = req.params.cat.toLowerCase()
         reqjson.dateFromDay = dd
         reqjson.dateFromMonth = mm
