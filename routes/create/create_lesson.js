@@ -14,7 +14,7 @@ module.exports = function (router) {
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 
@@ -27,7 +27,7 @@ module.exports = function (router) {
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 
@@ -68,12 +68,12 @@ module.exports = function (router) {
         req.body.month_added > 12 ||
         req.body.month_added < 0 ||
         req.body.year_added < 1970 ||
-        (req.body.month_added == 4 && req.body.day_added > 30) ||
-        (req.body.month_added == 6 && req.body.day_added > 30) ||
-        (req.body.month_added == 9 && req.body.day_added > 30) ||
-        (req.body.month_added == 11 && req.body.day_added > 30) ||
-        (req.body.month_added == 2 && req.body.day_added > 28 && !(req.body.year_added % 4 == 0)) ||
-        (req.body.month_added == 2 && req.body.day_added > 29)
+        ((req.body.month_added === '4' || req.body.month_added === '04') && req.body.day_added > 30) ||
+        ((req.body.month_added === '6' || req.body.month_added === '06') && req.body.day_added > 30) ||
+        ((req.body.month_added === '9' || req.body.month_added === '09') && req.body.day_added > 30) ||
+        (req.body.month_added === '11' && req.body.day_added > 30) ||
+        ((req.body.month_added === '2' || req.body.month_added === '02') && req.body.day_added > 28 && !(req.body.year_added % 4 === 0)) ||
+        ((req.body.month_added === '2' || req.body.month_added === '02') && req.body.day_added > 29)
       ) {
       err.dateAdded = true
       err.summarise = true
@@ -158,7 +158,7 @@ module.exports = function (router) {
             })
             .catch(e => {
               console.log(e)
-              return res.render('500.html');
+              return res.render('500.html')
             })
         } else { // query database if no errors
           queries
@@ -179,18 +179,18 @@ module.exports = function (router) {
                 })
                 .catch(e => {
                   console.log(e)
-                  return res.render('500.html');
+                  return res.render('500.html')
                 })
             })
             .catch(e => {
               console.log(e)
-              return res.render('500.html');
+              return res.render('500.html')
             })
         }
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 }

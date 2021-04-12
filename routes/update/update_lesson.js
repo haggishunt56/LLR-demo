@@ -20,12 +20,12 @@ module.exports = function (router) {
           })
           .catch(e => {
             console.log(e)
-            return res.render('500.html');
+            return res.render('500.html')
           })
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 
@@ -155,7 +155,7 @@ module.exports = function (router) {
         })
         .catch(e => {
           console.log(e)
-          return res.render('500.html');
+          return res.render('500.html')
         })
     } else { // update lesson
       queries
@@ -172,12 +172,12 @@ module.exports = function (router) {
             })
             .catch(e => {
               console.log(e)
-              return res.render('500.html');
+              return res.render('500.html')
             })
         })
         .catch(e => {
           console.log(e)
-          return res.render('500.html');
+          return res.render('500.html')
         })
     }
   })

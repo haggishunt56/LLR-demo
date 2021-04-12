@@ -212,7 +212,7 @@ module.exports = {
         'lesson_details.project_tp_num', 'lesson_details.lesson_id',
         'project_details.project_name', 'lesson_details.www_ebi',
         'category_details.category_name', 'portfolio_details.portfolio_name',
-        'lesson.details.date_added'
+        'lesson_details.date_added'
       )
         .table('lesson_details')
         .leftOuterJoin('category_details', 'lesson_details.category', 'category_details.category_id')

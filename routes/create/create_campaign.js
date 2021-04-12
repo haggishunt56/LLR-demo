@@ -8,7 +8,7 @@ module.exports = function (router) {
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 
@@ -39,12 +39,12 @@ module.exports = function (router) {
         req.body.dateStartedMonth > 12 ||
         req.body.dateStartedMonth < 0 ||
         req.body.dateStartedYear < 1970 ||
-        (req.body.dateStartedMonth == 4 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth == 6 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth == 9 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth == 11 && req.body.dateStartedDay > 30) ||
-        (req.body.dateStartedMonth == 2 && req.body.dateStartedDay > 28 && !(req.body.dateStartedYear % 4 == 0)) ||
-        (req.body.dateStartedMonth == 2 && req.body.dateStartedDay > 29)
+        ((req.body.dateStartedMonth === '4' || req.body.dateStartedMonth === '04') && req.body.dateStartedDay > 30) ||
+        ((req.body.dateStartedMonth === '6' || req.body.dateStartedMonth === '06') && req.body.dateStartedDay > 30) ||
+        ((req.body.dateStartedMonth === '9' || req.body.dateStartedMonth === '09') && req.body.dateStartedDay > 30) ||
+        (req.body.dateStartedMonth === '11' && req.body.dateStartedDay > 30) ||
+        ((req.body.dateStartedMonth === '2' || req.body.dateStartedMonth === '02') && req.body.dateStartedDay > 28 && !(req.body.dateStartedYear % 4 === 0)) ||
+        ((req.body.dateStartedMonth === '2' || req.body.dateStartedMonth === '02') && req.body.dateStartedDay > 29)
       ) {
       err.dateStarted = true
       err.summarise = true
@@ -70,12 +70,12 @@ module.exports = function (router) {
         req.body.dateClosedMonth > 12 ||
         req.body.dateClosedMonth < 0 ||
         req.body.dateClosedYear < 1970 ||
-        (req.body.dateClosedMonth == 4 && req.body.dateClosedDay > 30) ||
-        (req.body.dateClosedMonth == 6 && req.body.dateClosedDay > 30) ||
-        (req.body.dateClosedMonth == 9 && req.body.dateClosedDay > 30) ||
-        (req.body.dateClosedMonth == 11 && req.body.dateClosedDay > 30) ||
-        (req.body.dateClosedMonth == 2 && req.body.dateClosedDay > 28 && !(req.body.dateClosedYear % 4 == 0)) ||
-        (req.body.dateClosedMonth == 2 && req.body.dateClosedDay > 29)
+        ((req.body.dateClosedMonth === '4' || req.body.dateClosedMonth === '04') && req.body.dateClosedDay > 30) ||
+        ((req.body.dateClosedMonth === '6' || req.body.dateClosedMonth === '06') && req.body.dateClosedDay > 30) ||
+        ((req.body.dateClosedMonth === '9' || req.body.dateClosedMonth === '09') && req.body.dateClosedDay > 30) ||
+        (req.body.dateClosedMonth === '11' && req.body.dateClosedDay > 30) ||
+        ((req.body.dateClosedMonth === '2' || req.body.dateClosedMonth === '02') && req.body.dateClosedDay > 28 && !(req.body.dateClosedYear % 4 === 0)) ||
+        ((req.body.dateClosedMonth === '2' || req.body.dateClosedMonth === '02') && req.body.dateClosedDay > 29)
       ) {
       err.dateClosed = true
       err.summarise = true
@@ -138,7 +138,7 @@ module.exports = function (router) {
             })
             .catch(e => {
               console.log(e)
-              return res.render('500.html');
+              return res.render('500.html')
             })
         } else { // query database if no errors
           queries
@@ -151,13 +151,13 @@ module.exports = function (router) {
             })
             .catch(e => {
               console.log(e)
-              return res.render('500.html');
+              return res.render('500.html')
             })
         }
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 }

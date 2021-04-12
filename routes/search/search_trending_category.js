@@ -16,8 +16,6 @@ module.exports = function (router) {
         const rowsReturned = Object.keys(lesson_details).length
         const reqjson = {}
 
-        console.log(lesson_details)
-
         reqjson.category = req.params.cat.toLowerCase()
         reqjson.dateFromDay = dd
         reqjson.dateFromMonth = mm
@@ -31,17 +29,17 @@ module.exports = function (router) {
               })
               .catch(e => {
                 console.log(e)
-                return res.render('500.html');
+                return res.render('500.html')
               })
           })
           .catch(e => {
             console.log(e)
-            return res.render('500.html');
+            return res.render('500.html')
           })
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 }

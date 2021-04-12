@@ -7,7 +7,7 @@ module.exports = function (router) {
       .searchLessons
       .getByProjectLesson(req.params.proj_id, req.params.les_id)
       .then(lesson_details => {
-        if (lesson_details == '') {
+        if (lesson_details === '') {
           res.render('404.html')
         } else {
           queries
@@ -18,13 +18,13 @@ module.exports = function (router) {
             })
             .catch(e => {
               console.log(e)
-              return res.render('500.html');
+              return res.render('500.html')
             })
         }
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 

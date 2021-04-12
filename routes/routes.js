@@ -59,7 +59,7 @@ var routes = [
   // user admin
   // TODO
 
-  require('./404.js') //404 handler - MUST be at the bottom of the stack
+  require('./404.js') // 404 handler - MUST be at the bottom of the stack
 ]
 
 module.exports = function (router) {

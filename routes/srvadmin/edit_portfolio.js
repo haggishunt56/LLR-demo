@@ -8,7 +8,7 @@ module.exports = function (router) {
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 
@@ -42,7 +42,7 @@ module.exports = function (router) {
         })
         .catch(e => {
           console.log(e)
-          return res.render('500.html');
+          return res.render('500.html')
         })
     } else {
       queries.updatePortfolio(req.body.portfolio_name, req.body.director_name, req.body.active, req.params.id)
@@ -54,12 +54,12 @@ module.exports = function (router) {
             })
             .catch(e => {
               console.log(e)
-              return res.render('500.html');
+              return res.render('500.html')
             })
         })
         .catch(e => {
           console.log(e)
-          return res.render('500.html');
+          return res.render('500.html')
         })
     }
   })

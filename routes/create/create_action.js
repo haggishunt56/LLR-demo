@@ -36,10 +36,6 @@ module.exports = function (router) {
       let reqjson = req.body
       const dateRegEx = new RegExp('^0*$')
 
-      console.log(reqjson.target_month)
-      console.log(reqjson.target_month == 2)
-      console.log(parseInt(reqjson.target_month) === 2)
-
       if(
           reqjson.target_year === '' ||
           reqjson.target_month === '' ||
@@ -55,13 +51,12 @@ module.exports = function (router) {
           reqjson.target_month < 0 ||
           reqjson.target_month > 12 ||
           reqjson.target_year < 1970 ||
-          (reqjson.target_month == 4 && reqjson.target_day > 30) ||
-          // reqjson.target_month is a string. The === operator does not work
-          (reqjson.target_month == 6 && reqjson.target_day > 30) ||
-          (reqjson.target_month == 9 && reqjson.target_day > 30) ||
-          (reqjson.target_month == 11 && reqjson.target_day > 30) ||
-          (reqjson.target_month == 2 && reqjson.target_day > 28 && !(reqjson.target_year % 4 == 0)) ||
-          (reqjson.target_month == 2 && reqjson.target_day > 29)
+          ((req.body.target_month === '4' || req.body.target_month === '04') && req.body.target_day > 30) ||
+          ((req.body.target_month === '6' || req.body.target_month === '06') && req.body.target_day > 30) ||
+          ((req.body.target_month === '9' || req.body.target_month === '09') && req.body.target_day > 30) ||
+          (req.body.target_month === '11' && req.body.target_day > 30) ||
+          ((req.body.target_month === '2' || req.body.target_month === '02') && req.body.target_day > 28 && !(req.body.target_year % 4 === 0)) ||
+          ((req.body.target_month === '2' || req.body.target_month === '02') && req.body.target_day > 29)
         ) {
         err.targetDate = true
         err.summarise = true
@@ -87,7 +82,7 @@ module.exports = function (router) {
                 })
                 .catch(e => {
                   console.log(e)
-                  return res.render('500.html');
+                  return res.render('500.html')
                 })
             } else if (req.body.go_home !== undefined) { // return home
               res.redirect('/home')
@@ -100,7 +95,7 @@ module.exports = function (router) {
           })
           .catch(e => {
             console.log(e)
-            return res.render('500.html');
+            return res.render('500.html')
           })
       }
     }

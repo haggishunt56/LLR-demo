@@ -87,7 +87,7 @@ module.exports = function (router) {
                       })
                       .catch(e => {
                         console.log(e)
-                        return res.render('500.html');
+                        return res.render('500.html')
                       })
                   }
                   setTimeout(wait => { res.render('./bulkupload.html', { rowsAdded }) }, 80) // display success
@@ -98,7 +98,7 @@ module.exports = function (router) {
                      for the result of error checks. */
               .catch(e => {
                 console.log(e)
-                return res.render('500.html');
+                return res.render('500.html')
               })
             )
           }
@@ -250,7 +250,7 @@ function checkForProject(jsonObj, err) {
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   }
   return err
@@ -268,7 +268,7 @@ function checkForCategory(jsonObj, err) {
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   }
   return err

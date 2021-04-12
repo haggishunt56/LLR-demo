@@ -19,7 +19,7 @@ module.exports = function (router) {
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 
@@ -47,7 +47,7 @@ module.exports = function (router) {
 
     const dateRegEx = new RegExp('^0*$')
 
-    if(
+    if (
       req.body.target_year === '' ||
       req.body.target_month === '' ||
       req.body.target_day === '' ||
@@ -92,12 +92,12 @@ module.exports = function (router) {
             })
             .catch(e => {
               console.log(e)
-              return res.render('500.html');
+              return res.render('500.html')
             })
         })
         .catch(e => {
           console.log(e)
-          return res.render('500.html');
+          return res.render('500.html')
         })
     }
   })

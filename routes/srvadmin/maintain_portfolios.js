@@ -8,7 +8,7 @@ module.exports = function (router) {
       })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 }

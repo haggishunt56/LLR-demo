@@ -8,10 +8,10 @@ module.exports = function (router) {
     queries.delete.reinstateProject(tpNum)
       .then(queries.delete.reinstateAllProjectLessons(tpNum))
       .then(queries.delete.reinstateAllProjectActions(tpNum))
-      .then(rowsReinstated => {res.redirect('../view/' + tpNum)})
+      .then(rowsReinstated => { res.redirect('../view/' + tpNum) })
       .catch(e => {
         console.log(e)
-        return res.render('500.html');
+        return res.render('500.html')
       })
   })
 }
