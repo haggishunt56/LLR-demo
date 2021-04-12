@@ -32,7 +32,7 @@ VALUES
 	('Management'),
 	('Regulatory'),
 	('Resources'),
-	('Scope/Requirements'),
+	('ScopeRequirements'),
 	('Schedule'),
 	('Security'),
 	('Stakeholders'),
