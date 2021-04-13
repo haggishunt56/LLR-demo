@@ -293,7 +293,7 @@ module.exports = {
         'project_details.start_date', 'project_details.srm',
         'portfolio_details.portfolio_name', 'project_details.status',
         'project_details.deleted', 'project_details.closure_date',
-        'project_details.project_type'
+        'project_details.project_type', 'project_details.description'
         // knex.raw('EXTRACT(YEAR FROM start_date) as start_year'),
         // knex.raw('EXTRACT(MONTH FROM start_date) as start_month'),
         // knex.raw('EXTRACT(DAY FROM start_date) as start_day'),
@@ -485,18 +485,18 @@ module.exports = {
 
   },
   createProject: function(projectName, projectTpNum, dateAdded, dateClosed, dateClosedExists,
-    portfolio, srm, status) {
+    portfolio, srm, status, description) {
 
     if (dateClosedExists) {
-      query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, closure_date, srm, status, portfolio)\
-        SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + dateAdded + '\', \'' + dateClosed + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
+      query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, closure_date, srm, status, description, portfolio)\
+        SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + dateAdded + '\', \'' + dateClosed + '\',\'' + `${srm}` + '\',\'' + `${status}` + '\',\'' + `${description}` + '\', portfolio_details.portfolio_id \
         FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
         ;'
       )
     } //only include value of closed date if data entered
     else {
-      query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, srm, status, portfolio)\
-        SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + dateAdded + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\', portfolio_details.portfolio_id\
+      query = knex.raw('INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, srm, status, description, portfolio)\
+        SELECT \'' + `${projectTpNum}` + '\',\'' + `${projectName}` + '\', \'project\', \'' + dateAdded + '\', \'' + `${srm}` + '\',\'' + `${status}` + '\',\'' + `${description}` + '\', portfolio_details.portfolio_id\
         FROM portfolio_details WHERE portfolio_name = \'' + `${portfolio}` + '\'\
         ;'
       )
@@ -590,7 +590,7 @@ module.exports = {
       // .returning('*');
   },
   updateProject: function(projectTpNum, projectName, srm, status, portfolio,
-    startDate, closeDate, closeDateExists) {
+    startDate, closeDate, closeDateExists, description) {
 
     if (closeDateExists) {
       query = knex.raw('UPDATE project_details\
@@ -599,7 +599,8 @@ module.exports = {
           closure_date = \'' + closeDate + '\',\
           srm = \'' + `${srm}` + '\',\
           status = \'' + `${status}` + '\',\
-          portfolio = \'' + `${portfolio}` + '\'\
+          portfolio = \'' + `${portfolio}` + '\',\
+          description = \'' + `${description}` + '\'\
         WHERE project_details.project_tp_num = \'' + `${projectTpNum}` + '\';'
       )
     } //only include value of closed date if data entered
@@ -609,7 +610,8 @@ module.exports = {
           start_date = \'' + startDate + '\',\
           srm = \'' + `${srm}` + '\',\
           status = \'' + `${status}` + '\',\
-          portfolio = \'' + `${portfolio}` + '\'\
+          portfolio = \'' + `${portfolio}` + '\',\
+          description = \'' + `${description}` + '\'\
         WHERE project_details.project_tp_num = \'' + `${projectTpNum}` + '\';'
       )
     }

@@ -95,7 +95,16 @@
               <a href="#status">Select the status</a>
             </li>
             {% endif %}
-
+            {% if err.description.blank %}
+            <li>
+              <a href="#description">Enter a description of the project</a>
+            </li>
+            {% endif %}
+            {% if err.description.tooLong %}
+            <li>
+              <a href="#description">Description field cannot be longer than 2000 characters</a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -294,6 +303,32 @@
             <option value="Open" {% if reqjson.status=="Open" %} selected {% endif %}>Open</option>
             <option value="Closed" {% if reqjson.status=="Closed" %} selected {% endif %}>Closed</option>
           </select>
+        </div>
+
+        <!-- description field -->
+        <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="2000">
+          <div {% if err.description.blank or err.description.tooLong %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %} >
+            <label class="govuk-label--s" for="description">
+              Project description
+            </label>
+            {% if err.description.blank %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter a description of the project
+            </span>
+            {% endif %}
+            {% if err.description.tooLong %}
+            <span id="event-name-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> Enter 2000 characters or less
+            </span>
+            {% endif %}
+            <span id="details-hint" class="govuk-hint">
+              Describe the project
+            </span>
+            <textarea class="govuk-textarea govuk-js-character-count govuk-!-width-two-thirds" id="description" name="description" rows="5" aria-describedby="with-hint-info with-hint-hint">{{reqjson.description}}</textarea>
+            <span id="with-hint-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+              You can enter up to 2000 characters
+            </span>
+          </div>
         </div>
 
         <br>

@@ -47,7 +47,8 @@ module.exports = function (router) {
       project_name: {},
       srm: {},
       portfolio: {},
-      status: {}
+      status: {},
+      description: {}
     }
 
     if (req.body.project_name === '') {
@@ -157,6 +158,15 @@ module.exports = function (router) {
       err.summarise = true
     }
 
+    if (req.body.description === '') {
+      err.description.blank = true
+      err.summarise = true
+    }
+    if (req.body.description.length > 2000) {
+      err.description.tooLong = true
+      err.summarise = true
+    }
+
     if (err.summarise) {
       const projectDetails = [{}]
       projectDetails[0] = req.body
@@ -184,7 +194,7 @@ module.exports = function (router) {
           queries
             .updateProject(req.params.project_tp_num, req.body.project_name, req.body.srm,
               req.body.status, portfolio[0].portfolio_id, req.body.dateStarted,
-              req.body.dateClosed, req.body.dateClosedExists)
+              req.body.dateClosed, req.body.dateClosedExists, req.body.description)
             .then(projectDetails => {
               queries
                 .searchProjects

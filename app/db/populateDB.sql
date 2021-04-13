@@ -41,14 +41,14 @@ VALUES
 	('Testing'),
 	('Training');
 
-INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, srm, status, portfolio)
+INSERT INTO project_details (project_tp_num, project_name, project_type, start_date, srm, status, portfolio, description)
 VALUES
-	('proj1', 'Test Project 1', 'project', '2012-02-12', 'James Smith', 'Open', '5'),
-	('proj2', 'Test Project 2', 'project', '2013-02-12', 'Andrew Jones', 'Open', '4'),
-	('proj3', 'Test Project 3', 'campaign', '2015-02-12', 'Frank Hunter', 'Open', '3'),
-	('proj4', 'Test Project 4', 'project', '2016-02-12', 'Georgina Potter', 'Open', '10'),
-	('proj5', 'Test Project 5', 'conference', '2019-02-12', 'Lesley McWilliams', 'Open', '16'),
-	('proj6', 'Test Project 6', 'conference', '2019-02-12', 'Patrick McKenzie', 'Open', '16');
+	('proj1', 'Test Project 1', 'project', '2012-02-12', 'James Smith', 'Open', '5', 'A test project'),
+	('proj2', 'Test Project 2', 'project', '2013-02-12', 'Andrew Jones', 'Open', '4', 'A second test project'),
+	('proj3', 'Test Project 3', 'campaign', '2015-02-12', 'Frank Hunter', 'Open', '3', 'Another test project'),
+	('proj4', 'Test Project 4', 'project', '2016-02-12', 'Georgina Potter', 'Open', '10', 'Test project 4'),
+	('proj5', 'Test Project 5', 'conference', '2019-02-12', 'Lesley McWilliams', 'Open', '16', 'Test project the 5th'),
+	('proj6', 'Test Project 6', 'conference', '2019-02-12', 'Patrick McKenzie', 'Open', '16', 'The final test project');
 
 INSERT INTO lesson_details (project_tp_num, date_added, category, www_ebi, identified_by, identifiers_area, how_identified, uploaded_by, completion_date, summary, description)
 VALUES

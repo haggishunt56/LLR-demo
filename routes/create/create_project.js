@@ -19,7 +19,8 @@ module.exports = function (router) {
       projectTpNum: {},
       portfolio: {},
       srm: {},
-      status: {}
+      status: {},
+      description: {}
     }
     const dateRegEx = new RegExp('^0*$')
     if (
@@ -118,6 +119,15 @@ module.exports = function (router) {
       err.summarise = true
     }
 
+    if (req.body.description === '') {
+      err.description.blank = true
+      err.summarise = true
+    }
+    if (req.body.description.length > 2000) {
+      err.description.tooLong = true
+      err.summarise = true
+    }
+
     queries
       .searchProjects
       .checkProjectExists(req.body.projectTpNum)
@@ -142,7 +152,7 @@ module.exports = function (router) {
           queries
             .createProject(req.body.projectName, req.body.projectTpNum,
               req.body.dateStarted, req.body.dateClosed, req.body.dateClosedExists,
-              req.body.portfolio, req.body.srm, req.body.status)
+              req.body.portfolio, req.body.srm, req.body.status, req.body.description)
             .then(createProject => {
               const projectTpNum = req.body.projectTpNum
               return res.render('create/create_project_success.html', { projectTpNum }) // display success page

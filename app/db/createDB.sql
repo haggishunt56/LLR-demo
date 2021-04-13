@@ -27,6 +27,7 @@ closure_date DATE,
 srm VARCHAR(45) NOT NULL,
 status VARCHAR(6) NOT NULL,
 portfolio INT NOT NULL,
+description TEXT NOT NULL,
 deleted BOOLEAN NOT NULL DEFAULT FALSE,
 CONSTRAINT fk_portfolio
    FOREIGN KEY(portfolio)
