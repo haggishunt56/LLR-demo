@@ -62,12 +62,12 @@ module.exports = function (router) {
       req.body.target_month < 0 ||
       req.body.target_month > 12 ||
       req.body.target_year < 1970 ||
-      (req.body.target_month === 4 && req.body.target_day > 30) ||
-      (req.body.target_month === 6 && req.body.target_day > 30) ||
-      (req.body.target_month === 9 && req.body.target_day > 30) ||
-      (req.body.target_month === 11 && req.body.target_day > 30) ||
-      (req.body.target_month === 2 && req.body.target_day > 28 && req.body.target_year % 4 !== 0) ||
-      (req.body.target_month === 2 && req.body.target_day > 29)
+      ((req.body.target_month === '4' || req.body.target_month === '04') && req.body.target_day > 30) ||
+      ((req.body.target_month === '6' || req.body.target_month === '06') && req.body.target_day > 30) ||
+      ((req.body.target_month === '9' || req.body.target_month === '09') && req.body.target_day > 30) ||
+      (req.body.target_month === '11' && req.body.target_day > 30) ||
+      ((req.body.target_month === '2' || req.body.target_month === '02') && req.body.target_day > 28 && !(req.body.target_year % 4 === 0)) ||
+      ((req.body.target_month === '2' || req.body.target_month === '02') && req.body.target_day > 29)
     ) {
       err.targetDate = true
       err.summarise = true

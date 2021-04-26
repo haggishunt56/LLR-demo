@@ -52,7 +52,7 @@
             {% endif %}
             {% if err.projectTpNum.blank %}
             <li>
-              <a href="#projectTpNum">Enter the reference number of the campaign</a>
+              <a href="#projectTpNum">Enter the reference number of the campaign, for example, RC70156</a>
             </li>
             {% endif %}
             {% if err.projectTpNum.tooLong %}
@@ -87,15 +87,14 @@
             {% endif %}
             {% if err.srm.tooLong %}
             <li>
-              <a href="#srm">SRM field cannot be longer than 45 characters</a>
+              <a href="#srm">SRM name cannot be longer than 45 characters</a>
             </li>
             {% endif %}
             {% if err.status.blank %}
             <li>
-              <a href="#status">Select the status</a>
+              <a href="#status">Select a status</a>
             </li>
             {% endif %}
-
           </ul>
         </div>
       </div>
@@ -151,7 +150,7 @@
         </div>
 
         <!-- Date started field -->
-        <div {% if err.dateClosed %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %}>
+        <div {% if err.dateStarted %} class='govuk-form-group govuk-form-group--error' {% else %} class='govuk-form-group' {% endif %}>
           <fieldset class="govuk-fieldset" role="group" aria-describedby="dateStarted">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
               <label class="govuk-fieldset__heading" for="dateStarted">
@@ -264,11 +263,11 @@
             Senior Responsible Manager (SRM)
           </label>
           <span id="SRM-hint" class="govuk-hint">
-            Please enter the full name of the person who is responsible for the campaign
+            Please enter the full name of the person who is responsible for the recruitment campaign
           </span>
           {% if err.srm.blank %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the full name of the person who is responsible for the campaign
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the SRM for the campaign
           </span>
           {% endif %}
           {% if err.srm.tooLong %}

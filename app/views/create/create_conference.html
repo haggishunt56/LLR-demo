@@ -40,19 +40,29 @@
         </h2>
         <div class="govuk-error-summary__body">
           <ul class="govuk-list govuk-error-summary__list">
+            {% if err.projectName.blank %}
+            <li>
+              <a href="#projectName">Enter the name of the conference</a>
+            </li>
+            {% endif %}
+            {% if err.projectName.tooLong %}
+            <li>
+              <a href="#projectName">Conference name cannot be longer than 100 characters</a>
+            </li>
+            {% endif %}
             {% if err.projectTpNum.blank %}
             <li>
-              <a href="#projectTpNum">Enter the TP number of the project</a>
+              <a href="#projectTpNum">Enter the reference number of the conference, for example, CONF014</a>
             </li>
             {% endif %}
             {% if err.projectTpNum.tooLong %}
             <li>
-              <a href="#projectTpNum">The reference number cannot be longer than 7 characters</a>
+              <a href="#projectTpNum">Reference number cannot be longer than 7 characters</a>
             </li>
             {% endif %}
-            {% if err.projectTpNum.notExists and not err.projectTpNum.blank %}
+            {% if err.projectTpNum.exists %}
             <li>
-              <a href="#projectTpNum">This is not a valid project. Please enter the number of an existing project, or create the project first.</a>
+              <a href="#projectTpNum">Reference number already exists. Enter a unique number, or amend the existing conference instead</a>
             </li>
             {% endif %}
             {% if err.dateStarted %}
@@ -65,64 +75,24 @@
               <a href="#dateClosedDay">Enter a valid date</a>
             </li>
             {% endif %}
-            {% if err.category.blank %}
+            {% if err.portfolio.blank %}
             <li>
-              <a href="#category">Select a category</a>
+              <a href="#portfolio">Select a portfolio</a>
             </li>
             {% endif %}
-            {% if err.lessonType.blank %}
+            {% if err.srm.blank %}
             <li>
-              <a href="#lessonType">Select a lesson type</a>
+              <a href="#srm">Enter the name of the SRM for the conference</a>
             </li>
             {% endif %}
-            {% if err.identifiedBy.blank %}
+            {% if err.srm.tooLong %}
             <li>
-              <a href="#identifiedBy">Enter the name of the person who identified this lesson</a>
+              <a href="#srm">SRM name cannot be longer than 45 characters</a>
             </li>
             {% endif %}
-            {% if err.identifiedBy.tooLong %}
+            {% if err.status.blank %}
             <li>
-              <a href="#identifiedBy">Identified By field cannot contain more than 45 characters</a>
-            </li>
-            {% endif %}
-            {% if err.identifiedByArea.blank %}
-            <li>
-              <a href="#identifiedByArea">Enter the work area of the person who identified this lesson</a>
-            </li>
-            {% endif %}
-            {% if err.identifiedByArea.tooLong %}
-            <li>
-              <a href="#identifiedByArea">Identifier's area field cannot contain more than 45 characters</a>
-            </li>
-            {% endif %}
-            {% if err.howIdentified.blank %}
-            <li>
-              <a href="#howIdentified">Briefly explain how or when this lesson was identified</a>
-            </li>
-            {% endif %}
-            {% if err.howIdentified.tooLong %}
-            <li>
-              <a href="#howIdentified">How Identified field cannot contain more than 128 characters</a>
-            </li>
-            {% endif %}
-            {% if err.summary.blank %}
-            <li>
-              <a href="#summary">Enter a summary of the lesson learned</a>
-            </li>
-            {% endif %}
-            {% if err.summary.tooLong %}
-            <li>
-              <a href="#summary">Summary field cannot contain more than 128 characters</a>
-            </li>
-            {% endif %}
-            {% if err.details.blank %}
-            <li>
-              <a href="#details">Explain the impact or benefit of this lesson learned</a>
-            </li>
-            {% endif %}
-            {% if err.details.tooLong %}
-            <li>
-              <a href="#details">Details field cannot contain more than 2000 characters</a>
+              <a href="#status">Select a status</a>
             </li>
             {% endif %}
           </ul>
@@ -297,7 +267,7 @@
           </span>
           {% if err.srm.blank %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the full name of the person who is responsible for the conference
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the SRM for the conference
           </span>
           {% endif %}
           {% if err.srm.tooLong %}

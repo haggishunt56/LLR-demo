@@ -76,12 +76,12 @@ module.exports = function (router) {
       req.body.start_month > 12 ||
       req.body.start_month < 0 ||
       req.body.start_year < 1970 ||
-      (req.body.start_month === 4 && req.body.start_day > 30) ||
-      (req.body.start_month === 6 && req.body.start_day > 30) ||
-      (req.body.start_month === 9 && req.body.start_day > 30) ||
-      (req.body.start_month === 11 && req.body.start_day > 30) ||
-      (req.body.start_month === 2 && req.body.start_day > 28 && req.body.start_year % 4 !== 0) ||
-      (req.body.start_month === 2 && req.body.start_day > 29)
+      ((req.body.start_month === '4' || req.body.start_month === '04') && req.body.start_day > 30) ||
+      ((req.body.start_month === '6' || req.body.start_month === '06') && req.body.start_day > 30) ||
+      ((req.body.start_month === '9' || req.body.start_month === '09') && req.body.start_day > 30) ||
+      (req.body.start_month === '11' && req.body.start_day > 30) ||
+      ((req.body.start_month === '2' || req.body.start_month === '02') && req.body.start_day > 28 && !(req.body.start_year % 4 === 0)) ||
+      ((req.body.start_month === '2' || req.body.start_month === '02') && req.body.start_day > 29)
     ) {
       err.startDate = true
       err.summarise = true
@@ -107,28 +107,18 @@ module.exports = function (router) {
       req.body.closure_month > 12 ||
       req.body.closure_month < 0 ||
       req.body.closure_year < 1970 ||
-      (req.body.closure_month === 4 && req.body.closure_day > 30) ||
-      (req.body.closure_month === 6 && req.body.closure_day > 30) ||
-      (req.body.closure_month === 9 && req.body.closure_day > 30) ||
-      (req.body.closure_month === 11 && req.body.closure_day > 30) ||
-      (req.body.closure_month === 2 && req.body.closure_day > 28 && req.body.closure_year % 4 !== 0) ||
-      (req.body.closure_month === 2 && req.body.closure_day > 29)
+      ((req.body.closure_month === '4' || req.body.closure_month === '04') && req.body.closure_day > 30) ||
+      ((req.body.closure_month === '6' || req.body.closure_month === '06') && req.body.closure_day > 30) ||
+      ((req.body.closure_month === '9' || req.body.closure_month === '09') && req.body.closure_day > 30) ||
+      (req.body.closure_month === '11' && req.body.closure_day > 30) ||
+      ((req.body.closure_month === '2' || req.body.closure_month === '02') && req.body.closure_day > 28 && !(req.body.closure_year % 4 === 0)) ||
+      ((req.body.closure_month === '2' || req.body.closure_month === '02') && req.body.closure_day > 29)
     ) {
       err.closedDate = true
       err.summarise = true
     } else {
       req.body.dateClosed = new Date(req.body.closure_year, req.body.closure_month - 1, req.body.closure_day, 0, 0, 0, 0)
       req.body.dateClosedExists = true
-    }
-
-    if (req.body.start_day === '') {
-      err.start_day = true
-    }
-    if (req.body.start_month === '') {
-      err.start_month = true
-    }
-    if (req.body.start_year === '') {
-      err.start_year = true
     }
 
     if (req.body.srm === '') {

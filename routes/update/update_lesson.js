@@ -67,18 +67,18 @@ module.exports = function (router) {
       isNaN(req.body.day_added) ||
       dateRegEx.test(req.body.year_added) ||
       dateRegEx.test(req.body.month_added) ||
-      dateRegEx.test(req.body.day_added) ||
+      dateRegEx.test(req.body.start_day) ||
       req.body.day_added > 31 ||
       req.body.day_added < 0 ||
       req.body.month_added > 12 ||
       req.body.month_added < 0 ||
       req.body.year_added < 1970 ||
-      (req.body.month_added === 4 && req.body.day_added > 30) ||
-      (req.body.month_added === 6 && req.body.day_added > 30) ||
-      (req.body.month_added === 9 && req.body.day_added > 30) ||
-      (req.body.month_added === 11 && req.body.day_added > 30) ||
-      (req.body.month_added === 2 && req.body.day_added > 28 && req.body.year_added % 4 !== 0) ||
-      (req.body.month_added === 2 && req.body.day_added > 29)
+      ((req.body.month_added === '4' || req.body.month_added === '04') && req.body.day_added > 30) ||
+      ((req.body.month_added === '6' || req.body.month_added === '06') && req.body.day_added > 30) ||
+      ((req.body.month_added === '9' || req.body.month_added === '09') && req.body.day_added > 30) ||
+      (req.body.month_added === '11' && req.body.day_added > 30) ||
+      ((req.body.month_added === '2' || req.body.month_added === '02') && req.body.day_added > 28 && !(req.body.year_added % 4 === 0)) ||
+      ((req.body.month_added === '2' || req.body.month_added === '02') && req.body.day_added > 29)
     ) {
       err.dateAdded = true
       err.summarise = true

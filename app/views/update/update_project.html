@@ -68,7 +68,7 @@
           <ul class="govuk-list govuk-error-summary__list">
             {% if err.project_name.blank %}
             <li>
-              <a href="#project_name">Enter the name of the project, conference or recruitment campaign</a>
+              <a href="#project_name">Enter the name of the project, campaign or conference, for example, "EU Exit"</a>
             </li>
             {% endif %}
             {% if err.project_name.tooLong %}
@@ -93,7 +93,7 @@
             {% endif %}
             {% if err.srm.tooLong %}
             <li>
-              <a href="#srm">SRM field cannot be longer than 45 characters</a>
+              <a href="#srm">SRM name cannot be longer than 45 characters</a>
             </li>
             {% endif %}
             {% if err.portfolio.blank %}
@@ -103,7 +103,7 @@
             {% endif %}
             {% if err.status.blank %}
             <li>
-              <a href="#status">Select the status</a>
+              <a href="#status">Select a status</a>
             </li>
             {% endif %}
             {% if err.description.blank %}
@@ -113,7 +113,7 @@
             {% endif %}
             {% if err.description.tooLong %}
             <li>
-              <a href="#description">Description field cannot be longer than 2000 characters</a>
+              <a href="#description">Enter 2000 characters or less</a>
             </li>
             {% endif %}
           </ul>
@@ -160,7 +160,7 @@
             <span id="date-from" class="govuk-hint">
               For example, 12 11 2007
             </span>
-            {% if err.dateStarted %}
+            {% if err.startDate %}
             <span id="event-name-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> Enter a valid date
             </span>
@@ -201,12 +201,12 @@
           </label><br>
           {% if err.srm.blank %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the name of the Senior Responsible Manager for this project
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the SRM for the project
           </span>
           {% endif %}
           {% if err.srm.tooLong %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> SRM cannot be longer than 45 characters
+            <span class="govuk-visually-hidden">Error:</span> SRM name cannot be longer than 45 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="srm" name="srm" type="text" value="{{projectDetails[0].srm}}">
@@ -219,12 +219,7 @@
           </label><br>
           {% if err.portfolio.blank %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Select the portfolio to which the project belongs
-          </span>
-          {% endif %}
-          {% if err.portfolio.tooLong %}
-          <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Error with portfolio name. Please select a different portfolio and report this issue
+            <span class="govuk-visually-hidden">Error:</span> Select a portfolio
           </span>
           {% endif %}
           <select class="govuk-select" id="portfolio_name" name="portfolio_name">

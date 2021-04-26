@@ -87,12 +87,12 @@
             {% endif %}
             {% if err.srm.tooLong %}
             <li>
-              <a href="#srm">SRM field cannot be longer than 45 characters</a>
+              <a href="#srm">SRM name cannot be longer than 45 characters</a>
             </li>
             {% endif %}
             {% if err.status.blank %}
             <li>
-              <a href="#status">Select the status</a>
+              <a href="#status">Select a status</a>
             </li>
             {% endif %}
             {% if err.description.blank %}
@@ -102,7 +102,7 @@
             {% endif %}
             {% if err.description.tooLong %}
             <li>
-              <a href="#description">Description field cannot be longer than 2000 characters</a>
+              <a href="#description">Enter 2000 characters or less</a>
             </li>
             {% endif %}
           </ul>
@@ -118,7 +118,7 @@
             Project name
           </label><br>
           <span id="project-name" class="govuk-hint">
-            Please enter the name of the project, conference or campaign.
+            Enter the name of the project
           </span>
           {% if err.projectName.blank %}
           <span id="event-name-error" class="govuk-error-message">
@@ -139,7 +139,7 @@
             Project TP number
           </label><br>
           <span id="project-name" class="govuk-hint">
-            Please enter the TP number of the project, for example, TP081
+            Enter the TP number of the project, for example, TP081
           </span>
           {% if err.projectTpNum.blank %}
           <span id="event-name-error" class="govuk-error-message">
@@ -273,16 +273,16 @@
             Senior Responsible Manager (SRM)
           </label>
           <span id="SRM-hint" class="govuk-hint">
-            Please enter the full name of the person who is responsible for the project
+            Enter the full name of the person who is responsible for the project
           </span>
           {% if err.srm.blank %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> Enter the full name of the person who is responsible for the project
+            <span class="govuk-visually-hidden">Error:</span> Enter the name of the SRM for the project
           </span>
           {% endif %}
           {% if err.srm.tooLong %}
           <span id="event-name-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> SRM cannot be longer than 45 characters
+            <span class="govuk-visually-hidden">Error:</span> SRM name cannot be longer than 45 characters
           </span>
           {% endif %}
           <input class="govuk-input govuk-!-width-two-thirds" id="srm" name="srm" type="text" value={{ reqjson.srm }}>
